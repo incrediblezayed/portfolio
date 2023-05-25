@@ -61,6 +61,18 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def project = "Portfolio"
+            def SEP = "_"
+            def flavor = variant.productFlavors[0].name
+            def version = variant.versionName
+            def date = new Date();
+            def formattedDate = date.format('dd-MM-yyyy_HH:mm:ss')
+            def newApkName = project + SEP + flavor + SEP + formattedDate + ".apk"
+            outputFileName = new File(newApkName)
+        }
+    }
 }
 
 flutter {
