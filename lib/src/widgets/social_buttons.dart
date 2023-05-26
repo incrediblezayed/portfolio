@@ -34,7 +34,7 @@ class _SocialButtonState extends State<SocialButton>
       vsync: this,
     );
     color = ColorTween(begin: startColor, end: endColor).animate(_controller);
-    size = Tween<double>(begin: 24.0, end: 30.0).animate(_controller);
+    size = Tween<double>(begin: 24.0, end: 40.0).animate(_controller);
   }
 
   @override
@@ -47,43 +47,41 @@ class _SocialButtonState extends State<SocialButton>
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: SizedBox.square(
-        child: MouseRegion(
-          onEnter: (event) {
-            _controller.forward();
-          },
-          onExit: (event) {
-            _controller.reverse();
-          },
-          child: AnimatedBuilder(
-              animation: _controller,
-              builder: (context, child) {
-                return Transform.scale(
-                  scale: size.value / 24,
-                  child: InkWell(
-                    onHover: (v) {
-                      if (v) {
-                        _controller.forward();
-                      } else {
-                        _controller.reverse();
-                      }
-                    },
-                    onTapDown: (details) {
+      child: MouseRegion(
+        onEnter: (event) {
+          _controller.forward();
+        },
+        onExit: (event) {
+          _controller.reverse();
+        },
+        child: AnimatedBuilder(
+            animation: _controller,
+            builder: (context, child) {
+              return Transform.scale(
+                scale: size.value / 24,
+                child: InkWell(
+                  onHover: (v) {
+                    if (v) {
                       _controller.forward();
-                    },
-                    onTapUp: (details) {
+                    } else {
                       _controller.reverse();
-                    },
-                    onTap: () {},
-                    child: FaIcon(
-                      widget.icon,
-                      color: color.value,
-                      size: 24,
-                    ),
+                    }
+                  },
+                  onTapDown: (details) {
+                    _controller.forward();
+                  },
+                  onTapUp: (details) {
+                    _controller.reverse();
+                  },
+                  onTap: () {},
+                  child: FaIcon(
+                    widget.icon,
+                    color: color.value,
+                    size: 24,
                   ),
-                );
-              }),
-        ),
+                ),
+              );
+            }),
       ),
     );
   }

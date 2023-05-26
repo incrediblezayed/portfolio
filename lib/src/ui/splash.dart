@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:portfolio/src/ui/home.dart';
+import 'package:portfolio/src/utils/constants.dart';
 import 'package:portfolio/src/widgets/info_widgets/name.dart';
 import 'package:portfolio/src/widgets/info_widgets/subtitle.dart';
 
@@ -94,7 +95,7 @@ class _SplashScreenState extends State<SplashScreen>
                 return SlideTransition(
                     position: tween.animate(animation), child: const Home());
               },
-              transitionDuration: const Duration(milliseconds: 1800)),
+              transitionDuration: const Duration(milliseconds: 800)),
         );
       });
     });
@@ -131,11 +132,17 @@ class _SplashScreenState extends State<SplashScreen>
                     position: _subTitleSlideAnimation,
                     child: Column(
                       children: [
-                        Divider(
-                          thickness: 2,
-                          indent: 50,
-                          endIndent: 50,
-                          color: theme.colorScheme.onSurface,
+                        Hero(
+                          tag: Constants.dividerTag,
+                          child: Material(
+                            type: MaterialType.transparency,
+                            child: Divider(
+                              thickness: 2,
+                              indent: 50,
+                              endIndent: 50,
+                              color: theme.colorScheme.onSurface,
+                            ),
+                          ),
                         ),
                         const SizedBox(height: 10),
                         const SubtitleWidget()
