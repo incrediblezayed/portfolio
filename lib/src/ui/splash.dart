@@ -1,4 +1,4 @@
-import 'dart:async';
+/* import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:portfolio/src/ui/home.dart';
@@ -40,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen>
     );
 
     // Initialize fade animation
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _controller,
         curve: Curves.easeIn,
@@ -48,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen>
     );
 
     // Initialize fade animation
-    _fadeAnimation2 = Tween<double>(begin: 0.0, end: 1.0).animate(
+    _fadeAnimation2 = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _subtitleController,
         curve: Curves.easeIn,
@@ -57,7 +57,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     // Initialize slide animation
     _slideAnimation = Tween<Offset>(
-      begin: const Offset(0.0, 0.5),
+      begin: const Offset(0, 0.5),
       end: Offset.zero,
     ).animate(
       CurvedAnimation(
@@ -68,7 +68,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     // Initialize slide animation
     _subTitleSlideAnimation = Tween<Offset>(
-      begin: const Offset(0.0, 0.5),
+      begin: const Offset(0, 0.5),
       end: Offset.zero,
     ).animate(
       CurvedAnimation(
@@ -84,18 +84,21 @@ class _SplashScreenState extends State<SplashScreen>
       Timer(const Duration(milliseconds: 1500), () {
         Navigator.pushReplacement(
           context,
-          PageRouteBuilder(
-              pageBuilder: (context, animation, secondaryAnimation) {
-                var begin = const Offset(1.0, 0.0);
-                var end = Offset.zero;
-                var curve = Curves.ease;
+          PageRouteBuilder<dynamic>(
+            pageBuilder: (context, animation, secondaryAnimation) {
+              const begin = Offset(1, 0);
+              const end = Offset.zero;
+              const curve = Curves.ease;
 
-                var tween = Tween(begin: begin, end: end)
-                    .chain(CurveTween(curve: curve));
-                return SlideTransition(
-                    position: tween.animate(animation), child: const Home());
-              },
-              transitionDuration: const Duration(milliseconds: 800)),
+              final tween =
+                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+              return SlideTransition(
+                position: tween.animate(animation),
+                child: const Home(),
+              );
+            },
+            transitionDuration: const Duration(milliseconds: 800),
+          ),
         );
       });
     });
@@ -109,7 +112,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
+    final theme = Theme.of(context);
     return Scaffold(
       body: Center(
         child: AnimatedBuilder(
@@ -121,7 +124,7 @@ class _SplashScreenState extends State<SplashScreen>
                 Opacity(
                   opacity: _fadeAnimation.value,
                   child: Transform.translate(
-                    offset: Offset(0.0, -50.0 * _slideAnimation.value.dy),
+                    offset: Offset(0, -50.0 * _slideAnimation.value.dy),
                     child: const NameWidget(),
                   ),
                 ),
@@ -158,3 +161,4 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 }
+ */

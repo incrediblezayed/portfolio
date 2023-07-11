@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/src/utils/providers.dart';
 
 class AppTheme {
-  Ref ref;
   AppTheme(this.ref);
+  Ref ref;
 
   void setThemeMode(ThemeMode themeMode) {
     ref.read(themeModeProvider.notifier).state = themeMode;
@@ -17,24 +18,23 @@ class AppTheme {
   Color githubColor = const Color(0xFFFFFFFF);
   Color linkedinColor = const Color(0xff0A66C2);
 
+  Color primaryColor = const Color(0xff130E32);
+
   void cycleThroughThemeModes() {
-    ThemeMode currentThemeMode = ref.read(themeModeProvider.notifier).state;
+    final currentThemeMode = ref.read(themeModeProvider.notifier).state;
 
     switch (currentThemeMode) {
       case ThemeMode.system:
         setThemeMode(ThemeMode.light);
-        break;
       case ThemeMode.light:
         setThemeMode(ThemeMode.dark);
-        break;
       case ThemeMode.dark:
         setThemeMode(ThemeMode.system);
-        break;
     }
   }
 
   IconData getThemeIcon() {
-    ThemeMode currentThemeMode = ref.read(themeModeProvider.notifier).state;
+    final currentThemeMode = ref.read(themeModeProvider.notifier).state;
     switch (currentThemeMode) {
       case ThemeMode.system:
         return Icons.brightness_auto;
@@ -74,19 +74,52 @@ class AppTheme {
     });
   }
 
-  ThemeData get lightTheme => ThemeData.light().copyWith(
+  ThemeData getTheme(bool dark) =>
+      //dark ?
+      //ThemeData.dark():
+      ThemeData.light().copyWith(
         useMaterial3: true,
-        appBarTheme: const AppBarTheme(centerTitle: false),
-        dividerColor: Colors.black.withOpacity(0.1),
-      );
-  ThemeData get darkTheme => ThemeData.dark().copyWith(
-        dividerColor: Colors.white.withOpacity(0.1),
-        appBarTheme: const AppBarTheme(centerTitle: false),
-        useMaterial3: true,
+        primaryColor: primaryColor,
+        textTheme: GoogleFonts.openSansTextTheme(
+          ThemeData.dark().textTheme,
+        ),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: primaryColor,
+          brightness: dark ? Brightness.dark : Brightness.light,
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: ColorScheme.fromSeed(seedColor: primaryColor)
+              .primary
+              .withOpacity(0.5),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide.none,
+          ),
+          floatingLabelStyle: const TextStyle(
+            fontSize: 18,
+            color: Colors.white,
+          ),
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+            foregroundColor: getMaterialStateProperty<Color>(
+              defaultValue: Colors.white,
+              hovered: Colors.white,
+              focused: Colors.white,
+              pressed: Colors.white,
+              selected: Colors.white,
+              disabled: Colors.white,
+            ),
+          ),
+        ),
       );
 
+  ThemeData get lightTheme => getTheme(false);
+  ThemeData get darkTheme => getTheme(true);
+
   ThemeData get theme {
-    ThemeMode currentThemeMode = ref.read(themeModeProvider.notifier).state;
+    final currentThemeMode = ref.read(themeModeProvider.notifier).state;
     switch (currentThemeMode) {
       case ThemeMode.system:
         return lightTheme;

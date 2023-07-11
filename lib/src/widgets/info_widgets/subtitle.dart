@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:portfolio/src/utils/constants.dart';
 
 class SubtitleWidget extends StatelessWidget {
+  const SubtitleWidget({
+    super.key,
+    this.fontSize = 18,
+    this.fontWeight = FontWeight.w500,
+    this.color,
+    this.textAlign = TextAlign.center,
+  });
   final double? fontSize;
   final FontWeight? fontWeight;
   final Color? color;
   final TextAlign? textAlign;
-  const SubtitleWidget(
-      {super.key,
-      this.fontSize = 18,
-      this.fontWeight = FontWeight.w500,
-      this.color,
-      this.textAlign = TextAlign.center});
 
   @override
   Widget build(BuildContext context) {
