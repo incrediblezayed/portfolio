@@ -24,8 +24,8 @@ class HeroPage extends ConsumerWidget {
       height: mediaQueryData.size.height,
       width: mediaQueryData.size.width,
       decoration: BoxDecoration(color: appTheme.primaryColor),
-      alignment: Alignment.center,
-      padding: const EdgeInsets.all(24),
+      alignment: Alignment.topCenter,
+      padding: EdgeInsets.all(width * 0.05),
       child: Wrap(
         alignment: WrapAlignment.center,
         crossAxisAlignment: WrapCrossAlignment.center,
@@ -62,13 +62,13 @@ class HeroPage extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          Image.asset(
-            AppImages.heroImage,
-            width: width * 0.9,
-            height: height * 0.8,
+          Padding(
+            padding: const EdgeInsets.only(top: 24),
+            child: Image.asset(
+              AppImages.heroImage,
+              width: width * 0.9,
+              height: height * 0.8,
+            ),
           )
         ],
       ),

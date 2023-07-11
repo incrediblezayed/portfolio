@@ -8,6 +8,7 @@ class OSInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mediaQueryData = MediaQuery.of(context);
+    final width = DeviceUtils.mediaQueryWidth(mediaQueryData);
     return SizedBox(
       width: mediaQueryData.size.width,
       child: Wrap(
@@ -22,27 +23,28 @@ class OSInfo extends StatelessWidget {
             children: [
               Text(
                 'Running on ${DeviceUtils.getCurrentPlaform()} 🚀 ${DeviceUtils.getOSVersion()}',
-                style: const TextStyle(
-                  fontSize: 16,
+                style: TextStyle(
+                  fontSize: DeviceUtils.minSizeWithMediaQuery(width, 14, 0.02),
                   fontWeight: FontWeight.w100,
                 ),
               ),
               const SizedBox(
                 height: 4,
               ),
-              const Text(
+              Text(
                 'Working on all platforms! (Android, iOS, linux, Window, macOS, Web) 🎉',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: DeviceUtils.minSizeWithMediaQuery(width, 12, 0.02),
                   fontWeight: FontWeight.w100,
                 ),
               )
             ],
           ),
-          const Text(
+          Text(
             'Developed with Flutter ❤️, by Hassan Ansari 🤓',
             style: TextStyle(
-              fontSize: 16,
+              height: 0.5,
+              fontSize: DeviceUtils.minSizeWithMediaQuery(width, 12, 0.02),
               fontWeight: FontWeight.w100,
             ),
           )

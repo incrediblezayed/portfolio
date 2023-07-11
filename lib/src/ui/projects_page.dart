@@ -17,6 +17,7 @@ class ProjectsPage extends ConsumerWidget {
       width: mediaQueryData.size.width,
       //  color: Theme.of(context).scaffoldBackgroundColor,
       child: Stack(
+        alignment: Alignment.topCenter,
         children: [
           PageView.builder(
             controller: main.projectsPageController,

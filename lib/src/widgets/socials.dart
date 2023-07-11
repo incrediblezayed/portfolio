@@ -17,61 +17,66 @@ class Socials extends ConsumerWidget {
     final mediaQueryData = MediaQuery.of(context);
     final width = DeviceUtils.mediaQueryWidth(mediaQueryData);
     final appTheme = ref.watch(themeProvider);
-    return Wrap(
-      alignment: WrapAlignment.center,
-      crossAxisAlignment: WrapCrossAlignment.center,
-      spacing: width * 0.1,
-      children: [
-        Text(
-          'Socials',
-          style: TextStyle(fontSize: width * 0.1),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 8),
-          child: Wrap(
-            runSpacing: width * 0.02,
-            spacing: width * 0.02,
-            children: [
-              SocialButton(
-                socialName: 'Instagram',
-                iconColor: appTheme.instagramColor,
-                icon: FontAwesomeIcons.instagram,
-                url: 'https://www.instagram.com/incrediblezayed/',
-              ),
-              SocialButton(
-                socialName: 'Twitter',
-                icon: FontAwesomeIcons.twitter,
-                iconColor: appTheme.twitterColor,
-                url: 'https://twitter.com/incrediblezayed',
-              ),
-              SocialButton(
-                socialName: 'Discord',
-                icon: FontAwesomeIcons.discord,
-                url: 'https://discordapp.com/users/775966362358120479',
-                iconColor: appTheme.discordColor,
-              ),
-              SocialButton(
-                socialName: 'WhatsApp',
-                iconColor: appTheme.whatsappColor,
-                url: 'https://wa.me/+919158363588',
-                icon: FontAwesomeIcons.whatsapp,
-              ),
-              SocialButton(
-                socialName: 'GitHub',
-                iconColor: appTheme.githubColor,
-                url: 'https://github.com/incrediblezayed',
-                icon: FontAwesomeIcons.github,
-              ),
-              SocialButton(
-                socialName: 'LinkedIn',
-                icon: FontAwesomeIcons.linkedin,
-                url: 'https://www.linkedin.com/in/incrediblezayed/',
-                iconColor: appTheme.linkedinColor,
-              ),
-            ],
+    return Padding(
+      padding: EdgeInsets.only(bottom: mediaQueryData.size.height * 0.01),
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        spacing: width * 0.1,
+        children: [
+          Text(
+            'Socials',
+            style: TextStyle(
+              fontSize: DeviceUtils.minSizeWithMediaQuery(width, 14, 0.08),
+            ),
           ),
-        )
-      ],
+          Padding(
+            padding: EdgeInsets.only(top: mediaQueryData.size.height * 0.006),
+            child: Wrap(
+              runSpacing: width * 0.02,
+              spacing: width * 0.02,
+              children: [
+                SocialButton(
+                  socialName: 'Instagram',
+                  iconColor: appTheme.instagramColor,
+                  icon: FontAwesomeIcons.instagram,
+                  url: 'https://www.instagram.com/incrediblezayed/',
+                ),
+                SocialButton(
+                  socialName: 'Twitter',
+                  icon: FontAwesomeIcons.twitter,
+                  iconColor: appTheme.twitterColor,
+                  url: 'https://twitter.com/incrediblezayed',
+                ),
+                SocialButton(
+                  socialName: 'Discord',
+                  icon: FontAwesomeIcons.discord,
+                  url: 'https://discordapp.com/users/775966362358120479',
+                  iconColor: appTheme.discordColor,
+                ),
+                SocialButton(
+                  socialName: 'WhatsApp',
+                  iconColor: appTheme.whatsappColor,
+                  url: 'https://wa.me/+919158363588',
+                  icon: FontAwesomeIcons.whatsapp,
+                ),
+                SocialButton(
+                  socialName: 'GitHub',
+                  iconColor: appTheme.githubColor,
+                  url: 'https://github.com/incrediblezayed',
+                  icon: FontAwesomeIcons.github,
+                ),
+                SocialButton(
+                  socialName: 'LinkedIn',
+                  icon: FontAwesomeIcons.linkedin,
+                  url: 'https://www.linkedin.com/in/incrediblezayed/',
+                  iconColor: appTheme.linkedinColor,
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

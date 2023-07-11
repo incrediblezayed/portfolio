@@ -1,6 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:portfolio/src/utils/device_utils.dart';
 import 'package:portfolio/src/utils/muti_color_tween.dart';
 import 'package:portfolio/src/utils/providers.dart';
 
@@ -87,10 +88,7 @@ class _HeroPageTextState extends ConsumerState<HeroPageText>
     final appTheme = ref.watch(themeProvider);
 
     final mediaQueryData = MediaQuery.of(context);
-    final orientation = mediaQueryData.orientation;
-    final width = orientation == Orientation.landscape
-        ? mediaQueryData.size.width / 2
-        : mediaQueryData.size.width;
+    final width = DeviceUtils.mediaQueryWidth(mediaQueryData);
 
     return AnimatedBuilder(
       animation: controller,

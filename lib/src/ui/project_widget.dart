@@ -30,7 +30,7 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
     return IgnorePointer(
       child: SizedBox(
         width: width * 0.5,
-        height: size.height * 0.4,
+        //height: size.height * 0.4,
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 150),
           switchInCurve: Curves.easeInCirc,
@@ -43,10 +43,10 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
           },
           child: ClipRRect(
             borderRadius: BorderRadius.circular(24),
+            key: ValueKey(project.image),
             child: Image.network(
               project.image,
               fit: BoxFit.cover,
-              key: ValueKey(project.image),
             ),
           ),
         ),
@@ -92,7 +92,7 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
     final size = mediaQueryData.size;
     final width = DeviceUtils.mediaQueryWidth(mediaQueryData);
     return SizedBox(
-      width: width * 0.7,
+      width: width,
       height: size.height * 0.5,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,14 +113,22 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
                     project.name,
                     style: TextStyle(
                       height: 0.8,
-                      fontSize: size.width * 0.08,
+                      fontSize: DeviceUtils.minSizeWithMediaQuery(
+                        size.width,
+                        60,
+                        0.08,
+                      ),
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
                     project.description,
                     style: TextStyle(
-                      fontSize: size.width * 0.015,
+                      fontSize: DeviceUtils.minSizeWithMediaQuery(
+                        size.width,
+                        16,
+                        0.015,
+                      ),
                       fontWeight: FontWeight.w300,
                     ),
                   ),
@@ -160,6 +168,7 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
   Widget build(BuildContext context) {
     final mediaQueryData = MediaQuery.of(context);
     final size = mediaQueryData.size;
+    final width = DeviceUtils.mediaQueryWidth(mediaQueryData);
     final mainPro = ref.watch(mainProvider);
 
     return SizedBox(
@@ -167,8 +176,8 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
       width: size.width,
       child: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: size.width * 0.1,
-          vertical: kToolbarHeight,
+          horizontal: size.width * 0.05,
+          vertical: mediaQueryData.viewPadding.bottom,
         ),
         child: AnimatedBuilder(
           animation: mainPro.projectsPageController,
@@ -189,16 +198,17 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
 
             final detailsAlignmentValue =
                 normalizedValue * (flooredPage.isEven ? 1 : -1);
+            if (size.width != width) {
+              imageAlignment = Alignment(
+                imageAlignmentValue,
+                -1,
+              );
 
-            imageAlignment = Alignment(
-              imageAlignmentValue,
-              -1,
-            );
-
-            detailsAlignment = Alignment(
-              detailsAlignmentValue,
-              1,
-            );
+              detailsAlignment = Alignment(
+                detailsAlignmentValue,
+                1,
+              );
+            }
             return Stack(
               children: [
                 Align(
@@ -217,5 +227,3 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
     );
   }
 }
-
-

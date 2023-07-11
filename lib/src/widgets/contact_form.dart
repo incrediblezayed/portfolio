@@ -92,15 +92,18 @@ class ContactForm extends ConsumerWidget {
                   const SizedBox(
                     height: 12,
                   ),
-                  const TextField(
-                    maxLines: 5,
-                    decoration: InputDecoration(
-                      labelText: 'Question',
-                      prefixIcon: Icon(
-                        FontAwesomeIcons.message,
-                        size: 18,
+                  SizedBox(
+                    height: mediaQueryData.size.height * 0.1,
+                    child: const TextField(
+                      maxLines: 5,
+                      decoration: InputDecoration(
+                        labelText: 'Question',
+                        prefixIcon: Icon(
+                          FontAwesomeIcons.message,
+                          size: 18,
+                        ),
+                        prefixIconColor: Colors.white,
                       ),
-                      prefixIconColor: Colors.white,
                     ),
                   ),
                   const SizedBox(

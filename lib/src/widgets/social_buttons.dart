@@ -99,6 +99,9 @@ class _SocialButtonState extends State<SocialButton>
                 onTapUp: (details) {
                   _controller.reverse();
                 },
+                onTapCancel: () {
+                  _controller.reverse();
+                },
                 onTap: widget.onPressed ??
                     () {
                       launchUrlString(widget.url!);

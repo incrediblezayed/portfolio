@@ -18,19 +18,17 @@ class Footer extends ConsumerWidget {
       width: mediaQueryData.size.width,
       padding: EdgeInsets.only(
         left: 16,
-        top: kToolbarHeight,
         right: 16,
         bottom: mediaQueryData.viewPadding.bottom + 8.0,
       ),
       child: const Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ContactForm(),
-          Spacer(flex: 3),
-          Socials(),
-          Spacer(
-            flex: 2,
+          Expanded(
+            flex: 3,
+            child: ContactForm(),
           ),
+          Socials(),
           OSInfo(),
         ],
       ),
