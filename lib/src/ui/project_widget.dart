@@ -29,7 +29,8 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
     final width = DeviceUtils.mediaQueryWidth(mediaQueryData);
     return IgnorePointer(
       child: SizedBox(
-        width: width * 0.5,
+        //width: width * 0.7,
+        height: size.height * 0.5,
         //height: size.height * 0.4,
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 150),

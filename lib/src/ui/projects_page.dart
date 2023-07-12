@@ -15,7 +15,6 @@ class ProjectsPage extends ConsumerWidget {
     return SizedBox(
       height: mediaQueryData.size.height,
       width: mediaQueryData.size.width,
-      //  color: Theme.of(context).scaffoldBackgroundColor,
       child: Stack(
         alignment: Alignment.topCenter,
         children: [

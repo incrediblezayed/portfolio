@@ -9,6 +9,7 @@ class SocialButton extends StatefulWidget {
     required this.iconColor,
     required this.socialName,
     this.onPressed,
+//    required this.theme,
     this.url,
     super.key,
   }) : assert(url != null || onPressed != null);
@@ -17,6 +18,7 @@ class SocialButton extends StatefulWidget {
   final Color iconColor;
   final String? url;
   final String socialName;
+  //final ThemeData theme;
   final void Function()? onPressed;
 
   @override
@@ -25,25 +27,36 @@ class SocialButton extends StatefulWidget {
 
 class _SocialButtonState extends State<SocialButton>
     with SingleTickerProviderStateMixin {
+  bool isInitialized = false;
+
   late AnimationController _controller;
 
   late Animation<Color?> color;
   late Animation<double> size;
 
-  late Color startColor = Colors.white;
+  late Color startColor;
   late Color endColor = widget.iconColor;
   late CurvedAnimation curvedAnimation;
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 400),
-      vsync: this,
-    );
-    color = ColorTween(
-      begin: startColor,
-      end: endColor,
-    ).animate(_controller);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!isInitialized) {
+      _controller = AnimationController(
+        duration: const Duration(milliseconds: 400),
+        vsync: this,
+      );
+      startColor = Theme.of(context).colorScheme.onBackground;
+      color = ColorTween(
+        begin: startColor,
+        end: endColor,
+      ).animate(_controller);
+      isInitialized = true;
+    }
   }
 
   @override

@@ -16,11 +16,14 @@ class HeaderButtons extends StatelessWidget {
     final theme = Theme.of(context);
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(4),
+        ),
         backgroundColor:
-            active ? theme.colorScheme.secondary : Colors.transparent,
-        elevation: 0,
-        foregroundColor:
-            active ? theme.primaryColor : theme.colorScheme.primary,
+            active ? theme.colorScheme.primary : theme.scaffoldBackgroundColor,
+        foregroundColor: active
+            ? theme.colorScheme.onPrimary
+            : theme.colorScheme.onBackground,
       ),
       onPressed: onPressed,
       child: Text(text),

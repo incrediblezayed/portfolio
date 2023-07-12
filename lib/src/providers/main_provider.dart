@@ -36,4 +36,18 @@ class MainProvider extends ChangeNotifier {
     _homePageIndex = value;
     notifyListeners();
   }
+
+  String getCurrentHeaderText() {
+    switch (_mainPageIndex) {
+      case 0:
+        return 'Work Experience';
+      case 1:
+        return 'HOME';
+      case 2:
+        return 'Projects';
+      default:
+        return 'HOME';
+    }
+  }
+
 }

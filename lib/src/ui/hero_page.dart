@@ -13,17 +13,22 @@ class HeroPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final mainPro = ref.watch(mainProvider);
+
     final appTheme = ref.watch(themeProvider);
     final theme = Theme.of(context);
     final mediaQueryData = MediaQuery.of(context);
+    final size = mediaQueryData.size;
     final width = DeviceUtils.mediaQueryWidth(mediaQueryData);
     final height = mediaQueryData.orientation == Orientation.landscape
-        ? (mediaQueryData.size.height * 0.8)
-        : ((mediaQueryData.size.height / 2) * 0.8);
+        ? (size.height * 0.8)
+        : ((size.height / 2) * 0.8);
+    final buttonFullWidth = mediaQueryData.orientation == Orientation.landscape
+        ? width * 0.8
+        : width;
     return Container(
       height: mediaQueryData.size.height,
       width: mediaQueryData.size.width,
-      decoration: BoxDecoration(color: appTheme.primaryColor),
       alignment: Alignment.topCenter,
       padding: EdgeInsets.all(width * 0.05),
       child: Wrap(
@@ -37,28 +42,104 @@ class HeroPage extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const HeroPageText(),
-              ElevatedButton.icon(
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
+              SizedBox(
+                width: buttonFullWidth,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ElevatedButton.icon(
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all(
+                          const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(4),
+                            ),
+                          ),
+                        ),
+                        fixedSize: appTheme.getMaterialStateProperty(
+                          defaultValue: Size(buttonFullWidth, 48),
+                        ),
+                      ),
+                      onPressed: () {
+                        log('Clicked');
+                      },
+                      icon: const Icon(FontAwesomeIcons.fileLines),
+                      label: const Text('Download My Resume'),
                     ),
-                  ),
-                  fixedSize: appTheme.getMaterialStateProperty(
-                    defaultValue: Size(width * 0.6, 48),
-                  ),
-                  backgroundColor: appTheme.getMaterialStateProperty(
-                    defaultValue: theme.colorScheme.primary,
-                  ),
-                  foregroundColor: MaterialStateProperty.all(
-                    appTheme.primaryColor,
-                  ),
+                    const Divider(
+                      height: 1,
+                    ),
+                    Theme(
+                      data: theme.copyWith(
+                        elevatedButtonTheme: ElevatedButtonThemeData(
+                          style: theme.elevatedButtonTheme.style!.copyWith(
+                            shape: MaterialStateProperty.all(
+                              const RoundedRectangleBorder(),
+                            ),
+                            fixedSize: appTheme.getMaterialStateProperty(
+                              defaultValue: const Size.fromHeight(48),
+                            ),
+                          ),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton.icon(
+                              icon: const Icon(Icons.arrow_left),
+                              onPressed: () {
+                                mainPro.mainPageController.previousPage(
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.ease,
+                                );
+                              },
+                              label: const Text('My Work Experience'),
+                            ),
+                          ),
+                          const VerticalDivider(width: 1),
+                          Expanded(
+                            child: ElevatedButton.icon(
+                              iconOnRight: true,
+                              icon: const Icon(Icons.arrow_right),
+                              onPressed: () {
+                                mainPro.mainPageController.nextPage(
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.ease,
+                                );
+                              },
+                              label: const Text('My Projects'),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    const Divider(
+                      height: 1,
+                    ),
+                    ElevatedButton.icon(
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all(
+                          const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              bottom: Radius.circular(4),
+                            ),
+                          ),
+                        ),
+                        fixedSize: appTheme.getMaterialStateProperty(
+                          defaultValue: Size(buttonFullWidth, 48),
+                        ),
+                      ),
+                      onPressed: () {
+                        mainPro.homePageController.nextPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.ease,
+                        );
+                      },
+                      icon: const Icon(Icons.arrow_drop_down),
+                      label: const Text('Contact Me'),
+                    ),
+                  ],
                 ),
-                onPressed: () {
-                  log('Clicked');
-                },
-                icon: const Icon(FontAwesomeIcons.fileLines),
-                label: const Text('Download My Resume'),
               ),
             ],
           ),

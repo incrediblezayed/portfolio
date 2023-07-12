@@ -12,6 +12,7 @@ class Portfolio extends ConsumerWidget {
       themeMode: ref.watch(themeModeProvider),
       theme: ref.read(themeProvider).lightTheme,
       darkTheme: ref.read(themeProvider).darkTheme,
+      debugShowCheckedModeBanner: false,
       home: const Home(),
     );
   }

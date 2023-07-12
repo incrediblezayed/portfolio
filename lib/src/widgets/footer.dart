@@ -14,7 +14,6 @@ class Footer extends ConsumerWidget {
     final appTheme = ref.watch(themeProvider);
     final mediaQueryData = MediaQuery.of(context);
     return Container(
-      color: appTheme.primaryColor,
       width: mediaQueryData.size.width,
       padding: EdgeInsets.only(
         left: 16,

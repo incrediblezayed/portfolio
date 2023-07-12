@@ -6,7 +6,7 @@ import 'package:portfolio/src/utils/theme.dart';
 
 final themeProvider = Provider(AppTheme.new);
 
-final themeModeProvider = StateProvider((ref) => ThemeMode.system);
+final themeModeProvider = StateProvider((ref) => ThemeMode.dark);
 
 final mainProvider = ChangeNotifierProvider((ref) => MainProvider());
 

@@ -86,7 +86,7 @@ class _HeroPageTextState extends ConsumerState<HeroPageText>
   @override
   Widget build(BuildContext context) {
     final appTheme = ref.watch(themeProvider);
-
+    final theme = Theme.of(context);
     final mediaQueryData = MediaQuery.of(context);
     final width = DeviceUtils.mediaQueryWidth(mediaQueryData);
 
@@ -106,7 +106,7 @@ class _HeroPageTextState extends ConsumerState<HeroPageText>
           child: TextLiquidFill(
             text: text,
             boxWidth: width,
-            boxBackgroundColor: appTheme.primaryColor,
+            boxBackgroundColor: theme.scaffoldBackgroundColor,
             waveColor: paint,
             loadDuration: const Duration(milliseconds: 2000),
             textStyle: TextStyle(

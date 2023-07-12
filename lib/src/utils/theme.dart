@@ -18,7 +18,8 @@ class AppTheme {
   Color githubColor = const Color(0xFFFFFFFF);
   Color linkedinColor = const Color(0xff0A66C2);
 
-  Color primaryColor = const Color(0xff130E32);
+  Color darkPrimaryColor = const Color(0xff130E32);
+  Color lightPrimaryColor = const Color(0xffECE9F5);
 
   void cycleThroughThemeModes() {
     final currentThemeMode = ref.read(themeModeProvider.notifier).state;
@@ -42,6 +43,18 @@ class AppTheme {
         return Icons.brightness_high;
       case ThemeMode.dark:
         return Icons.brightness_3;
+    }
+  }
+
+  IconData getThemeIconHovered() {
+    final currentThemeMode = ref.read(themeModeProvider.notifier).state;
+    switch (currentThemeMode) {
+      case ThemeMode.system:
+        return Icons.brightness_auto_outlined;
+      case ThemeMode.light:
+        return Icons.abc;
+      case ThemeMode.dark:
+        return Icons.abc;
     }
   }
 
@@ -69,54 +82,70 @@ class AppTheme {
       if (states.contains(MaterialState.disabled) && disabled != null) {
         return disabled;
       }
-
       return defaultValue;
     });
   }
 
-  ThemeData getTheme(bool dark) =>
-      //dark ?
-      //ThemeData.dark():
-      ThemeData.light().copyWith(
-        useMaterial3: true,
-        primaryColor: primaryColor,
-        textTheme: GoogleFonts.openSansTextTheme(
-          ThemeData.dark().textTheme,
-        ),
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: primaryColor,
-          brightness: dark ? Brightness.dark : Brightness.light,
+  TextTheme _getTextTheme(bool dark) {
+    return GoogleFonts.openSansTextTheme(_baseTheme(dark).textTheme);
+  }
+
+  ThemeData _baseTheme(bool dark) => (dark
+          ? ThemeData.dark().copyWith(
+              scaffoldBackgroundColor: darkPrimaryColor,
+              primaryColor: darkPrimaryColor,
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: darkPrimaryColor,
+                secondary: lightPrimaryColor,
+                brightness: Brightness.dark,
+              ),
+            )
+          : ThemeData.light().copyWith(
+              scaffoldBackgroundColor: lightPrimaryColor,
+              primaryColor: lightPrimaryColor,
+              colorScheme: ColorScheme.fromSeed(
+                secondary: darkPrimaryColor,
+                seedColor: lightPrimaryColor,
+              ),
+            ))
+      .copyWith(useMaterial3: true);
+
+  ThemeData _getTheme(bool dark) => _baseTheme(dark).copyWith(
+        textTheme: _getTextTheme(dark),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            animationDuration: const Duration(milliseconds: 200),
+            backgroundColor: getMaterialStateProperty(
+              defaultValue: _baseTheme(dark).colorScheme.primary,
+              hovered: _baseTheme(dark).primaryColor,
+            ),
+            foregroundColor: getMaterialStateProperty(
+              defaultValue: _baseTheme(dark).colorScheme.onPrimary,
+              hovered: _baseTheme(dark).colorScheme.primary,
+            ),
+          ),
         ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
-          fillColor: ColorScheme.fromSeed(seedColor: primaryColor)
-              .primary
-              .withOpacity(0.5),
+          labelStyle: TextStyle(
+            color: dark ? darkPrimaryColor : lightPrimaryColor,
+          ),
+          fillColor: ColorScheme.fromSeed(
+            seedColor: dark ? darkPrimaryColor : lightPrimaryColor,
+          ).primary.withOpacity(0.5),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide.none,
           ),
-          floatingLabelStyle: const TextStyle(
+          floatingLabelStyle: TextStyle(
             fontSize: 18,
-            color: Colors.white,
-          ),
-        ),
-        textButtonTheme: TextButtonThemeData(
-          style: ButtonStyle(
-            foregroundColor: getMaterialStateProperty<Color>(
-              defaultValue: Colors.white,
-              hovered: Colors.white,
-              focused: Colors.white,
-              pressed: Colors.white,
-              selected: Colors.white,
-              disabled: Colors.white,
-            ),
+            color: dark ? lightPrimaryColor : darkPrimaryColor,
           ),
         ),
       );
 
-  ThemeData get lightTheme => getTheme(false);
-  ThemeData get darkTheme => getTheme(true);
+  ThemeData get lightTheme => _getTheme(false);
+  ThemeData get darkTheme => _getTheme(true);
 
   ThemeData get theme {
     final currentThemeMode = ref.read(themeModeProvider.notifier).state;

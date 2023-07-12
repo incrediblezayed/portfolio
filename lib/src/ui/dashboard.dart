@@ -25,7 +25,6 @@ class _HomeState extends ConsumerState<Home> {
 
     final projectsPro = ref.watch(projectsProvider);
     return Scaffold(
-      backgroundColor: theme.primaryColor,
       body: projectsPro.when(
         data: (data) {
           return Padding(

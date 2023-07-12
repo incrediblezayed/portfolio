@@ -47,113 +47,102 @@ class ContactForm extends ConsumerWidget {
           padding: const EdgeInsets.only(top: 16),
           child: SizedBox(
             width: width * 0.8,
-            child: DefaultTextStyle(
-              style: const TextStyle(
-                color: Colors.white,
-              ),
-              child: Column(
-                children: [
-                  const TextField(
+            child: Column(
+              children: [
+                const TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Name',
+                    prefixIcon: Icon(
+                      FontAwesomeIcons.userAstronaut,
+                      size: 18,
+                    ),
+                    prefixIconColor: Colors.white,
+                  ),
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+                const TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    prefixIcon: Icon(
+                      FontAwesomeIcons.envelopeOpenText,
+                      size: 18,
+                    ),
+                    prefixIconColor: Colors.white,
+                  ),
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+                const TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Phone',
+                    prefixIcon: Icon(
+                      FontAwesomeIcons.mobileRetro,
+                      size: 18,
+                    ),
+                    prefixIconColor: Colors.white,
+                  ),
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+                SizedBox(
+                  height: mediaQueryData.size.height * 0.1,
+                  child: const TextField(
+                    maxLines: 5,
                     decoration: InputDecoration(
-                      labelText: 'Name',
+                      labelText: 'Question',
                       prefixIcon: Icon(
-                        FontAwesomeIcons.userAstronaut,
+                        FontAwesomeIcons.message,
                         size: 18,
                       ),
                       prefixIconColor: Colors.white,
                     ),
                   ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  const TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      prefixIcon: Icon(
-                        FontAwesomeIcons.envelopeOpenText,
-                        size: 18,
-                      ),
-                      prefixIconColor: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  const TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Phone',
-                      prefixIcon: Icon(
-                        FontAwesomeIcons.mobileRetro,
-                        size: 18,
-                      ),
-                      prefixIconColor: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  SizedBox(
-                    height: mediaQueryData.size.height * 0.1,
-                    child: const TextField(
-                      maxLines: 5,
-                      decoration: InputDecoration(
-                        labelText: 'Question',
-                        prefixIcon: Icon(
-                          FontAwesomeIcons.message,
-                          size: 18,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      textStyle: appTheme.getMaterialStateProperty(
+                        defaultValue: const TextStyle(
+                          fontWeight: FontWeight.normal,
                         ),
-                        prefixIconColor: Colors.white,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: appTheme.getMaterialStateProperty(
-                          defaultValue: theme.colorScheme.primary,
+                        hovered: const TextStyle(
+                          fontWeight: FontWeight.bold,
                         ),
-                        textStyle: appTheme.getMaterialStateProperty(
-                          defaultValue: const TextStyle(
-                            fontWeight: FontWeight.normal,
-                          ),
-                          hovered: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                          pressed: const TextStyle(
-                            fontWeight: FontWeight.w100,
-                          ),
-                        ),
-                        foregroundColor: appTheme.getMaterialStateProperty(
-                          defaultValue: theme.colorScheme.onPrimary,
-                        ),
-                        fixedSize: MaterialStateProperty.all(
-                          const Size(double.infinity, 48),
-                        ),
-                        shadowColor: appTheme.getMaterialStateProperty(
-                          defaultValue: theme.colorScheme.primary,
-                        ),
-                        elevation: appTheme.getMaterialStateProperty(
-                          defaultValue: 4,
-                          hovered: 8,
-                          pressed: 0,
-                          focused: 0,
-                        ),
-                        shape: appTheme.getMaterialStateProperty(
-                          defaultValue: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4),
-                          ),
+                        pressed: const TextStyle(
+                          fontWeight: FontWeight.w100,
                         ),
                       ),
-                      onPressed: () {},
-                      child: const Text('Submit'),
+                      fixedSize: MaterialStateProperty.all(
+                        const Size(double.infinity, 48),
+                      ),
+                      shadowColor: appTheme.getMaterialStateProperty(
+                        defaultValue: theme.colorScheme.primary,
+                      ),
+                      elevation: appTheme.getMaterialStateProperty(
+                        defaultValue: 4,
+                        hovered: 8,
+                        pressed: 0,
+                        focused: 0,
+                      ),
+                      shape: appTheme.getMaterialStateProperty(
+                        defaultValue: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
                     ),
-                  )
-                ],
-              ),
+                    onPressed: () {},
+                    child: const Text('Submit'),
+                  ),
+                )
+              ],
             ),
           ),
         )
