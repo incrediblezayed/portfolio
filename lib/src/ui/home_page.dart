@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:portfolio/src/ui/hero_page.dart';
 import 'package:portfolio/src/providers/providers.dart';
+import 'package:portfolio/src/ui/hero_page.dart';
 import 'package:portfolio/src/widgets/footer.dart';
 
 class HomePage extends ConsumerWidget {

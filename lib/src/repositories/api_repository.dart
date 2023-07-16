@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:file_saver/file_saver.dart';
 import 'package:portfolio/src/utils/constants.dart';
 
 class ApiRepository {
@@ -45,6 +48,41 @@ class ApiRepository {
       );
       if (response.statusCode == successCode) {
         return response.data!;
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<bool> saveResume() async {
+    try {
+      final response = await dio.get(
+        '/resume/',
+      );
+      if (response.statusCode == 200) {
+        if (Platform.isAndroid || Platform.isIOS || Platform.isMacOS) {
+          await FileSaver.instance.saveAs(
+            name: 'Resume_Hassan_Ansari',
+            link: LinkDetails(
+              link: response.data as String,
+            ),
+            mimeType: MimeType.pdf,
+            ext: 'pdf',
+          );
+        } else {
+          await FileSaver.instance.saveFile(
+            name: 'Resume_Hassan_Ansari',
+            link: LinkDetails(
+              link: response.data as String,
+            ),
+            mimeType: MimeType.pdf,
+            ext: 'pdf',
+          );
+        }
+
+        return true;
       } else {
         throw Exception('Failed to load data');
       }

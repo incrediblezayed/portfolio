@@ -1,9 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfolio/src/providers/providers.dart';
+import 'package:portfolio/src/repositories/api_repository.dart';
 import 'package:portfolio/src/utils/device_utils.dart';
 import 'package:portfolio/src/utils/images.dart';
 import 'package:portfolio/src/widgets/custom_elevated_button.dart';
@@ -61,8 +60,21 @@ class HeroPage extends ConsumerWidget {
                           defaultValue: Size(buttonFullWidth, 48),
                         ),
                       ),
-                      onPressed: () {
-                        log('Clicked');
+                      onPressed: () async {
+                        final response = await ApiRepository().saveResume();
+                        if (response) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Resume Downloaded'),
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Error Downloading Resume'),
+                            ),
+                          );
+                        }
                       },
                       icon: const Icon(FontAwesomeIcons.fileLines),
                       label: const Text('Download My Resume'),
