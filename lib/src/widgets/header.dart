@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfolio/src/providers/main_provider.dart';
 import 'package:portfolio/src/providers/providers.dart';
+import 'package:portfolio/src/widgets/custom_elevated_button.dart';
 import 'package:portfolio/src/widgets/header_buttons.dart';
 
 class HeaderWidget extends ConsumerStatefulWidget {
@@ -207,8 +208,8 @@ class _HeaderWidgetState extends ConsumerState<HeaderWidget>
                             },
                             active: true,
                           ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
+                          CustomElevatedButton(
+                            style: CustomElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),

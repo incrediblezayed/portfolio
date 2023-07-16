@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio/src/widgets/custom_elevated_button.dart';
 
 class HeaderButtons extends StatelessWidget {
   const HeaderButtons({
@@ -14,8 +15,8 @@ class HeaderButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
+    return CustomElevatedButton(
+      style: CustomElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(4),
         ),

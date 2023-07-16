@@ -3,9 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:portfolio/src/providers/providers.dart';
 import 'package:portfolio/src/utils/device_utils.dart';
 import 'package:portfolio/src/utils/images.dart';
-import 'package:portfolio/src/providers/providers.dart';
+import 'package:portfolio/src/widgets/custom_elevated_button.dart';
 import 'package:portfolio/src/widgets/hero_page_text.dart';
 
 class HeroPage extends ConsumerWidget {
@@ -47,7 +48,7 @@ class HeroPage extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ElevatedButton.icon(
+                    CustomElevatedButton.icon(
                       style: ButtonStyle(
                         shape: MaterialStateProperty.all(
                           const RoundedRectangleBorder(
@@ -85,7 +86,7 @@ class HeroPage extends ConsumerWidget {
                       child: Row(
                         children: [
                           Expanded(
-                            child: ElevatedButton.icon(
+                            child: CustomElevatedButton.icon(
                               icon: const Icon(Icons.arrow_left),
                               onPressed: () {
                                 mainPro.mainPageController.previousPage(
@@ -98,7 +99,7 @@ class HeroPage extends ConsumerWidget {
                           ),
                           const VerticalDivider(width: 1),
                           Expanded(
-                            child: ElevatedButton.icon(
+                            child: CustomElevatedButton.icon(
                               iconOnRight: true,
                               icon: const Icon(Icons.arrow_right),
                               onPressed: () {
@@ -116,7 +117,7 @@ class HeroPage extends ConsumerWidget {
                     const Divider(
                       height: 1,
                     ),
-                    ElevatedButton.icon(
+                    CustomElevatedButton.icon(
                       style: ButtonStyle(
                         shape: MaterialStateProperty.all(
                           const RoundedRectangleBorder(

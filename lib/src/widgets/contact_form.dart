@@ -8,6 +8,7 @@ import 'package:portfolio/src/models/enquiry_model.dart';
 import 'package:portfolio/src/providers/providers.dart';
 import 'package:portfolio/src/repositories/enquiry_repository.dart';
 import 'package:portfolio/src/utils/device_utils.dart';
+import 'package:portfolio/src/widgets/custom_elevated_button.dart';
 
 class ContactForm extends ConsumerWidget {
   const ContactForm({super.key});
@@ -119,7 +120,7 @@ class ContactForm extends ConsumerWidget {
                 ),
                 SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton(
+                  child: CustomElevatedButton(
                     style: ButtonStyle(
                       textStyle: appTheme.getMaterialStateProperty(
                         defaultValue: const TextStyle(
