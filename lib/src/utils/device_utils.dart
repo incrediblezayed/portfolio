@@ -32,14 +32,17 @@ class DeviceUtils {
     }
   }
 
-  static double minSizeWithMediaQuery(
-    double mediaQuerySize,
-    double minSize,
-    double multiplier,
-  ) {
+  static double minMaxSizeWithMediaQuery({
+    required double mediaQuerySize,
+    required double minSize,
+    required double multiplier,
+    double? maxSize,
+  }) {
     final size = mediaQuerySize * multiplier;
     if (size < minSize) {
       return minSize;
+    } else if (maxSize != null && maxSize < size) {
+      return maxSize;
     } else {
       return size;
     }

@@ -70,8 +70,16 @@ class _SocialButtonState extends State<SocialButton>
     final mediaQueryData = MediaQuery.of(context);
     final width = DeviceUtils.mediaQueryWidth(mediaQueryData);
     size = Tween<double>(
-      begin: DeviceUtils.minSizeWithMediaQuery(width, 24, 0.05),
-      end: DeviceUtils.minSizeWithMediaQuery(width, 50, 0.09),
+      begin: DeviceUtils.minMaxSizeWithMediaQuery(
+        mediaQuerySize: width,
+        minSize: 24,
+        multiplier: 0.05,
+      ),
+      end: DeviceUtils.minMaxSizeWithMediaQuery(
+        mediaQuerySize: width,
+        minSize: 50,
+        multiplier: 0.09,
+      ),
     ).animate(
       CurvedAnimation(
         parent: _controller,
@@ -83,8 +91,16 @@ class _SocialButtonState extends State<SocialButton>
       padding: EdgeInsets.only(
         top: 12,
         bottom: 12,
-        right: DeviceUtils.minSizeWithMediaQuery(width, 12, 0.02),
-        left: DeviceUtils.minSizeWithMediaQuery(width, 12, 0.02),
+        right: DeviceUtils.minMaxSizeWithMediaQuery(
+          mediaQuerySize: width,
+          minSize: 12,
+          multiplier: 0.02,
+        ),
+        left: DeviceUtils.minMaxSizeWithMediaQuery(
+          mediaQuerySize: width,
+          minSize: 12,
+          multiplier: 0.02,
+        ),
       ),
       child: MouseRegion(
         onEnter: (event) {

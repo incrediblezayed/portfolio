@@ -33,6 +33,7 @@ class ApiRepository {
     String path, {
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? headers,
+    int successCode = 200,
     dynamic body,
   }) async {
     try {
@@ -42,7 +43,7 @@ class ApiRepository {
         data: body,
         options: Options(headers: headers),
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == successCode) {
         return response.data!;
       } else {
         throw Exception('Failed to load data');

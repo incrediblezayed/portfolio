@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfolio/src/utils/device_utils.dart';
-import 'package:portfolio/src/utils/providers.dart';
+import 'package:portfolio/src/providers/providers.dart';
 import 'package:portfolio/src/widgets/social_buttons.dart';
 
 class Socials extends ConsumerWidget {
@@ -27,7 +27,11 @@ class Socials extends ConsumerWidget {
           Text(
             'Socials',
             style: TextStyle(
-              fontSize: DeviceUtils.minSizeWithMediaQuery(width, 14, 0.08),
+              fontSize: DeviceUtils.minMaxSizeWithMediaQuery(
+                mediaQuerySize: width,
+                minSize: 14,
+                multiplier: 0.08,
+              ),
             ),
           ),
           Padding(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfolio/src/ui/dashboard.dart';
-import 'package:portfolio/src/utils/providers.dart';
+import 'package:portfolio/src/providers/providers.dart';
 
 class Portfolio extends ConsumerWidget {
   const Portfolio({super.key});

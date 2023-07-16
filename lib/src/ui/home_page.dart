@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfolio/src/ui/hero_page.dart';
-import 'package:portfolio/src/utils/device_utils.dart';
-import 'package:portfolio/src/utils/providers.dart';
+import 'package:portfolio/src/providers/providers.dart';
 import 'package:portfolio/src/widgets/footer.dart';
 
 class HomePage extends ConsumerWidget {
@@ -12,7 +11,7 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final mainPro = ref.watch(mainProvider);
-    
+
     return PageView(
       controller: mainPro.homePageController,
       scrollDirection: Axis.vertical,

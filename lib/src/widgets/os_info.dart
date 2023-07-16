@@ -24,7 +24,11 @@ class OSInfo extends StatelessWidget {
               Text(
                 'Running on ${DeviceUtils.getCurrentPlaform()} 🚀 ${DeviceUtils.getOSVersion()}',
                 style: TextStyle(
-                  fontSize: DeviceUtils.minSizeWithMediaQuery(width, 14, 0.02),
+                  fontSize: DeviceUtils.minMaxSizeWithMediaQuery(
+                    mediaQuerySize: width,
+                    minSize: 14,
+                    multiplier: 0.02,
+                  ),
                   fontWeight: FontWeight.w100,
                 ),
               ),
@@ -34,7 +38,11 @@ class OSInfo extends StatelessWidget {
               Text(
                 'Working on all platforms! (Android, iOS, linux, Window, macOS, Web) 🎉',
                 style: TextStyle(
-                  fontSize: DeviceUtils.minSizeWithMediaQuery(width, 12, 0.02),
+                  fontSize: DeviceUtils.minMaxSizeWithMediaQuery(
+                    mediaQuerySize: width,
+                    minSize: 12,
+                    multiplier: 0.02,
+                  ),
                   fontWeight: FontWeight.w100,
                 ),
               )
@@ -44,7 +52,11 @@ class OSInfo extends StatelessWidget {
             'Developed with Flutter ❤️, by Hassan Ansari 🤓',
             style: TextStyle(
               height: 0.5,
-              fontSize: DeviceUtils.minSizeWithMediaQuery(width, 12, 0.02),
+              fontSize: DeviceUtils.minMaxSizeWithMediaQuery(
+                mediaQuerySize: width,
+                minSize: 12,
+                multiplier: 0.02,
+              ),
               fontWeight: FontWeight.w100,
             ),
           )

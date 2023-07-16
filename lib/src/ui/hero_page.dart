@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfolio/src/utils/device_utils.dart';
 import 'package:portfolio/src/utils/images.dart';
-import 'package:portfolio/src/utils/providers.dart';
+import 'package:portfolio/src/providers/providers.dart';
 import 'package:portfolio/src/widgets/hero_page_text.dart';
 
 class HeroPage extends ConsumerWidget {

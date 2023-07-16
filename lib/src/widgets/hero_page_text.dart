@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfolio/src/utils/device_utils.dart';
 import 'package:portfolio/src/utils/muti_color_tween.dart';
-import 'package:portfolio/src/utils/providers.dart';
+import 'package:portfolio/src/providers/providers.dart';
 
 class HeroPageText extends ConsumerStatefulWidget {
   const HeroPageText({super.key});

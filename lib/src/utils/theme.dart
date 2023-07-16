@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:portfolio/src/utils/providers.dart';
+import 'package:portfolio/src/providers/providers.dart';
 
 class AppTheme {
   AppTheme(this.ref);
@@ -10,6 +11,8 @@ class AppTheme {
   void setThemeMode(ThemeMode themeMode) {
     ref.read(themeModeProvider.notifier).state = themeMode;
   }
+
+  ThemeMode get themeMode => ref.read(themeModeProvider.notifier).state;
 
   Color discordColor = const Color(0xff7289DA);
   Color instagramColor = const Color(0xFFD62977);
@@ -22,9 +25,7 @@ class AppTheme {
   Color lightPrimaryColor = const Color(0xffECE9F5);
 
   void cycleThroughThemeModes() {
-    final currentThemeMode = ref.read(themeModeProvider.notifier).state;
-
-    switch (currentThemeMode) {
+    switch (themeMode) {
       case ThemeMode.system:
         setThemeMode(ThemeMode.light);
       case ThemeMode.light:
@@ -35,20 +36,40 @@ class AppTheme {
   }
 
   IconData getThemeIcon() {
-    final currentThemeMode = ref.read(themeModeProvider.notifier).state;
-    switch (currentThemeMode) {
+    switch (themeMode) {
       case ThemeMode.system:
         return Icons.brightness_auto;
       case ThemeMode.light:
-        return Icons.brightness_high;
+        return FontAwesomeIcons.moon;
       case ThemeMode.dark:
-        return Icons.brightness_3;
+        return FontAwesomeIcons.sun;
+    }
+  }
+
+  String getIconEmoji() {
+    switch (themeMode) {
+      case ThemeMode.system:
+        return '🌓';
+      case ThemeMode.light:
+        return '🌜';
+      case ThemeMode.dark:
+        return '🌞';
+    }
+  }
+
+  Color getAlternatePrimaryColor() {
+    switch (themeMode) {
+      case ThemeMode.system:
+        return lightPrimaryColor;
+      case ThemeMode.light:
+        return darkPrimaryColor;
+      case ThemeMode.dark:
+        return lightPrimaryColor;
     }
   }
 
   IconData getThemeIconHovered() {
-    final currentThemeMode = ref.read(themeModeProvider.notifier).state;
-    switch (currentThemeMode) {
+    switch (themeMode) {
       case ThemeMode.system:
         return Icons.brightness_auto_outlined;
       case ThemeMode.light:
@@ -127,8 +148,8 @@ class AppTheme {
         ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
-          labelStyle: TextStyle(
-            color: dark ? darkPrimaryColor : lightPrimaryColor,
+          hintStyle: TextStyle(
+            color: dark ? lightPrimaryColor : darkPrimaryColor,
           ),
           fillColor: ColorScheme.fromSeed(
             seedColor: dark ? darkPrimaryColor : lightPrimaryColor,

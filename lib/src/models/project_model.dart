@@ -90,9 +90,6 @@ class ProjectModel {
   }
 
   @override
-  String toJson() => json.encode(toMap());
-
-  @override
   factory ProjectModel.fromJson(String source) =>
       ProjectModel.fromMap(json.decode(source) as Map<String, dynamic>);
 

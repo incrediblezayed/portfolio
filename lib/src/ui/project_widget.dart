@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfolio/src/models/project_model.dart';
 import 'package:portfolio/src/utils/device_utils.dart';
 import 'package:portfolio/src/utils/images.dart';
-import 'package:portfolio/src/utils/providers.dart';
+import 'package:portfolio/src/providers/providers.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class ProjectWidget extends ConsumerStatefulWidget {
@@ -60,6 +60,9 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
     required String url,
     void Function()? onPressed,
   }) {
+    final mediaQueryData = MediaQuery.of(context);
+    final size = mediaQueryData.size;
+    final width = DeviceUtils.mediaQueryWidth(mediaQueryData);
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 250),
       reverseDuration: Duration.zero,
@@ -81,7 +84,12 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
                     },
                 child: Image.asset(
                   asset,
-                  height: 50,
+                  height: DeviceUtils.minMaxSizeWithMediaQuery(
+                    mediaQuerySize: width,
+                    minSize: 30,
+                    multiplier: 0.08,
+                    maxSize: 50,
+                  ),
                 ),
               ),
             ),
@@ -114,10 +122,10 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
                     project.name,
                     style: TextStyle(
                       height: 0.8,
-                      fontSize: DeviceUtils.minSizeWithMediaQuery(
-                        size.width,
-                        60,
-                        0.08,
+                      fontSize: DeviceUtils.minMaxSizeWithMediaQuery(
+                        mediaQuerySize: size.width,
+                        minSize: 60,
+                        multiplier: 0.08,
                       ),
                       fontWeight: FontWeight.bold,
                     ),
@@ -125,10 +133,10 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
                   Text(
                     project.description,
                     style: TextStyle(
-                      fontSize: DeviceUtils.minSizeWithMediaQuery(
-                        size.width,
-                        16,
-                        0.015,
+                      fontSize: DeviceUtils.minMaxSizeWithMediaQuery(
+                        mediaQuerySize: size.width,
+                        minSize: 16,
+                        multiplier: 0.015,
                       ),
                       fontWeight: FontWeight.w300,
                     ),

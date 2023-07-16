@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfolio/src/providers/main_provider.dart';
-import 'package:portfolio/src/utils/providers.dart';
+import 'package:portfolio/src/providers/providers.dart';
 import 'package:portfolio/src/widgets/header_buttons.dart';
 
 class HeaderWidget extends ConsumerStatefulWidget {
@@ -99,6 +99,7 @@ class _HeaderWidgetState extends ConsumerState<HeaderWidget>
         ),
       ];
 
+  List<String> newString = ['vf', 'fevfe', 'fevfev', 'fevfev', 'fevfev'];
   @override
   Widget build(BuildContext context) {
     final themeMode = ref.watch(themeModeProvider);
@@ -107,6 +108,9 @@ class _HeaderWidgetState extends ConsumerState<HeaderWidget>
     final appTheme = ref.watch(themeProvider);
     final mediaQueryData = MediaQuery.of(context);
     final orientation = mediaQueryData.orientation;
+    if (orientation == Orientation.landscape && isMenuOpen) {
+      closeMenuifOpen();
+    }
     return AnimatedBuilder(
       animation: mainPro.mainPageController,
       builder: (context, child) {
@@ -163,7 +167,44 @@ class _HeaderWidgetState extends ConsumerState<HeaderWidget>
                         children: [
                           HeaderButtons(
                             text: mainPro.getCurrentHeaderText(),
-                            onPressed: () {},
+                            onPressed: () {
+                              if (mainPro.mainPageIndex == 1) {
+                                mainPro.homePageController.animateToPage(
+                                  0,
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.ease,
+                                );
+                              } else if (mainPro.mainPageIndex == 2) {
+                                if (mainPro.projectsPageIndex > 1) {
+                                  mainPro.projectsPageController.animateToPage(
+                                    0,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.ease,
+                                  );
+                                } else {
+                                  mainPro.mainPageController.animateToPage(
+                                    1,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.ease,
+                                  );
+                                }
+                              } else if (mainPro.mainPageIndex == 0) {
+                                if (mainPro.workExperiencePageIndex > 0) {
+                                  mainPro.workExperiencePageController
+                                      .animateToPage(
+                                    0,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.ease,
+                                  );
+                                } else {
+                                  mainPro.mainPageController.animateToPage(
+                                    1,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.ease,
+                                  );
+                                }
+                              }
+                            },
                             active: true,
                           ),
                           ElevatedButton(
@@ -208,9 +249,10 @@ class _HeaderWidgetState extends ConsumerState<HeaderWidget>
                         children: [
                           ...headerButtons(mainPro)
                               .sorted(
-                                (a, b) => ((a.key as ValueKey).value! as String)
-                                    .compareTo(
-                                  (b.key as ValueKey).value! as String,
+                                (a, b) =>
+                                    ((a.key! as ValueKey).value! as String)
+                                        .compareTo(
+                                  (b.key! as ValueKey).value! as String,
                                 ),
                               )
                               .map(
