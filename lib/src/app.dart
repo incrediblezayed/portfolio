@@ -4,7 +4,9 @@ import 'package:portfolio/src/providers/providers.dart';
 import 'package:portfolio/src/ui/dashboard.dart';
 import 'package:portfolio/src/utils/snackbar_utils.dart';
 
+/// The root widget of the application.
 class Portfolio extends ConsumerWidget {
+  /// Creates the root widget of the application.
   const Portfolio({super.key});
 
   @override
