@@ -5,6 +5,7 @@ import 'package:portfolio/src/providers/providers.dart';
 import 'package:portfolio/src/repositories/api_repository.dart';
 import 'package:portfolio/src/utils/device_utils.dart';
 import 'package:portfolio/src/utils/images.dart';
+import 'package:portfolio/src/utils/snackbar_utils.dart';
 import 'package:portfolio/src/widgets/custom_elevated_button.dart';
 import 'package:portfolio/src/widgets/hero_page_text.dart';
 
@@ -61,18 +62,17 @@ class HeroPage extends ConsumerWidget {
                         ),
                       ),
                       onPressed: () async {
+                        SnackbarUtils.showLoadinSnackbar(
+                          message: 'Downloading...',
+                        );
                         final response = await ApiRepository().saveResume();
                         if (response) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Resume Downloaded'),
-                            ),
+                          SnackbarUtils.showSuccessSnackbar(
+                            message: 'Resume Downloaded',
                           );
                         } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Error Downloading Resume'),
-                            ),
+                          SnackbarUtils.showErrorSnackbar(
+                            message: 'Error Downloading Resume',
                           );
                         }
                       },

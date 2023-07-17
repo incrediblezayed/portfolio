@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,6 +6,7 @@ import 'package:portfolio/src/models/enquiry_model.dart';
 import 'package:portfolio/src/providers/providers.dart';
 import 'package:portfolio/src/repositories/enquiry_repository.dart';
 import 'package:portfolio/src/utils/device_utils.dart';
+import 'package:portfolio/src/utils/snackbar_utils.dart';
 import 'package:portfolio/src/widgets/custom_elevated_button.dart';
 
 class ContactForm extends ConsumerWidget {
@@ -152,55 +151,29 @@ class ContactForm extends ConsumerWidget {
                       ),
                     ),
                     onPressed: () async {
-                      void showSnackbar({required Widget content}) {
-                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(SnackBar(content: content));
-                      }
-
                       if (nameController.text.isEmpty) {
-                        showSnackbar(
-                          content: const Text(
-                            'Please enter your name!',
-                          ),
+                        SnackbarUtils.showErrorSnackbar(
+                          message: 'Please enter your name!',
                         );
                         return;
                       }
 
                       if (emailController.text.isEmpty) {
-                        showSnackbar(
-                          content: const Text(
-                            'Please enter your email!',
-                          ),
+                        SnackbarUtils.showErrorSnackbar(
+                          message: 'Please enter your email!',
                         );
                         return;
                       }
 
                       if (messageController.text.isEmpty) {
-                        showSnackbar(
-                          content: const Text(
-                            'Please enter your question!',
-                          ),
+                        SnackbarUtils.showErrorSnackbar(
+                          message: 'Please enter your message!',
                         );
+
                         return;
                       }
-                      showSnackbar(
-                        content: const Row(
-                          children: [
-                            SizedBox.square(
-                              dimension: 26,
-                              child: FittedBox(
-                                child: CircularProgressIndicator(),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              'Submitting...',
-                            ),
-                          ],
-                        ),
+                      SnackbarUtils.showLoadinSnackbar(
+                        message: 'Submitting your enquiry...',
                       );
                       final response = await EnquiryRepository().addEnquiry(
                         EnquiryModel(
@@ -218,18 +191,12 @@ class ContactForm extends ConsumerWidget {
                         emailController.clear();
                         phoneController.clear();
                         messageController.clear();
-
-                        showSnackbar(
-                          content: const Text(
-                            "Submitted Successfully! I'll get back to you soon!",
-                          ),
+                        SnackbarUtils.showSuccessSnackbar(
+                          message: 'Submitted Successfully!',
                         );
                       } else {
-                        log('Failed to submit!');
-                        showSnackbar(
-                          content: const Text(
-                            'Failed to submit! Please try again! later',
-                          ),
+                        SnackbarUtils.showErrorSnackbar(
+                          message: 'Something went wrong!',
                         );
                       }
                     },

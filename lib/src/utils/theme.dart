@@ -139,10 +139,12 @@ class AppTheme {
             backgroundColor: getMaterialStateProperty(
               defaultValue: _baseTheme(dark).colorScheme.primary,
               hovered: _baseTheme(dark).primaryColor,
+              pressed: _baseTheme(dark).primaryColor,
             ),
             foregroundColor: getMaterialStateProperty(
               defaultValue: _baseTheme(dark).colorScheme.onPrimary,
               hovered: _baseTheme(dark).colorScheme.primary,
+              pressed: _baseTheme(dark).colorScheme.primary,
             ),
           ),
         ),
