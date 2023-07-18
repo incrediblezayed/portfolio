@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:portfolio/src/models/experience_model.dart';
-import 'package:portfolio/src/utils/device_utils.dart';
 import 'package:portfolio/src/providers/providers.dart';
+import 'package:portfolio/src/utils/device_utils.dart';
 
 class ExperienceTitleWidget extends ConsumerWidget {
   const ExperienceTitleWidget({required this.experiences, super.key});
@@ -12,7 +12,6 @@ class ExperienceTitleWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final mediaQueryData = MediaQuery.of(context);
-    final theme = Theme.of(context);
     final appTheme = ref.watch(themeProvider);
     final mainPro = ref.watch(mainProvider);
     final width = DeviceUtils.mediaQueryWidth(mediaQueryData);
@@ -96,9 +95,6 @@ class ExperenceDetailWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final mediaQueryData = MediaQuery.of(context);
-    final theme = Theme.of(context);
-    final appTheme = ref.watch(themeProvider);
-    final mainPro = ref.watch(mainProvider);
     final width = DeviceUtils.mediaQueryWidth(mediaQueryData);
     final orientation = mediaQueryData.orientation;
 

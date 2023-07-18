@@ -17,7 +17,7 @@ class ApiRepository {
     Map<String, dynamic>? headers,
   }) async {
     try {
-      final response = await dio.get(
+      final response = await dio.get<dynamic>(
         path,
         queryParameters: queryParameters,
         options: Options(headers: headers),
@@ -40,7 +40,7 @@ class ApiRepository {
     dynamic body,
   }) async {
     try {
-      final response = await dio.post(
+      final response = await dio.post<dynamic>(
         path,
         queryParameters: queryParameters,
         data: body,
@@ -58,7 +58,7 @@ class ApiRepository {
 
   Future<bool> saveResume() async {
     try {
-      final response = await dio.get(
+      final response = await dio.get<dynamic>(
         '/resume/',
       );
       if (response.statusCode == 200) {
