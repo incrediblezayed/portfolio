@@ -4,7 +4,7 @@ class Constants {
   static const String dividerTag = 'dividerTag';
 
   static const String liveUrl =
-      'https://portfoliobe-production-f3a2.up.railway.app/api';
+      'https://api.hassanansari.dev/api';
 
   static const String localUrl = 'http://localhost:3000/api';
   static const String url = liveUrl;
