@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfolio/src/models/project_model.dart';
-import 'package:portfolio/src/ui/project_widget.dart';
 import 'package:portfolio/src/providers/providers.dart';
+import 'package:portfolio/src/ui/project_widget.dart';
 
 class ProjectsPage extends ConsumerWidget {
   const ProjectsPage({required this.projects, super.key});

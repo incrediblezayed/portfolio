@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfolio/src/models/project_model.dart';
+import 'package:portfolio/src/providers/providers.dart';
 import 'package:portfolio/src/utils/device_utils.dart';
 import 'package:portfolio/src/utils/images.dart';
-import 'package:portfolio/src/providers/providers.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class ProjectWidget extends ConsumerStatefulWidget {
@@ -236,3 +236,4 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
     );
   }
 }
+
