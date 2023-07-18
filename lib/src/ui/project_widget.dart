@@ -130,6 +130,9 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  const SizedBox(
+                    height: 8,
+                  ),
                   Text(
                     project.description,
                     style: TextStyle(
@@ -236,4 +239,3 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
     );
   }
 }
-

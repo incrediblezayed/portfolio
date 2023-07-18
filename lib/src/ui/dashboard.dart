@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:portfolio/src/providers/providers.dart';
 import 'package:portfolio/src/ui/home_page.dart';
 import 'package:portfolio/src/ui/projects_page.dart';
 import 'package:portfolio/src/ui/work_experiences.dart';
-import 'package:portfolio/src/providers/providers.dart';
 import 'package:portfolio/src/widgets/header.dart';
 
 class Home extends ConsumerStatefulWidget {
@@ -64,7 +64,7 @@ class _HomeState extends ConsumerState<Home> {
           );
         },
         loading: () {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );

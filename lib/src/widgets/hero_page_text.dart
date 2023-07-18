@@ -1,9 +1,8 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:portfolio/src/providers/providers.dart';
 import 'package:portfolio/src/utils/device_utils.dart';
 import 'package:portfolio/src/utils/muti_color_tween.dart';
-import 'package:portfolio/src/providers/providers.dart';
 
 class HeroPageText extends ConsumerStatefulWidget {
   const HeroPageText({super.key});
@@ -103,15 +102,12 @@ class _HeroPageTextState extends ConsumerState<HeroPageText>
           );
         return SizedBox(
           width: width * 0.9,
-          child: TextLiquidFill(
-            text: text,
-            boxWidth: width,
-            boxBackgroundColor: theme.scaffoldBackgroundColor,
-            waveColor: paint,
-            loadDuration: const Duration(milliseconds: 2000),
-            textStyle: TextStyle(
+          child: Text(
+            text,
+            style: TextStyle(
               fontSize: width * .07,
               fontWeight: FontWeight.bold,
+              foreground: paint,
             ),
           ),
         );

@@ -7,11 +7,6 @@ environment:
   sdk: ">=3.0.2 <4.0.0"
 
 dependencies:
-
-  animated_text_kit:
-    git:
-      url: https://github.com/incrediblezayed/Animated-Text-Kit.git
-      ref: master
   collection: ^1.17.1
   dio: ^5.2.1+1
   file_saver: ^0.2.7

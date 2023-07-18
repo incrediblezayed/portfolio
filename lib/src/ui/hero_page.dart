@@ -42,7 +42,13 @@ class HeroPage extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const HeroPageText(),
+              SizedBox(
+                width: buttonFullWidth,
+                child: const HeroPageText(),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               SizedBox(
                 width: buttonFullWidth,
                 child: Column(
