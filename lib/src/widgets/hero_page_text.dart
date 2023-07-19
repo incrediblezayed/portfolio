@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfolio/src/utils/device_utils.dart';
@@ -25,7 +26,13 @@ class HeroPageText extends ConsumerWidget {
       style: TextStyle(
         fontSize: width * .07,
         fontWeight: FontWeight.bold,
-        foreground: paint,
+        color: !kIsWeb || mediaQueryData.orientation == Orientation.landscape
+            ? null
+            : color1,
+        foreground:
+            !kIsWeb || mediaQueryData.orientation == Orientation.landscape
+                ? paint
+                : null,
       ),
     );
   }
