@@ -108,7 +108,7 @@ class AppTheme {
   }
 
   TextTheme _getTextTheme(bool dark) {
-    return GoogleFonts.openSansTextTheme(_baseTheme(dark).textTheme);
+    return GoogleFonts.hiMelodyTextTheme(_baseTheme(dark).textTheme);
   }
 
   ThemeData _baseTheme(bool dark) => (dark
