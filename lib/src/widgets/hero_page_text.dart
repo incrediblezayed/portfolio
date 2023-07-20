@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/src/utils/device_utils.dart';
 
 class HeroPageText extends ConsumerWidget {
@@ -23,16 +24,19 @@ class HeroPageText extends ConsumerWidget {
       );
     return Text(
       text,
-      style: TextStyle(
+      style: GoogleFonts.hiMelody(
         fontSize: width * .07,
         fontWeight: FontWeight.bold,
-        color: !kIsWeb || mediaQueryData.orientation == Orientation.landscape
+        color: !kIsWeb ||
+                !(defaultTargetPlatform == TargetPlatform.iOS ||
+                    defaultTargetPlatform == TargetPlatform.android)
             ? null
-            : color1,
-        foreground:
-            !kIsWeb || mediaQueryData.orientation == Orientation.landscape
-                ? paint
-                : null,
+            : color2,
+        foreground: !kIsWeb ||
+                !(defaultTargetPlatform == TargetPlatform.iOS ||
+                    defaultTargetPlatform == TargetPlatform.android)
+            ? paint
+            : null,
       ),
     );
   }

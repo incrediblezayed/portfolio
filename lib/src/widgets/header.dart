@@ -1,8 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/src/providers/main_provider.dart';
 import 'package:portfolio/src/providers/providers.dart';
+import 'package:portfolio/src/utils/device_utils.dart';
 import 'package:portfolio/src/widgets/custom_elevated_button.dart';
 import 'package:portfolio/src/widgets/header_buttons.dart';
 
@@ -44,23 +46,10 @@ class _HeaderWidgetState extends ConsumerState<HeaderWidget>
 
   List<Widget> headerButtons(MainProvider mainPro) => [
         HeaderButtons(
-          key: const ValueKey('1'),
+          key: const ValueKey('0'),
           active: mainPro.mainPageIndex == 0,
           onPressed: () {
-            mainPro.mainPageController.animateToPage(
-              0,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.ease,
-            );
-            closeMenuifOpen();
-          },
-          text: 'Work Experience',
-        ),
-        HeaderButtons(
-          key: const ValueKey('0'),
-          active: mainPro.mainPageIndex == 1,
-          onPressed: () {
-            if (mainPro.mainPageIndex == 1) {
+            if (mainPro.mainPageIndex == 0) {
               mainPro.homePageController.animateToPage(
                 0,
                 duration: const Duration(milliseconds: 300),
@@ -68,14 +57,27 @@ class _HeaderWidgetState extends ConsumerState<HeaderWidget>
               );
             } else {
               mainPro.mainPageController.animateToPage(
-                1,
+                0,
                 duration: const Duration(milliseconds: 300),
                 curve: Curves.ease,
               );
             }
             closeMenuifOpen();
           },
-          text: 'HOME',
+          text: 'Home',
+        ),
+        HeaderButtons(
+          key: const ValueKey('1'),
+          active: mainPro.mainPageIndex == 1,
+          onPressed: () {
+            mainPro.mainPageController.animateToPage(
+              1,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.ease,
+            );
+            closeMenuifOpen();
+          },
+          text: 'Work Experience',
         ),
         HeaderButtons(
           key: const ValueKey('2'),
@@ -109,6 +111,7 @@ class _HeaderWidgetState extends ConsumerState<HeaderWidget>
     final appTheme = ref.watch(themeProvider);
     final mediaQueryData = MediaQuery.of(context);
     final orientation = mediaQueryData.orientation;
+    final width = DeviceUtils.mediaQueryWidth(mediaQueryData);
     if (orientation == Orientation.landscape && isMenuOpen) {
       closeMenuifOpen();
     }
@@ -123,31 +126,34 @@ class _HeaderWidgetState extends ConsumerState<HeaderWidget>
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Switch(
-                          value: false,
-                          activeColor: theme.scaffoldBackgroundColor,
-                          inactiveThumbColor: theme.scaffoldBackgroundColor,
-                          inactiveTrackColor: theme.scaffoldBackgroundColor,
-                          activeTrackColor: theme.scaffoldBackgroundColor,
-                          focusColor: theme.scaffoldBackgroundColor,
-                          hoverColor: theme.scaffoldBackgroundColor,
-                          thumbColor: MaterialStateProperty.all(
-                            theme.scaffoldBackgroundColor,
-                          ),
-                          trackColor: MaterialStateProperty.all(
-                            theme.scaffoldBackgroundColor,
-                          ),
-                          trackOutlineColor: MaterialStateProperty.all(
-                            theme.scaffoldBackgroundColor,
-                          ),
-                          overlayColor: MaterialStateProperty.all(
-                            theme.scaffoldBackgroundColor,
-                          ),
-                          onChanged: (value) {},
+                        SizedBox(
+                          width: width * 0.07,
                         ),
+                        name(),
                         const Spacer(),
-                        ...headerButtons(mainPro),
-                        const Spacer(),
+                        Column(
+                          children: [
+                            Row(
+                              children: headerButtons(mainPro),
+                            ),
+                            SizedBox(
+                              width: 130 * 3,
+                              child: AnimatedAlign(
+                                alignment: mainPro.mainPageIndex == 0
+                                    ? Alignment.centerLeft
+                                    : mainPro.mainPageIndex == 1
+                                        ? Alignment.center
+                                        : Alignment.centerRight,
+                                duration: const Duration(milliseconds: 100),
+                                child: Container(
+                                  width: 130,
+                                  height: 1,
+                                  color: theme.colorScheme.onBackground,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                         Switch(
                           value: themeMode != ThemeMode.dark,
                           thumbIcon: appTheme.getMaterialStateProperty(
@@ -166,48 +172,7 @@ class _HeaderWidgetState extends ConsumerState<HeaderWidget>
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          HeaderButtons(
-                            text: mainPro.getCurrentHeaderText(),
-                            onPressed: () {
-                              if (mainPro.mainPageIndex == 1) {
-                                mainPro.homePageController.animateToPage(
-                                  0,
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.ease,
-                                );
-                              } else if (mainPro.mainPageIndex == 2) {
-                                if (mainPro.projectsPageIndex > 1) {
-                                  mainPro.projectsPageController.animateToPage(
-                                    0,
-                                    duration: const Duration(milliseconds: 300),
-                                    curve: Curves.ease,
-                                  );
-                                } else {
-                                  mainPro.mainPageController.animateToPage(
-                                    1,
-                                    duration: const Duration(milliseconds: 300),
-                                    curve: Curves.ease,
-                                  );
-                                }
-                              } else if (mainPro.mainPageIndex == 0) {
-                                if (mainPro.workExperiencePageIndex > 0) {
-                                  mainPro.workExperiencePageController
-                                      .animateToPage(
-                                    0,
-                                    duration: const Duration(milliseconds: 300),
-                                    curve: Curves.ease,
-                                  );
-                                } else {
-                                  mainPro.mainPageController.animateToPage(
-                                    1,
-                                    duration: const Duration(milliseconds: 300),
-                                    curve: Curves.ease,
-                                  );
-                                }
-                              }
-                            },
-                            active: true,
-                          ),
+                          name(),
                           CustomElevatedButton(
                             style: CustomElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(
@@ -281,26 +246,63 @@ class _HeaderWidgetState extends ConsumerState<HeaderWidget>
                     )
                   : Container(),
             ),
-            /* AnimatedContainer(
-              duration: const Duration(milliseconds: 400),
-              width: mediaQueryData.size.width,
-              height: isMenuOpen ? 200 : 0,
-              child: Column(
-                key: ValueKey(isMenuOpen),
-                children: [
-                  ...headerButtons(mainPro),
-                ],
-              ),
-            ), */
-            /* AnimatedSlide(
-              offset: Offset(0, !isMenuOpen ? -2 : 1),
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-              child: 
-            ), */
           ],
         );
       },
     );
   }
+
+  Text name() => Text(
+        'Hassan Ansari',
+        style: GoogleFonts.hiMelody(
+          fontSize: 39,
+          fontWeight: FontWeight.bold,
+        ),
+      );
 }
+
+
+/* 
+HeaderButtons(
+                            text: mainPro.getCurrentHeaderText(),
+                            onPressed: () {
+                              if (mainPro.mainPageIndex == 1) {
+                                mainPro.homePageController.animateToPage(
+                                  0,
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.ease,
+                                );
+                              } else if (mainPro.mainPageIndex == 2) {
+                                if (mainPro.projectsPageIndex > 1) {
+                                  mainPro.projectsPageController.animateToPage(
+                                    0,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.ease,
+                                  );
+                                } else {
+                                  mainPro.mainPageController.animateToPage(
+                                    1,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.ease,
+                                  );
+                                }
+                              } else if (mainPro.mainPageIndex == 0) {
+                                if (mainPro.workExperiencePageIndex > 0) {
+                                  mainPro.workExperiencePageController
+                                      .animateToPage(
+                                    0,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.ease,
+                                  );
+                                } else {
+                                  mainPro.mainPageController.animateToPage(
+                                    1,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.ease,
+                                  );
+                                }
+                              }
+                            },
+                            active: true,
+                          )
+ */

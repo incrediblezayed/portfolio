@@ -21,51 +21,32 @@ class _HomeState extends ConsumerState<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final mainPro = ref.watch(mainProvider);
 
-    final projectsPro = ref.watch(projectsProvider);
     return Scaffold(
-      body: projectsPro.when(
-        data: (data) {
-          return Padding(
-            padding: EdgeInsets.only(
-              top: MediaQuery.of(context).padding.top,
+      body: Padding(
+        padding: EdgeInsets.only(
+          top: MediaQuery.of(context).padding.top,
+        ),
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: kToolbarHeight * 0.9),
+              child: PageView(
+                onPageChanged: (i) {
+                  mainPro.mainPageIndex = i;
+                },
+                controller: mainPro.mainPageController,
+                children: const [
+                  HomePage(),
+                  WorkExperiences(),
+                  ProjectsPage(),
+                ],
+              ),
             ),
-            child: Stack(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: kToolbarHeight * 0.9),
-                  child: PageView(
-                    onPageChanged: (i) {
-                      mainPro.mainPageIndex = i;
-                    },
-                    controller: mainPro.mainPageController,
-                    children: [
-                      const WorkExperiences(),
-                      const HomePage(),
-                      ProjectsPage(
-                        projects: data,
-                      ),
-                    ],
-                  ),
-                ),
-                const HeaderWidget(),
-              ],
-            ),
-          );
-        },
-        error: (error, stackTrace) {
-          return Center(
-            child: SelectableText(
-              error.toString(),
-              style: theme.textTheme.displayLarge,
-            ),
-          );
-        },
-        loading: () {
-          return const Center(child: CircularProgressIndicator());
-        },
+            const HeaderWidget(),
+          ],
+        ),
       ),
     );
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio/src/widgets/custom_elevated_button.dart';
 
 class HeaderButtons extends StatelessWidget {
   const HeaderButtons({
@@ -15,19 +14,31 @@ class HeaderButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return CustomElevatedButton(
-      style: CustomElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
+    final orientation = MediaQuery.of(context).orientation;
+    final isLandscape = orientation == Orientation.landscape;
+    return InkWell(
+      onTap: onPressed,
+      child: AnimatedContainer(
+        height: kToolbarHeight / 2.5,
+        alignment: isLandscape ? Alignment.center : Alignment.centerLeft,
+        duration: const Duration(milliseconds: 300),
+        margin: const EdgeInsets.symmetric(vertical: 12),
+        width: !isLandscape ? MediaQuery.of(context).size.width : 130,
+        decoration: BoxDecoration(
+          border: !isLandscape && active
+              ? Border(
+                  bottom: BorderSide(color: theme.colorScheme.onBackground),
+                )
+              : null,
         ),
-        backgroundColor:
-            active ? theme.colorScheme.primary : theme.scaffoldBackgroundColor,
-        foregroundColor: active
-            ? theme.colorScheme.onPrimary
-            : theme.colorScheme.onBackground,
+        child: Text(
+          text,
+          style: TextStyle(
+            color: theme.colorScheme.onBackground,
+            fontWeight: active ? FontWeight.bold : FontWeight.normal,
+          ),
+        ),
       ),
-      onPressed: onPressed,
-      child: Text(text),
     );
   }
 }

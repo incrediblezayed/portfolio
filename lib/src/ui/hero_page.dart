@@ -105,9 +105,10 @@ class HeroPage extends ConsumerWidget {
                         children: [
                           Expanded(
                             child: CustomElevatedButton.icon(
-                              icon: const Icon(Icons.arrow_left),
+                              iconOnRight: true,
+                              icon: const Icon(Icons.arrow_forward),
                               onPressed: () {
-                                mainPro.mainPageController.previousPage(
+                                mainPro.mainPageController.nextPage(
                                   duration: const Duration(milliseconds: 300),
                                   curve: Curves.ease,
                                 );
@@ -119,9 +120,10 @@ class HeroPage extends ConsumerWidget {
                           Expanded(
                             child: CustomElevatedButton.icon(
                               iconOnRight: true,
-                              icon: const Icon(Icons.arrow_right),
+                              icon: const Icon(Icons.arrow_forward),
                               onPressed: () {
-                                mainPro.mainPageController.nextPage(
+                                mainPro.mainPageController.animateToPage(
+                                  2,
                                   duration: const Duration(milliseconds: 300),
                                   curve: Curves.ease,
                                 );
@@ -149,7 +151,8 @@ class HeroPage extends ConsumerWidget {
                         ),
                       ),
                       onPressed: () {
-                        mainPro.homePageController.nextPage(
+                        mainPro.homePageController.animateTo(
+                          mainPro.homePageController.position.maxScrollExtent,
                           duration: const Duration(milliseconds: 300),
                           curve: Curves.ease,
                         );
