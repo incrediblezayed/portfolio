@@ -252,57 +252,39 @@ class _HeaderWidgetState extends ConsumerState<HeaderWidget>
     );
   }
 
-  Text name() => Text(
-        'Hassan Ansari',
-        style: GoogleFonts.hiMelody(
-          fontSize: 39,
-          fontWeight: FontWeight.bold,
-        ),
-      );
+  Widget name() {
+    final mainPro = ref.watch(mainProvider);
+    final appTheme = ref.watch(themeProvider);
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    return Padding(
+      padding: const EdgeInsets.only(top: 8, left: 8),
+      child: Row(
+        children: [
+          Text(
+            'Hassan Ansari',
+            style: GoogleFonts.hiMelody(
+              fontSize: 39,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          if (!isLandscape) ...[
+            const SizedBox(
+              width: 4,
+            ),
+            CircleAvatar(
+              radius: 2,
+              backgroundColor: appTheme.getAlternatePrimaryColor(),
+            ),
+            const SizedBox(
+              width: 4,
+            ),
+            Text(
+              mainPro.getCurrentHeaderText(),
+            )
+          ]
+        ],
+      ),
+    );
+  }
 }
-
-
-/* 
-HeaderButtons(
-                            text: mainPro.getCurrentHeaderText(),
-                            onPressed: () {
-                              if (mainPro.mainPageIndex == 1) {
-                                mainPro.homePageController.animateToPage(
-                                  0,
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.ease,
-                                );
-                              } else if (mainPro.mainPageIndex == 2) {
-                                if (mainPro.projectsPageIndex > 1) {
-                                  mainPro.projectsPageController.animateToPage(
-                                    0,
-                                    duration: const Duration(milliseconds: 300),
-                                    curve: Curves.ease,
-                                  );
-                                } else {
-                                  mainPro.mainPageController.animateToPage(
-                                    1,
-                                    duration: const Duration(milliseconds: 300),
-                                    curve: Curves.ease,
-                                  );
-                                }
-                              } else if (mainPro.mainPageIndex == 0) {
-                                if (mainPro.workExperiencePageIndex > 0) {
-                                  mainPro.workExperiencePageController
-                                      .animateToPage(
-                                    0,
-                                    duration: const Duration(milliseconds: 300),
-                                    curve: Curves.ease,
-                                  );
-                                } else {
-                                  mainPro.mainPageController.animateToPage(
-                                    1,
-                                    duration: const Duration(milliseconds: 300),
-                                    curve: Curves.ease,
-                                  );
-                                }
-                              }
-                            },
-                            active: true,
-                          )
- */

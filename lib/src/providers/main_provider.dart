@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MainProvider extends ChangeNotifier {
-  int _mainPageIndex = 1;
+  int _mainPageIndex = 0;
   late PageController mainPageController =
       PageController(initialPage: _mainPageIndex);
   int get mainPageIndex => _mainPageIndex;
@@ -39,15 +39,14 @@ class MainProvider extends ChangeNotifier {
 
   String getCurrentHeaderText() {
     switch (_mainPageIndex) {
-      case 0:
-        return 'Work Experience';
       case 1:
-        return 'HOME';
+        return 'Work Experience';
+      case 0:
+        return 'Home';
       case 2:
         return 'Projects';
       default:
-        return 'HOME';
+        return 'Home';
     }
   }
-
 }
