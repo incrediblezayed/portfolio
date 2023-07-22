@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/src/providers/providers.dart';
 
 class AppTheme {
@@ -107,13 +106,22 @@ class AppTheme {
     });
   }
 
-  TextTheme _getTextTheme(bool dark) {
-    return GoogleFonts.varelaRoundTextTheme(_baseTheme(dark).textTheme);
-  }
-
-  ThemeData _baseTheme(bool dark) => (dark
-          ? ThemeData.dark().copyWith(
-              scaffoldBackgroundColor: darkPrimaryColor,
+  ThemeData _baseTheme(bool dark) =>
+      ThemeData(fontFamily: 'MPLUSRounded1c').copyWith(
+        scaffoldBackgroundColor: dark ? darkPrimaryColor : lightPrimaryColor,
+        primaryColor: dark ? darkPrimaryColor : lightPrimaryColor,
+        primaryColorDark: darkPrimaryColor,
+        primaryColorLight: lightPrimaryColor,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: dark ? darkPrimaryColor : lightPrimaryColor,
+          secondary: dark ? lightPrimaryColor : darkPrimaryColor,
+          brightness: dark ? Brightness.dark : Brightness.light,
+        ),
+        useMaterial3: true,
+      );
+/*   (dark
+          ? ThemeData,.dark().copyWith(
+              
               primaryColor: darkPrimaryColor,
               primaryColorDark: darkPrimaryColor,
               primaryColorLight: lightPrimaryColor,
@@ -122,7 +130,7 @@ class AppTheme {
                 secondary: lightPrimaryColor,
                 brightness: Brightness.dark,
               ),
-            )
+            ),
           : ThemeData.light().copyWith(
               scaffoldBackgroundColor: lightPrimaryColor,
               primaryColor: lightPrimaryColor,
@@ -132,15 +140,14 @@ class AppTheme {
                 secondary: darkPrimaryColor,
                 seedColor: lightPrimaryColor,
               ),
-            ))
-      .copyWith(useMaterial3: true);
+            ),)
+      .copyWith(useMaterial3 = true); */
 
   ThemeData _getTheme(bool dark) => _baseTheme(dark).copyWith(
-        textTheme: _getTextTheme(dark),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
             textStyle: MaterialStateProperty.all(
-              _getTextTheme(dark).labelLarge?.copyWith(
+              const TextTheme().labelLarge?.copyWith(
                     fontSize: 18,
                   ),
             ),

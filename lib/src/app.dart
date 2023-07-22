@@ -12,6 +12,7 @@ class Portfolio extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
+      
       themeMode: ref.watch(themeModeProvider),
       theme: ref.read(themeProvider).lightTheme,
       darkTheme: ref.read(themeProvider).darkTheme,
