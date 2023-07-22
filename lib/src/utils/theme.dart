@@ -106,8 +106,8 @@ class AppTheme {
     });
   }
 
-  ThemeData _baseTheme(bool dark) =>
-      ThemeData(fontFamily: 'MPLUSRounded1c').copyWith(
+  ThemeData _baseTheme(bool dark) => ThemeData(
+        fontFamily: 'MPLUSRounded1c',
         scaffoldBackgroundColor: dark ? darkPrimaryColor : lightPrimaryColor,
         primaryColor: dark ? darkPrimaryColor : lightPrimaryColor,
         primaryColorDark: darkPrimaryColor,
