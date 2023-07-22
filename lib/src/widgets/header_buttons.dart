@@ -35,6 +35,7 @@ class HeaderButtons extends StatelessWidget {
           text,
           style: TextStyle(
             color: theme.colorScheme.onBackground,
+            fontSize: 20,
             fontWeight: active ? FontWeight.bold : FontWeight.normal,
           ),
         ),

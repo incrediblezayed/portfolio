@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/src/providers/main_provider.dart';
 import 'package:portfolio/src/providers/providers.dart';
 import 'package:portfolio/src/utils/device_utils.dart';
@@ -261,9 +260,9 @@ class _HeaderWidgetState extends ConsumerState<HeaderWidget>
       padding: const EdgeInsets.only(top: 8, left: 8),
       child: Row(
         children: [
-          Text(
+          const Text(
             'Hassan Ansari',
-            style: GoogleFonts.hiMelody(
+            style: TextStyle(
               fontSize: 39,
               fontWeight: FontWeight.bold,
             ),

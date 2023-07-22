@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/src/utils/device_utils.dart';
 
 class HeroPageText extends ConsumerWidget {
@@ -24,7 +23,7 @@ class HeroPageText extends ConsumerWidget {
       );
     return Text(
       text,
-      style: GoogleFonts.hiMelody(
+      style: TextStyle(
         fontSize: width * .07,
         fontWeight: FontWeight.bold,
         color: !kIsWeb ||

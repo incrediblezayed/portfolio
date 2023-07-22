@@ -108,13 +108,15 @@ class AppTheme {
   }
 
   TextTheme _getTextTheme(bool dark) {
-    return GoogleFonts.hiMelodyTextTheme(_baseTheme(dark).textTheme);
+    return GoogleFonts.varelaRoundTextTheme(_baseTheme(dark).textTheme);
   }
 
   ThemeData _baseTheme(bool dark) => (dark
           ? ThemeData.dark().copyWith(
               scaffoldBackgroundColor: darkPrimaryColor,
               primaryColor: darkPrimaryColor,
+              primaryColorDark: darkPrimaryColor,
+              primaryColorLight: lightPrimaryColor,
               colorScheme: ColorScheme.fromSeed(
                 seedColor: darkPrimaryColor,
                 secondary: lightPrimaryColor,
@@ -124,6 +126,8 @@ class AppTheme {
           : ThemeData.light().copyWith(
               scaffoldBackgroundColor: lightPrimaryColor,
               primaryColor: lightPrimaryColor,
+              primaryColorDark: darkPrimaryColor,
+              primaryColorLight: lightPrimaryColor,
               colorScheme: ColorScheme.fromSeed(
                 secondary: darkPrimaryColor,
                 seedColor: lightPrimaryColor,
@@ -135,6 +139,11 @@ class AppTheme {
         textTheme: _getTextTheme(dark),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
+            textStyle: MaterialStateProperty.all(
+              _getTextTheme(dark).labelLarge?.copyWith(
+                    fontSize: 18,
+                  ),
+            ),
             animationDuration: const Duration(milliseconds: 200),
             backgroundColor: getMaterialStateProperty(
               defaultValue: _baseTheme(dark).colorScheme.primary,
