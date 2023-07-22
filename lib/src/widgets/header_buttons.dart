@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio/src/utils/device_utils.dart';
 
 class HeaderButtons extends StatelessWidget {
   const HeaderButtons({
@@ -13,6 +14,8 @@ class HeaderButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuerySize = MediaQuery.of(context);
+    final width = DeviceUtils.mediaQueryWidth(mediaQuerySize);
     final theme = Theme.of(context);
     final orientation = MediaQuery.of(context).orientation;
     final isLandscape = orientation == Orientation.landscape;
@@ -35,7 +38,12 @@ class HeaderButtons extends StatelessWidget {
           text,
           style: TextStyle(
             color: theme.colorScheme.onBackground,
-            fontSize: 20,
+            fontSize: DeviceUtils.minMaxSizeWithMediaQuery(
+              mediaQuerySize: width,
+              minSize: 12,
+              multiplier: .018,
+              maxSize: 18,
+            ),
             fontWeight: active ? FontWeight.bold : FontWeight.normal,
           ),
         ),
