@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfolio/src/models/project_model.dart';
@@ -47,8 +48,8 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(24),
             key: ValueKey(project.image),
-            child: Image.network(
-              project.image,
+            child: CachedNetworkImage(
+              imageUrl: project.image,
               fit: BoxFit.cover,
             ),
           ),
@@ -194,6 +195,7 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
           ),
           fontWeight: FontWeight.w300,
         ),
+        textAlign: TextAlign.start,
       ),
     );
   }
@@ -228,7 +230,13 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
           children: [
             buildProjectImage(project: project),
             projectTitle(size, project),
-            projectDescription(project, size),
+            SizedBox(
+              width: width,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: projectDescription(project, size),
+              ),
+            ),
             linkButtons(project: project),
           ],
         ),

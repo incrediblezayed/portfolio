@@ -256,14 +256,22 @@ class _HeaderWidgetState extends ConsumerState<HeaderWidget>
     final appTheme = ref.watch(themeProvider);
     final isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
+    final mediaQuery = MediaQuery.of(context);
+    final width = DeviceUtils.mediaQueryWidth(mediaQuery);
+
     return Padding(
       padding: const EdgeInsets.only(top: 8, left: 8),
       child: Row(
         children: [
-          const Text(
+          Text(
             'Hassan Ansari',
             style: TextStyle(
-              fontSize: 39,
+              fontSize: DeviceUtils.minMaxSizeWithMediaQuery(
+                mediaQuerySize: width,
+                minSize: 14,
+                multiplier: 0.05,
+                maxSize: 30,
+              ),
               fontWeight: FontWeight.bold,
             ),
           ),
