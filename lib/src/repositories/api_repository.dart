@@ -4,20 +4,24 @@ import 'package:dio/dio.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:portfolio/src/utils/constants.dart';
 
+/// ApiRepository
+/// This class is used to make api calls
+/// It uses Dio as http client
 class ApiRepository {
-  final Dio dio = Dio(
+  final Dio _dio = Dio(
     BaseOptions(
       baseUrl: Constants.url,
     ),
   );
 
+  /// Get method
   Future<dynamic> get(
     String path, {
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? headers,
   }) async {
     try {
-      final response = await dio.get<dynamic>(
+      final response = await _dio.get<dynamic>(
         path,
         queryParameters: queryParameters,
         options: Options(headers: headers),
@@ -32,6 +36,7 @@ class ApiRepository {
     }
   }
 
+  /// Post method
   Future<dynamic> post(
     String path, {
     Map<String, dynamic>? queryParameters,
@@ -40,7 +45,7 @@ class ApiRepository {
     dynamic body,
   }) async {
     try {
-      final response = await dio.post<dynamic>(
+      final response = await _dio.post<dynamic>(
         path,
         queryParameters: queryParameters,
         data: body,
@@ -56,9 +61,10 @@ class ApiRepository {
     }
   }
 
+  /// Method to save resume
   Future<bool> saveResume() async {
     try {
-      final response = await dio.get<dynamic>(
+      final response = await _dio.get<dynamic>(
         '/resume/',
       );
       if (response.statusCode == 200) {

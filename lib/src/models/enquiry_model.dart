@@ -64,11 +64,6 @@ class EnquiryModel {
       EnquiryModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() {
-    return 'EnquiryModel(id: $id, name: $name, email: $email, message: $message, phone: $phone, createdAt: $createdAt)';
-  }
-
-  @override
   bool operator ==(covariant EnquiryModel other) {
     if (identical(this, other)) return true;
 

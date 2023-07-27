@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
+/// Utility class for showing snackbar
 class SnackbarUtils {
+  /// Key for the snackbar
   static GlobalKey<ScaffoldMessengerState> snackbarKey =
       GlobalKey<ScaffoldMessengerState>();
 
+  /// Shows a success snackbar
   static void showSuccessSnackbar({required String message}) {
     hideCurrentSnackbar();
     snackbarKey.currentState?.showSnackBar(
@@ -14,6 +17,7 @@ class SnackbarUtils {
     );
   }
 
+  /// Shows an error snackbar
   static void showErrorSnackbar({required String message}) {
     hideCurrentSnackbar();
     snackbarKey.currentState?.showSnackBar(
@@ -24,6 +28,7 @@ class SnackbarUtils {
     );
   }
 
+  /// Shows a loading snackbar
   static void showLoadinSnackbar({String message = 'Loading...'}) {
     hideCurrentSnackbar();
     snackbarKey.currentState?.showSnackBar(
@@ -46,6 +51,7 @@ class SnackbarUtils {
     );
   }
 
+  /// Hides the current snackbar
   static void hideCurrentSnackbar() {
     snackbarKey.currentState?.hideCurrentSnackBar();
   }

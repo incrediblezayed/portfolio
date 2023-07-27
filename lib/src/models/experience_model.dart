@@ -70,11 +70,6 @@ class ExperienceModel {
       ExperienceModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() {
-    return 'ExperienceModel(id: $id, position: $position, company: $company,website: $website location: $location, achievements: $achievements, startDate: $startDate, endDate: $endDate, createdAt: $createdAt)';
-  }
-
-  @override
   bool operator ==(covariant ExperienceModel other) {
     if (identical(this, other)) return true;
 

@@ -9,7 +9,6 @@ import 'package:portfolio/src/widgets/header_buttons.dart';
 
 class HeaderWidget extends ConsumerStatefulWidget {
   const HeaderWidget({super.key});
-  static const String routeName = 'HeaderWidget';
 
   @override
   ConsumerState<HeaderWidget> createState() => _HeaderWidgetState();

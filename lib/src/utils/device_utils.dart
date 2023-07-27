@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+/// Class for the device utils
 class DeviceUtils {
+  /// Method to get the current platform
   static String getCurrentPlaform() {
     if (kIsWeb) {
       return 'Web';
@@ -24,6 +26,7 @@ class DeviceUtils {
     }
   }
 
+  /// Method to get the media query width
   static double mediaQueryWidth(MediaQueryData mediaQueryData) {
     if (mediaQueryData.orientation == Orientation.landscape) {
       return mediaQueryData.size.width / 2;
@@ -32,6 +35,7 @@ class DeviceUtils {
     }
   }
 
+  /// Method to get the size from mediaquery with min and max size
   static double minMaxSizeWithMediaQuery({
     required double mediaQuerySize,
     required double minSize,
@@ -48,6 +52,7 @@ class DeviceUtils {
     }
   }
 
+  /// Method to get the OS version
   static String getOSVersion() {
     if (kIsWeb) {
       return '';
