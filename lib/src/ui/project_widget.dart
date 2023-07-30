@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfolio/src/models/project_model.dart';
@@ -6,13 +7,15 @@ import 'package:portfolio/src/utils/device_utils.dart';
 import 'package:portfolio/src/utils/images.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+/// ProjectWidget for displaying projects
 class ProjectWidget extends ConsumerStatefulWidget {
+  /// ProjectWidget for displaying projects
   const ProjectWidget({
     required this.projects,
-    required this.length,
     super.key,
   });
-  final int length;
+
+  /// List of projects
   final List<ProjectModel> projects;
 
   @override
@@ -26,7 +29,7 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
   Widget buildProjectImage({required ProjectModel project}) {
     final mediaQueryData = MediaQuery.of(context);
     final size = mediaQueryData.size;
-    final width = DeviceUtils.mediaQueryWidth(mediaQueryData);
+
     final isLandscape = mediaQueryData.orientation == Orientation.landscape;
     return IgnorePointer(
       child: SizedBox(
@@ -47,8 +50,8 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(24),
             key: ValueKey(project.image),
-            child: Image.network(
-              project.image,
+            child: CachedNetworkImage(
+              imageUrl: project.image,
               fit: BoxFit.cover,
             ),
           ),
@@ -63,7 +66,7 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
     void Function()? onPressed,
   }) {
     final mediaQueryData = MediaQuery.of(context);
-    final size = mediaQueryData.size;
+
     final width = DeviceUtils.mediaQueryWidth(mediaQueryData);
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 250),
@@ -127,8 +130,7 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
   Widget buildProjectDetailsLandscape({required ProjectModel project}) {
     final mediaQueryData = MediaQuery.of(context);
     final size = mediaQueryData.size;
-    final width = DeviceUtils.mediaQueryWidth(mediaQueryData);
-    final isLandscape = mediaQueryData.orientation == Orientation.landscape;
+
     return SizedBox(
       width: size.width / 2,
       child: Column(
@@ -194,6 +196,7 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
           ),
           fontWeight: FontWeight.w300,
         ),
+        textAlign: TextAlign.start,
       ),
     );
   }
@@ -228,7 +231,13 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
           children: [
             buildProjectImage(project: project),
             projectTitle(size, project),
-            projectDescription(project, size),
+            SizedBox(
+              width: width,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: projectDescription(project, size),
+              ),
+            ),
             linkButtons(project: project),
           ],
         ),

@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfolio/src/providers/providers.dart';
 import 'package:portfolio/src/ui/project_widget.dart';
 
+/// ProjectsPage for displaying projects
 class ProjectsPage extends ConsumerWidget {
+  /// ProjectsPage for displaying projects
   const ProjectsPage({super.key});
 
   @override
@@ -81,7 +83,6 @@ class ProjectsPage extends ConsumerWidget {
                 ),
                 ProjectWidget(
                   projects: projects,
-                  length: projects.length,
                 ),
               ],
             ),

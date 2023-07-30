@@ -3,7 +3,6 @@ import 'package:portfolio/src/utils/device_utils.dart';
 
 class OSInfo extends StatelessWidget {
   const OSInfo({super.key});
-  static const String routeName = 'OSInfo';
 
   @override
   Widget build(BuildContext context) {

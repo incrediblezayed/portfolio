@@ -3,22 +3,31 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfolio/src/utils/device_utils.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+/// SocialButton for displaying social buttons
 class SocialButton extends StatefulWidget {
+  /// SocialButton for displaying social buttons
   const SocialButton({
     required this.icon,
     required this.iconColor,
     required this.socialName,
     this.onPressed,
-//    required this.theme,
     this.url,
     super.key,
-  }) : assert(url != null || onPressed != null);
+  }) : assert(url != null || onPressed != null, 'url or onPressed is required');
 
+  /// Icon for the social button
   final IconData icon;
+
+  /// Icon color for the social button
   final Color iconColor;
+
+  /// Url for the social button
   final String? url;
+
+  /// Social name for the social button
   final String socialName;
-  //final ThemeData theme;
+
+  /// OnPressed for the social button
   final void Function()? onPressed;
 
   @override

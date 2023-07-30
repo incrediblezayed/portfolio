@@ -34,8 +34,8 @@ class ExperienceTitleWidget extends ConsumerWidget {
               fontSize: DeviceUtils.minMaxSizeWithMediaQuery(
                 mediaQuerySize: width,
                 minSize: 16,
-                multiplier: 0.09,
-                maxSize: isLandscape ? 70 : 40,
+                multiplier: 0.08,
+                maxSize: isLandscape ? 70 : 36,
               ),
             ),
           ),
@@ -119,8 +119,8 @@ class ExperenceDetailWidget extends ConsumerWidget {
                 fontSize: DeviceUtils.minMaxSizeWithMediaQuery(
                   mediaQuerySize: width,
                   minSize: 16,
-                  multiplier: 0.07,
-                  maxSize: 40,
+                  multiplier: 0.05,
+                  maxSize: 30,
                 ),
               ),
             ),
@@ -140,8 +140,8 @@ class ExperenceDetailWidget extends ConsumerWidget {
                       size: DeviceUtils.minMaxSizeWithMediaQuery(
                         mediaQuerySize: width,
                         minSize: 16,
-                        multiplier: 0.06,
-                        maxSize: 22,
+                        multiplier: 0.05,
+                        maxSize: 20,
                       ),
                     ),
                     const SizedBox(
@@ -156,8 +156,8 @@ class ExperenceDetailWidget extends ConsumerWidget {
                           fontSize: DeviceUtils.minMaxSizeWithMediaQuery(
                             mediaQuerySize: width,
                             minSize: 16,
-                            multiplier: 0.06,
-                            maxSize: 22,
+                            multiplier: 0.05,
+                            maxSize: 20,
                           ),
                         ),
                       ),

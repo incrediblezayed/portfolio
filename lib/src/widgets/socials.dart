@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:portfolio/src/utils/device_utils.dart';
 import 'package:portfolio/src/providers/providers.dart';
+import 'package:portfolio/src/utils/device_utils.dart';
 import 'package:portfolio/src/widgets/social_buttons.dart';
 
+/// Widget for the social buttons
 class Socials extends ConsumerWidget {
+  /// Constructor for the social buttons
   const Socials({super.key});
-  static const String routeName = 'Socials';
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) =>
-      'Socials';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
