@@ -6,7 +6,6 @@ import 'package:portfolio/src/widgets/footer.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
-  static const String routeName = 'HomePage';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
