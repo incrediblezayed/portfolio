@@ -6,17 +6,128 @@ import 'package:portfolio/src/ui/projects_page.dart';
 import 'package:portfolio/src/ui/work_experiences.dart';
 import 'package:portfolio/src/widgets/header.dart';
 
-class Home extends ConsumerStatefulWidget {
-  const Home({super.key});
+class Dashboard extends ConsumerStatefulWidget {
+  const Dashboard({super.key});
 
   @override
-  ConsumerState<Home> createState() => _HomeState();
+  ConsumerState<Dashboard> createState() => _HomeState();
 }
 
-class _HomeState extends ConsumerState<Home> {
+class _HomeState extends ConsumerState<Dashboard>
+    with TickerProviderStateMixin {
+  late AnimationController _controller;
+  late AnimationController _waveHeightController;
+  late Animation<double> _waveHeightAnimation;
+
   @override
   void initState() {
     super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 3000),
+      vsync: this,
+    );
+    _controller.repeat();
+    _waveHeightController = AnimationController(
+      duration: const Duration(milliseconds: 2000),
+      vsync: this,
+    );
+    _waveHeightAnimation = Tween<double>(begin: 0, end: 1).animate(
+      _waveHeightController,
+    );
+  }
+
+  GlobalKey textKey = GlobalKey();
+
+  Widget _buildWave(double height) {
+    final size = MediaQuery.sizeOf(context);
+    final appTheme = ref.watch(themeProvider);
+
+    return SizedBox(
+      width: size.width,
+      height: size.height,
+      child: CustomPaint(
+        painter: WavePainter(
+          textKey: textKey,
+          controller: _controller,
+          waves: 3,
+          waveAmplitude: 50,
+          waveColor: appTheme.getAlternatePrimaryColor(),
+          loadingStep: size.height - (size.height * height),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAnimation(double loadingStep) {
+    final theme = Theme.of(context);
+
+    final size = MediaQuery.sizeOf(context);
+
+    return SizedBox(
+      width: size.width,
+      height: size.height,
+      child: Stack(
+        children: [
+          _buildWave(loadingStep),
+          SizedBox(
+            width: size.width,
+            height: size.height,
+            child: ShaderMask(
+              blendMode: BlendMode.srcOut,
+              shaderCallback: (bounds) => LinearGradient(
+                colors: [theme.primaryColor],
+                stops: const [0.0],
+              ).createShader(bounds),
+              child: Container(
+                color: Colors.transparent,
+                width: size.width,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        width: size.width,
+                        child: FittedBox(
+                          child: Column(
+                            children: [
+                              const Text(
+                                'Loading...',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w100,
+                                ),
+                              ),
+                              AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 500),
+                                child: Text(
+                                  '${(loadingStep * 100).floor()}%',
+                                  key: ValueKey(loadingStep.floor()),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w100,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const Text(
+                      'Welcome to my portfolio!',
+                      style: TextStyle(
+                        fontSize: 30,
+                      ),
+                    ),
+                    SizedBox(
+                      width: size.width,
+                      height: 20,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   @override
@@ -24,30 +135,122 @@ class _HomeState extends ConsumerState<Home> {
     final mainPro = ref.watch(mainProvider);
 
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.only(
-          top: MediaQuery.of(context).padding.top,
-        ),
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: kToolbarHeight * 0.9),
-              child: PageView(
-                onPageChanged: (i) {
-                  mainPro.mainPageIndex = i;
-                },
-                controller: mainPro.mainPageController,
-                children: const [
-                  HomePage(),
-                  WorkExperiences(),
-                  ProjectsPage(),
+      body: mainPro.loadingStep == 5
+          ? Padding(
+              padding: EdgeInsets.only(
+                top: MediaQuery.of(context).padding.top,
+              ),
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: kToolbarHeight * 0.9),
+                    child: PageView(
+                      onPageChanged: (i) {
+                        mainPro.mainPageIndex = i;
+                      },
+                      controller: mainPro.mainPageController,
+                      children: const [
+                        HomePage(),
+                        WorkExperiences(),
+                        ProjectsPage(),
+                      ],
+                    ),
+                  ),
+                  const HeaderWidget(),
                 ],
               ),
+            )
+          : AnimatedBuilder(
+              animation: _controller,
+              builder: (context, child) {
+                if (mainPro.loadingStep == 1) {
+                  _waveHeightController.animateTo(.25);
+                } else if (mainPro.loadingStep == 2) {
+                  _waveHeightController.animateTo(.5);
+                } else if (mainPro.loadingStep == 3) {
+                  _waveHeightController.animateTo(.75);
+                } else if (mainPro.loadingStep == 4) {
+                  _waveHeightController.animateTo(1);
+                }
+                return _buildAnimation(_waveHeightController.value);
+              },
             ),
-            const HeaderWidget(),
-          ],
-        ),
-      ),
     );
   }
+}
+
+class WavePainter extends CustomPainter {
+  WavePainter({
+    required Animation<double> controller,
+    required this.waves,
+    required this.waveAmplitude,
+    required this.textKey,
+    required this.waveColor,
+    required this.loadingStep,
+  }) : _controller = controller {
+    _position = Tween(begin: 0.toDouble(), end: 1.toDouble())
+        .chain(CurveTween(curve: Curves.linear))
+        .animate(_controller);
+  }
+  //static const _pi2 = 2 * pi;
+  final GlobalKey textKey;
+  late final Animation<double> _position;
+  final Animation<double> _controller;
+  final Color waveColor;
+  final double loadingStep;
+
+  /// Number of waves to paint.
+  final int waves;
+
+  /// How high the wave should be.
+  final double waveAmplitude;
+  int get _waveSegments => 2 * waves - 1;
+
+  double waveHeight(double height) {
+    ///final newheight = height - ((height / 4) * loadingStep);
+    return loadingStep;
+  }
+
+  void _drawWave(Path path, int wave, Size size) {
+    final waveWidth = size.width / _waveSegments;
+    final waveMinHeight = waveHeight(size.height);
+
+    final x1 = wave * waveWidth + waveWidth / 2;
+    // Minimum and maximum height points of the waves.
+    final y1 = waveMinHeight + (wave.isOdd ? waveAmplitude : -waveAmplitude);
+
+    final x2 = x1 + waveWidth / 2;
+    final y2 = waveMinHeight;
+
+    path.quadraticBezierTo(x1, y1, x2, y2);
+    if (wave <= _waveSegments) {
+      _drawWave(path, wave + 1, size);
+    }
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = waveColor
+      ..style = PaintingStyle.fill;
+
+    // Draw the waves
+    final path = Path()..moveTo(0, waveHeight(size.height));
+    _drawWave(path, 0, size);
+
+    // Draw lines to the bottom corners of the size/screen with account for one extra wave.
+    final waveWidth = (size.width / _waveSegments) * 2;
+    path
+      ..lineTo(size.width + waveWidth, size.height)
+      ..lineTo(0, size.height)
+      ..lineTo(0, waveHeight(size.height))
+      ..close();
+
+    // Animate sideways one wave length, so it repeats cleanly.
+    final shiftedPath = path.shift(Offset(-_position.value * waveWidth, 0));
+    canvas.drawPath(shiftedPath, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
 }

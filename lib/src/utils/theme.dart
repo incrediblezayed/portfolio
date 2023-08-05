@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfolio/src/providers/providers.dart';
+import 'package:portfolio/src/utils/constants.dart';
 
 class AppTheme {
   AppTheme(this.ref);
@@ -26,7 +27,7 @@ class AppTheme {
   void cycleThroughThemeModes() {
     switch (themeMode) {
       case ThemeMode.system:
-        setThemeMode(ThemeMode.light);
+        setThemeMode(ThemeMode.system);
       case ThemeMode.light:
         setThemeMode(ThemeMode.dark);
       case ThemeMode.dark:
@@ -59,13 +60,21 @@ class AppTheme {
   Color getAlternatePrimaryColor() {
     switch (themeMode) {
       case ThemeMode.system:
-        return lightPrimaryColor;
+        return systemThemeMode == ThemeMode.dark
+            ? lightPrimaryColor
+            : darkPrimaryColor;
       case ThemeMode.light:
         return darkPrimaryColor;
       case ThemeMode.dark:
         return lightPrimaryColor;
     }
   }
+
+  ThemeMode get systemThemeMode =>
+      MediaQuery.of(Constants.gloablContext!).platformBrightness ==
+              Brightness.dark
+          ? ThemeMode.dark
+          : ThemeMode.light;
 
   IconData getThemeIconHovered() {
     switch (themeMode) {
@@ -190,7 +199,10 @@ class AppTheme {
     final currentThemeMode = ref.read(themeModeProvider.notifier).state;
     switch (currentThemeMode) {
       case ThemeMode.system:
-        return lightTheme;
+        return MediaQuery.platformBrightnessOf(Constants.gloablContext!) ==
+                Brightness.dark
+            ? darkTheme
+            : lightTheme;
       case ThemeMode.light:
         return lightTheme;
       case ThemeMode.dark:

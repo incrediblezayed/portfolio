@@ -1,5 +1,9 @@
+import 'package:flutter/material.dart';
+
 /// Constants class
 class Constants {
+  static BuildContext? gloablContext;
+
   /// Live url for api
   static const String liveUrl = 'https://api.hassanansari.dev/api';
 
@@ -17,4 +21,7 @@ class Constants {
 
   ///Url for enquiry api
   static const String enquiryUrl = '/contact/';
+
+  ///Url for tech stack api
+  static const String techStackUrl = '/techStacks/';
 }
