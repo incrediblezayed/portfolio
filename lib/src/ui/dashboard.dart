@@ -4,6 +4,7 @@ import 'package:portfolio/src/providers/providers.dart';
 import 'package:portfolio/src/ui/home_page.dart';
 import 'package:portfolio/src/ui/projects_page.dart';
 import 'package:portfolio/src/ui/work_experiences.dart';
+import 'package:portfolio/src/utils/device_utils.dart';
 import 'package:portfolio/src/widgets/header.dart';
 
 class Dashboard extends ConsumerStatefulWidget {
@@ -41,7 +42,7 @@ class _HomeState extends ConsumerState<Dashboard>
   Widget _buildWave(double height) {
     final size = MediaQuery.sizeOf(context);
     final appTheme = ref.watch(themeProvider);
-
+    final theme = Theme.of(context);
     return SizedBox(
       width: size.width,
       height: size.height,
@@ -51,7 +52,14 @@ class _HomeState extends ConsumerState<Dashboard>
           controller: _controller,
           waves: 3,
           waveAmplitude: 50,
-          waveColor: appTheme.getAlternatePrimaryColor(),
+          waveColor: LinearGradient(
+            colors: [
+              theme.colorScheme.onPrimary,
+              appTheme.getAlternatePrimaryColor(),
+            ],
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+          ),
           loadingStep: size.height - (size.height * height),
         ),
       ),
@@ -62,6 +70,7 @@ class _HomeState extends ConsumerState<Dashboard>
     final theme = Theme.of(context);
 
     final size = MediaQuery.sizeOf(context);
+    final width = DeviceUtils.mediaQueryWidth(MediaQuery.of(context));
 
     return SizedBox(
       width: size.width,
@@ -81,44 +90,60 @@ class _HomeState extends ConsumerState<Dashboard>
               child: Container(
                 color: Colors.transparent,
                 width: size.width,
-                child: Column(
+                child: Row(
                   children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        height: size.height,
+                        width: size.width * .1,
+                        color: theme.primaryColor,
+                      ),
+                    ),
                     Expanded(
-                      child: SizedBox(
-                        width: size.width,
-                        child: FittedBox(
-                          child: Column(
-                            children: [
-                              const Text(
-                                'Loading...',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w100,
-                                ),
-                              ),
-                              AnimatedSwitcher(
-                                duration: const Duration(milliseconds: 500),
+                      child: Padding(
+                        padding: const EdgeInsets.all(30),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: width * 1.3,
+                              child: const FittedBox(
                                 child: Text(
-                                  '${(loadingStep * 100).floor()}%',
-                                  key: ValueKey(loadingStep.floor()),
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w100,
+                                  'Loading...',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w900,
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                            SizedBox(
+                              width: width * 1.2,
+                              height: size.height * .4,
+                              child: FittedBox(
+                                child: Text(
+                                  '${(loadingStep * 100).floor()}%',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: width * .5,
+                              child: const FittedBox(
+                                child: Text(
+                                  'Welcome!!!',
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    const Text(
-                      'Welcome to my portfolio!',
-                      style: TextStyle(
-                        fontSize: 30,
-                      ),
-                    ),
-                    SizedBox(
-                      width: size.width,
-                      height: 20,
                     ),
                   ],
                 ),
@@ -196,7 +221,7 @@ class WavePainter extends CustomPainter {
   final GlobalKey textKey;
   late final Animation<double> _position;
   final Animation<double> _controller;
-  final Color waveColor;
+  final Gradient waveColor;
   final double loadingStep;
 
   /// Number of waves to paint.
@@ -231,7 +256,8 @@ class WavePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = waveColor
+      ..shader =
+          waveColor.createShader(Rect.fromLTWH(0, 0, size.width, size.height))
       ..style = PaintingStyle.fill;
 
     // Draw the waves
