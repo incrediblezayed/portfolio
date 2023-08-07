@@ -103,13 +103,14 @@ class _HeaderWidgetState extends ConsumerState<HeaderWidget>
   List<String> newString = ['vf', 'fevfe', 'fevfev', 'fevfev', 'fevfev'];
   @override
   Widget build(BuildContext context) {
-    final themeMode = ref.watch(themeModeProvider);
     final mainPro = ref.watch(mainProvider);
     final theme = Theme.of(context);
     final appTheme = ref.watch(themeProvider);
+    final themeMode = appTheme.exactThemeMode;
     final mediaQueryData = MediaQuery.of(context);
     final orientation = mediaQueryData.orientation;
     final width = DeviceUtils.mediaQueryWidth(mediaQueryData);
+    final platformBrightness = mediaQueryData.platformBrightness;
     if (orientation == Orientation.landscape && isMenuOpen) {
       closeMenuifOpen();
     }

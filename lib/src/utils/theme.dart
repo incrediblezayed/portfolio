@@ -76,6 +76,12 @@ class AppTheme {
           ? ThemeMode.dark
           : ThemeMode.light;
 
+  ThemeMode get exactThemeMode => themeMode == ThemeMode.system
+      ? systemThemeMode
+      : themeMode == ThemeMode.light
+          ? ThemeMode.light
+          : ThemeMode.dark;
+
   IconData getThemeIconHovered() {
     switch (themeMode) {
       case ThemeMode.system:
