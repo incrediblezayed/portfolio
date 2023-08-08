@@ -14,6 +14,7 @@ class ExperienceModel {
   final DateTime startDate;
   final DateTime? endDate;
   final DateTime createdAt;
+  final bool isAtive;
   const ExperienceModel({
     required this.id,
     required this.position,
@@ -24,6 +25,7 @@ class ExperienceModel {
     required this.startDate,
     required this.createdAt,
     this.endDate,
+    this.isAtive = false,
   });
 
   ExperienceModel copyWith({
@@ -36,6 +38,7 @@ class ExperienceModel {
     DateTime? startDate,
     DateTime? endDate,
     DateTime? createdAt,
+    bool? isAtive,
   }) {
     return ExperienceModel(
       id: id ?? this.id,
@@ -47,6 +50,7 @@ class ExperienceModel {
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
       createdAt: createdAt ?? this.createdAt,
+      isAtive: isAtive ?? this.isAtive,
     );
   }
 
@@ -63,6 +67,7 @@ class ExperienceModel {
           ? DateTime.parse(map['endDate'].toString())
           : null,
       createdAt: DateTime.parse(map['createdAt'].toString()),
+      isAtive: map['isAtive'] as bool? ?? false,
     );
   }
 
@@ -81,7 +86,8 @@ class ExperienceModel {
         listEquals(other.achievements, achievements) &&
         other.startDate == startDate &&
         other.endDate == endDate &&
-        other.createdAt == createdAt;
+        other.createdAt == createdAt &&
+        other.isAtive == isAtive;
   }
 
   @override
@@ -94,6 +100,7 @@ class ExperienceModel {
         achievements.hashCode ^
         startDate.hashCode ^
         endDate.hashCode ^
-        createdAt.hashCode;
+        createdAt.hashCode ^
+        isAtive.hashCode;
   }
 }

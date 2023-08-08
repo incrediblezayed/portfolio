@@ -14,6 +14,7 @@ class ExperienceRepository {
             .map<ExperienceModel>(
               (e) => ExperienceModel.fromMap(e as Map<String, dynamic>),
             )
+            .where((element) => element.isAtive)
             .toList();
       } else {
         throw Exception('Failed to load data');
