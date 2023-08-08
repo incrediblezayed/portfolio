@@ -23,11 +23,10 @@ class ExperienceTitleWidget extends ConsumerWidget {
       return Column(
         key: ValueKey(experienceModel.company),
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment:
-            isRight ? CrossAxisAlignment.start : CrossAxisAlignment.end,
         children: [
           Text(
             experienceModel.company,
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: appTheme.getAlternatePrimaryColor(),
               fontWeight: FontWeight.bold,
