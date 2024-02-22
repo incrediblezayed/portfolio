@@ -8,7 +8,7 @@ class HeroPageText extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const text = "Hello, I'm Hassan Ansari\nFull-Stack Developer";
+    const text = 'Hello,\nThis is Hassan Ansari\nFull-Stack Developer';
     const Color color1 = Colors.indigo;
     const Color color2 = Colors.purple;
     final mediaQueryData = MediaQuery.of(context);

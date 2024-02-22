@@ -2,10 +2,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:portfolio/src/models/techstack_model.dart';
+
 
 @immutable
-class ProjectModel {
-  const ProjectModel({
+class ProjectModel   {
+  ProjectModel({
     required this.name,
     required this.description,
     required this.image,
@@ -17,6 +19,7 @@ class ProjectModel {
     required this.githubUrl,
     required this.createdAt,
     this.id = '',
+    this.techStacks = const [],
   });
 
   final String id;
@@ -30,6 +33,7 @@ class ProjectModel {
   final DateTime createdAt;
   final DateTime startDate;
   final DateTime endDate;
+  final List<TechStackModel> techStacks;
 
   ProjectModel copyWith({
     String? id,
@@ -43,6 +47,7 @@ class ProjectModel {
     DateTime? createdAt,
     DateTime? startDate,
     DateTime? endDate,
+    List<TechStackModel>? techStacks,
   }) {
     return ProjectModel(
       id: id ?? this.id,
@@ -56,9 +61,11 @@ class ProjectModel {
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
       githubUrl: githubUrl ?? this.githubUrl,
+      techStacks: techStacks ?? this.techStacks,
     );
   }
 
+  @override
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'name': name,
@@ -70,9 +77,11 @@ class ProjectModel {
       'githubUrl': githubUrl,
       'startDate': startDate.toUtc().toIso8601String(),
       'endDate': endDate.toUtc().toIso8601String(),
+      'techStacks': techStacks.map((e) => e.toMap()).toList(),
     };
   }
 
+  @override
   factory ProjectModel.fromMap(Map<String, dynamic> map) {
     return ProjectModel(
       id: map['id'] as String? ?? '',
@@ -88,6 +97,9 @@ class ProjectModel {
       endDate: DateTime.parse(map['endDate'].toString()),
     );
   }
+
+  @override
+  String toJson() => json.encode(toMap());
 
   @override
   factory ProjectModel.fromJson(String source) =>

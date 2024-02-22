@@ -19,6 +19,7 @@ dependencies:
   get_it: ^7.6.0
   intl: ^0.18.1
   liquid_progress_indicator_v2: ^0.5.0
+  palette_generator: ^0.3.3+3
   responsive_builder: ^0.7.0
   url_launcher: ^6.1.11
   very_good_analysis: ^5.0.0+1

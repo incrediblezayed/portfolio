@@ -1,10 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfolio/src/providers/providers.dart';
 import 'package:portfolio/src/repositories/api_repository.dart';
 import 'package:portfolio/src/utils/device_utils.dart';
-import 'package:portfolio/src/utils/images.dart';
 import 'package:portfolio/src/utils/snackbar_utils.dart';
 import 'package:portfolio/src/widgets/custom_elevated_button.dart';
 import 'package:portfolio/src/widgets/hero_page_text.dart';
@@ -27,10 +27,15 @@ class HeroPage extends ConsumerWidget {
     final buttonFullWidth = mediaQueryData.orientation == Orientation.landscape
         ? width * 0.8
         : width;
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(
+        milliseconds: 100,
+      ),
       height: mediaQueryData.size.height,
       width: mediaQueryData.size.width,
-      alignment: Alignment.topCenter,
+      alignment: mediaQueryData.orientation == Orientation.portrait
+          ? Alignment.topCenter
+          : Alignment.center,
       padding: EdgeInsets.all(width * 0.05),
       child: Wrap(
         alignment: WrapAlignment.center,
@@ -130,7 +135,7 @@ class HeroPage extends ConsumerWidget {
                               },
                               label: const Text('My Projects'),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -165,14 +170,41 @@ class HeroPage extends ConsumerWidget {
               ),
             ],
           ),
+          const SizedBox(
+            width: 20,
+          ),
           Padding(
-            padding: const EdgeInsets.only(top: 24),
-            child: Image.asset(
-              AppImages.heroImage,
-              width: width * 0.9,
-              height: height * 0.8,
+            padding: const EdgeInsets.only(top: 24, left: 24),
+            child: SizedBox(
+              width: width,
+              child: Wrap(
+                key: UniqueKey(),
+                spacing: 12,
+                runSpacing: 12,
+                children: [
+                  Text(
+                    'My Tech Arsenal:',
+                    style: theme.textTheme.displaySmall,
+                  ),
+                  ...mainPro.techStack.map(
+                    (e) => ActionChip(
+                      onPressed: () {},
+                      pressElevation: 3,
+                      avatar: CachedNetworkImage(imageUrl: e.image),
+                      label: Text(e.name),
+                      color: MaterialStateProperty.all(
+                        theme.primaryColor,
+                      ),
+                      labelStyle: theme.textTheme.titleMedium?.copyWith(
+                        color: appTheme.getAlternatePrimaryColor(),
+                        fontWeight: FontWeight.w200,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          )
+          ),
         ],
       ),
     );

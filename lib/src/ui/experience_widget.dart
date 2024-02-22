@@ -165,7 +165,7 @@ class ExperenceDetailWidget extends ConsumerWidget {
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       );

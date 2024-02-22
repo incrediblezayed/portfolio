@@ -5,6 +5,7 @@ import 'package:portfolio/src/models/project_model.dart';
 import 'package:portfolio/src/providers/providers.dart';
 import 'package:portfolio/src/utils/device_utils.dart';
 import 'package:portfolio/src/utils/images.dart';
+import 'package:portfolio/src/utils/theme.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 /// ProjectWidget for displaying projects
@@ -25,6 +26,9 @@ class ProjectWidget extends ConsumerStatefulWidget {
 class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
   Alignment imageAlignment = Alignment.topLeft;
   Alignment detailsAlignment = Alignment.bottomRight;
+
+  late ThemeData theme = Theme.of(context);
+  late AppTheme appTheme = ref.watch(themeProvider);
 
   Widget buildProjectImage({required ProjectModel project}) {
     final mediaQueryData = MediaQuery.of(context);
@@ -121,7 +125,7 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
           linkButton(
             asset: AppImages.webUrl,
             url: project.url,
-          )
+          ),
         ],
       ),
     );
@@ -132,27 +136,54 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
     final size = mediaQueryData.size;
 
     return SizedBox(
-      width: size.width / 2,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.end,
+      width: size.width,
+      child: Row(
         children: [
-          IgnorePointer(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                projectTitle(size, project),
-                const SizedBox(
-                  height: 8,
+                IgnorePointer(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      projectTitle(size, project),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      projectDescription(project, size),
+                    ],
+                  ),
                 ),
-                projectDescription(project, size)
+                linkButtons(project: project),
               ],
             ),
           ),
-          linkButtons(project: project)
+          Expanded(
+            child: Wrap(
+              children: project.techStacks
+                  .map(
+                    (e) => ActionChip(
+                      onPressed: () {},
+                      pressElevation: 3,
+                      avatar: CachedNetworkImage(imageUrl: e.image),
+                      label: Text(e.name),
+                      color: MaterialStateProperty.all(
+                        theme.primaryColor,
+                      ),
+                      labelStyle: theme.textTheme.titleMedium?.copyWith(
+                        color: appTheme.getAlternatePrimaryColor(),
+                        fontWeight: FontWeight.w200,
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
         ],
       ),
     );
