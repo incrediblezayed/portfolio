@@ -57,12 +57,6 @@ class Socials extends ConsumerWidget {
                   iconColor: appTheme.discordColor,
                 ),
                 SocialButton(
-                  socialName: 'WhatsApp',
-                  iconColor: appTheme.whatsappColor,
-                  url: 'https://wa.me/+919158363588',
-                  icon: FontAwesomeIcons.whatsapp,
-                ),
-                SocialButton(
                   socialName: 'GitHub',
                   iconColor: appTheme.githubColor,
                   url: 'https://github.com/incrediblezayed',
