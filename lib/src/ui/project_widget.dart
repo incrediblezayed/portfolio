@@ -23,41 +23,53 @@ class ProjectWidget extends ConsumerStatefulWidget {
 }
 
 class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
-  Alignment imageAlignment = Alignment.topLeft;
-  Alignment detailsAlignment = Alignment.bottomRight;
+  /* Alignment imageAlignment = Alignment.topLeft;
+  Alignment detailsAlignment = Alignment.bottomRight; */
 
-  Widget buildProjectImage({required ProjectModel project}) {
+  CarouselController carouselController = CarouselController();
+
+  Widget buildProjectImage(
+      {required ProjectModel project, required int index}) {
     final mediaQueryData = MediaQuery.of(context);
     final size = mediaQueryData.size;
 
     final isLandscape = mediaQueryData.orientation == Orientation.landscape;
-    return IgnorePointer(
-      child: SizedBox(
-        //width: width * 0.7,
-        width: isLandscape ? null : size.width * 0.3,
-        height: isLandscape ? size.height * 0.5 : null,
-        //height: size.height * 0.4,
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 150),
-          switchInCurve: Curves.easeInCirc,
-          reverseDuration: Duration.zero,
-          transitionBuilder: (child, animation) {
-            return ScaleTransition(
-              scale: animation,
-              child: child,
-            );
-          },
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(24),
-            key: ValueKey(project.image),
+    return LayoutBuilder(builder: (context, constraints) {
+      final width = constraints.maxWidth;
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: AnimatedSize(
+          duration: const Duration(milliseconds: 250),
+          child: IgnorePointer(
             child: CachedNetworkImage(
               imageUrl: project.image,
-              fit: BoxFit.cover,
+              imageBuilder: (context, imageProvider) {
+                return AnimatedBuilder(
+                    animation: detailsPageController,
+                    builder: (context, snapshot) {
+                      final currentPage = detailsPageController.page ?? 0;
+                      var difference = currentPage - index;
+                      if (difference.isNegative) {
+                        difference = difference * -1;
+                      }
+                      final padding = difference == 0 ? 0.0 : difference * 30;
+                      return Padding(
+                        padding: EdgeInsets.all(padding),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(24),
+                          child: Image(
+                            image: imageProvider,
+                            height: width,
+                          ),
+                        ),
+                      );
+                    });
+              },
             ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   Widget linkButton({
@@ -201,7 +213,7 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
     );
   }
 
-  Widget projectWrap({
+  /* Widget projectWrap({
     required ProjectModel project,
   }) {
     final mediaQueryData = MediaQuery.of(context);
@@ -213,7 +225,7 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
       return Stack(
         children: [
           Align(
-            alignment: imageAlignment,
+            alignment: Alignment.top,
             child: buildProjectImage(project: project),
           ),
           Align(
@@ -243,6 +255,25 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
         ),
       );
     }
+  } */
+
+  PageController imagePageController = PageController(viewportFraction: 0.7);
+  PageController detailsPageController = PageController();
+
+  void onPageChanged(int index, bool isImagePage) {
+    if (isImagePage) {
+      detailsPageController.animateToPage(
+        index,
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeInOut,
+      );
+    } else {
+      imagePageController.animateToPage(
+        index,
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeInOut,
+      );
+    }
   }
 
   @override
@@ -251,49 +282,73 @@ class _ProjectWidgetState extends ConsumerState<ProjectWidget> {
     final size = mediaQueryData.size;
     final width = DeviceUtils.mediaQueryWidth(mediaQueryData);
     final mainPro = ref.watch(mainProvider);
+    final isLandscape = mediaQueryData.orientation == Orientation.landscape;
 
-    return SizedBox(
-      height: size.height,
-      width: size.width,
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: size.width * 0.05,
-          vertical: mediaQueryData.viewPadding.bottom,
-        ),
-        child: AnimatedBuilder(
-          animation: mainPro.projectsPageController,
-          builder: (context, child) {
-            final page = mainPro.projectsPageController.page ??
-                mainPro.projectsPageIndex;
-
-            final project = widget.projects[mainPro.projectsPageIndex];
-            final flooredPage = page.floor();
-
-            final normalizedPage =
-                (page - (flooredPage + 0.000000000000000001)) / 1.0;
-
-            final normalizedValue = (normalizedPage * 2) - 1;
-
-            final imageAlignmentValue =
-                normalizedValue * (flooredPage.isEven ? -1 : 1);
-
-            final detailsAlignmentValue =
-                normalizedValue * (flooredPage.isEven ? 1 : -1);
-            if (size.width != width) {
-              imageAlignment = Alignment(
-                imageAlignmentValue,
-                -1,
-              );
-
-              detailsAlignment = Alignment(
-                detailsAlignmentValue,
-                1,
-              );
-            }
-            return projectWrap(
-              project: project,
-            );
-          },
+    return GestureDetector(
+      onHorizontalDragUpdate: (details) {
+        if (details.delta.dx < 0) {
+          imagePageController.nextPage(
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeInOut,
+          );
+        } else {
+          imagePageController.previousPage(
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeInOut,
+          );
+        }
+      },
+      onVerticalDragUpdate: (details) {
+        if (details.delta.dy < 0) {
+          detailsPageController.nextPage(
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeInOut,
+          );
+        } else {
+          detailsPageController.previousPage(
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeInOut,
+          );
+        }
+      },
+      child: SizedBox(
+        height: size.height,
+        width: size.width,
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: size.width * 0.05,
+            vertical: mediaQueryData.viewPadding.bottom,
+          ),
+          child: Column(
+            children: [
+              Expanded(
+                flex: isLandscape ? 1 : 2,
+                child: PageView.builder(
+                  onPageChanged: (index) => onPageChanged(index, true),
+                  controller: imagePageController,
+                  itemBuilder: (context, index) {
+                    return buildProjectImage(
+                        project: widget.projects[index], index: index);
+                  },
+                  itemCount: widget.projects.length,
+                ),
+              ),
+              Expanded(
+                  flex: isLandscape ? 1 : 1,
+                  child: PageView.builder(
+                    allowImplicitScrolling: true,
+                    scrollDirection:
+                        isLandscape ? Axis.horizontal : Axis.vertical,
+                    controller: detailsPageController,
+                    onPageChanged: (index) => onPageChanged(index, false),
+                    itemBuilder: (context, index) {
+                      return buildProjectDetailsLandscape(
+                          project: widget.projects[index]);
+                    },
+                    itemCount: widget.projects.length,
+                  ))
+            ],
+          ),
         ),
       ),
     );

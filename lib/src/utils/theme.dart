@@ -21,8 +21,8 @@ class AppTheme {
   Color githubColor = const Color(0xFFFFFFFF);
   Color linkedinColor = const Color(0xff0A66C2);
 
-  Color darkPrimaryColor = const Color(0xff130E32);
-  Color lightPrimaryColor = const Color(0xffECE9F5);
+  Color darkPrimaryColor = const Color(0xff121212);
+  Color lightPrimaryColor = const Color(0xfff2f2f2);
 
   void cycleThroughThemeModes() {
     switch (themeMode) {
