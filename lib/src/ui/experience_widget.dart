@@ -164,7 +164,43 @@ class ExperenceDetailWidget extends ConsumerWidget {
                   ],
                 ),
               ),
-            )
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Wrap(
+                runSpacing: 8,
+                spacing: 8,
+                children: experienceModel.techStacks.map(
+                  (e) {
+                    final backgroundColor =
+                        switch (ThemeData.estimateBrightnessForColor(e.color)) {
+                      Brightness.dark => Colors.white,
+                      Brightness.light => Colors.black,
+                      _ => Colors.white,
+                    };
+                    return Chip(
+                      label: Text(
+                        e.name,
+                        style: TextStyle(
+                          color: e.color,
+                        ),
+                      ),
+                      shape: const StadiumBorder(),
+                      elevation: 0,
+                      backgroundColor: backgroundColor,
+                      avatar: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        minRadius: 20,
+                        child: Padding(
+                          padding: const EdgeInsets.all(2),
+                          child: Image.network(e.image),
+                        ),
+                      ),
+                    );
+                  },
+                ).toList(),
+              ),
+            ),
           ],
         ),
       );

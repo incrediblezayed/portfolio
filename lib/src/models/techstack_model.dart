@@ -9,10 +9,12 @@ class TechStackModel {
   final String name;
   final String image;
   final String link;
+  final Color color;
   const TechStackModel({
     required this.name,
     required this.image,
     required this.link,
+    required this.color,
     this.id = '',
   });
 
@@ -21,12 +23,14 @@ class TechStackModel {
     String? image,
     String? link,
     String? id,
+    Color? color,
   }) {
     return TechStackModel(
       id: id ?? this.id,
       name: name ?? this.name,
       image: image ?? this.image,
       link: link ?? this.link,
+      color: color ?? this.color,
     );
   }
 
@@ -36,15 +40,18 @@ class TechStackModel {
       'name': name,
       'image': image,
       'link': link,
+      'color': color.value,
     };
   }
 
+  @override
   factory TechStackModel.fromMap(Map<String, dynamic> map) {
     return TechStackModel(
       id: map['id'] as String,
       name: map['name'] as String,
       image: map['image'] as String,
       link: map['link'] as String,
+      color: map['color'] == null ? Colors.black : Color(map['color'] as int),
     );
   }
 
@@ -61,9 +68,19 @@ class TechStackModel {
   bool operator ==(covariant TechStackModel other) {
     if (identical(this, other)) return true;
 
-    return other.name == name && other.image == image && other.link == link;
+    return other.id == id &&
+        other.name == name &&
+        other.image == image &&
+        other.link == link &&
+        other.color == color;
   }
 
   @override
-  int get hashCode => name.hashCode ^ image.hashCode ^ link.hashCode;
+  int get hashCode {
+    return id.hashCode ^
+        name.hashCode ^
+        image.hashCode ^
+        link.hashCode ^
+        color.hashCode;
+  }
 }

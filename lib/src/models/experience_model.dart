@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:portfolio/src/models/techstack_model.dart';
 
 @immutable
 class ExperienceModel {
@@ -14,6 +15,7 @@ class ExperienceModel {
   final DateTime startDate;
   final DateTime? endDate;
   final DateTime createdAt;
+  final List<TechStackModel> techStacks;
   final bool isActive;
   const ExperienceModel({
     required this.id,
@@ -25,7 +27,8 @@ class ExperienceModel {
     required this.startDate,
     required this.createdAt,
     this.endDate,
-    this.isActive = false,
+    this.techStacks = const [],
+    this.isActive = true,
   });
 
   ExperienceModel copyWith({
@@ -38,7 +41,8 @@ class ExperienceModel {
     DateTime? startDate,
     DateTime? endDate,
     DateTime? createdAt,
-    bool? isAtive,
+    List<TechStackModel>? techStacks,
+    bool? isActive,
   }) {
     return ExperienceModel(
       id: id ?? this.id,
@@ -50,10 +54,28 @@ class ExperienceModel {
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
       createdAt: createdAt ?? this.createdAt,
-      isActive: isAtive ?? isActive,
+      techStacks: techStacks ?? this.techStacks,
+      isActive: isActive ?? this.isActive,
     );
   }
 
+  @override
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      if (id.isNotEmpty) 'id': id,
+      'position': position,
+      'company': company,
+      'website': website,
+      'location': location,
+      'achievements': achievements,
+      'startDate': startDate.toUtc().toIso8601String(),
+      'endDate': endDate?.toUtc().toIso8601String(),
+      'techStacks': techStacks.map((e) => e.id).toList(),
+      'isActive': isActive,
+    };
+  }
+
+  @override
   factory ExperienceModel.fromMap(Map<String, dynamic> map) {
     return ExperienceModel(
       id: map['id'] as String,
@@ -67,12 +89,31 @@ class ExperienceModel {
           ? DateTime.parse(map['endDate'].toString())
           : null,
       createdAt: DateTime.parse(map['createdAt'].toString()),
+      techStacks: map['techStacks'] == null
+          ? []
+          : List<TechStackModel>.from(
+              (map['techStacks'] as List)
+                      .map<TechStackModel>(
+                        (c) =>
+                            TechStackModel.fromMap(c as Map<String, dynamic>),
+                      )
+                      .toList() ??
+                  [],
+            ),
       isActive: map['isActive'] as bool? ?? true,
     );
   }
 
+  @override
+  String toJson() => json.encode(toMap());
+
   factory ExperienceModel.fromJson(String source) =>
       ExperienceModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() {
+    return 'ExperienceModel(id: $id, position: $position, company: $company,website: $website location: $location, achievements: $achievements, startDate: $startDate, endDate: $endDate, createdAt: $createdAt)';
+  }
 
   @override
   bool operator ==(covariant ExperienceModel other) {
@@ -87,6 +128,7 @@ class ExperienceModel {
         other.startDate == startDate &&
         other.endDate == endDate &&
         other.createdAt == createdAt &&
+        listEquals(other.techStacks, techStacks) &&
         other.isActive == isActive;
   }
 
@@ -101,6 +143,7 @@ class ExperienceModel {
         startDate.hashCode ^
         endDate.hashCode ^
         createdAt.hashCode ^
+        techStacks.hashCode ^
         isActive.hashCode;
   }
 }
