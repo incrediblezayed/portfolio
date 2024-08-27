@@ -1,5 +1,5 @@
-import 'package:portfolio/src/models/experience_model.dart';
 import 'package:portfolio/src/repositories/api_repository.dart';
+import 'package:portfolio_core_data/portfolio_core_data.dart';
 
 class ExperienceRepository {
   ApiRepository apiRepository = ApiRepository();

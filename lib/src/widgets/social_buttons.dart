@@ -59,7 +59,7 @@ class _SocialButtonState extends State<SocialButton>
         duration: const Duration(milliseconds: 400),
         vsync: this,
       );
-      startColor = Theme.of(context).colorScheme.onBackground;
+      startColor = Theme.of(context).colorScheme.onSurface;
       color = ColorTween(
         begin: startColor,
         end: endColor,

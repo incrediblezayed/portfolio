@@ -110,7 +110,7 @@ class _HeaderWidgetState extends ConsumerState<HeaderWidget>
     final mediaQueryData = MediaQuery.of(context);
     final orientation = mediaQueryData.orientation;
     final width = DeviceUtils.mediaQueryWidth(mediaQueryData);
-    final platformBrightness = mediaQueryData.platformBrightness;
+
     if (orientation == Orientation.landscape && isMenuOpen) {
       closeMenuifOpen();
     }
@@ -147,7 +147,7 @@ class _HeaderWidgetState extends ConsumerState<HeaderWidget>
                                 child: Container(
                                   width: 130,
                                   height: 1,
-                                  color: theme.colorScheme.onBackground,
+                                  color: theme.colorScheme.onSurface,
                                 ),
                               ),
                             )
@@ -155,7 +155,7 @@ class _HeaderWidgetState extends ConsumerState<HeaderWidget>
                         ),
                         Switch(
                           value: themeMode != ThemeMode.dark,
-                          thumbIcon: appTheme.getMaterialStateProperty(
+                          thumbIcon: appTheme.getWidgetStateProperty(
                             defaultValue: Icon(appTheme.getThemeIcon()),
                           ),
                           onChanged: (value) {
@@ -228,7 +228,7 @@ class _HeaderWidgetState extends ConsumerState<HeaderWidget>
                               ),
                           SwitchListTile(
                             value: themeMode != ThemeMode.dark,
-                            thumbIcon: appTheme.getMaterialStateProperty(
+                            thumbIcon: appTheme.getWidgetStateProperty(
                               defaultValue: Icon(appTheme.getThemeIcon()),
                             ),
                             title: Text(

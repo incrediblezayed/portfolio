@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:portfolio/src/models/project_model.dart';
 import 'package:portfolio/src/providers/providers.dart';
 import 'package:portfolio/src/utils/device_utils.dart';
 import 'package:portfolio/src/utils/images.dart';
+import 'package:portfolio_core_data/portfolio_core_data.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 /// ProjectWidget for displaying projects

@@ -56,14 +56,14 @@ class HeroPage extends ConsumerWidget {
                   children: [
                     CustomElevatedButton.icon(
                       style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
+                        shape: WidgetStateProperty.all(
                           const RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(
                               top: Radius.circular(4),
                             ),
                           ),
                         ),
-                        fixedSize: appTheme.getMaterialStateProperty(
+                        fixedSize: appTheme.getWidgetStateProperty(
                           defaultValue: Size(buttonFullWidth, 48),
                         ),
                       ),
@@ -92,10 +92,10 @@ class HeroPage extends ConsumerWidget {
                       data: theme.copyWith(
                         elevatedButtonTheme: ElevatedButtonThemeData(
                           style: theme.elevatedButtonTheme.style!.copyWith(
-                            shape: MaterialStateProperty.all(
+                            shape: WidgetStateProperty.all(
                               const RoundedRectangleBorder(),
                             ),
-                            fixedSize: appTheme.getMaterialStateProperty(
+                            fixedSize: appTheme.getWidgetStateProperty(
                               defaultValue: const Size.fromHeight(48),
                             ),
                           ),
@@ -139,14 +139,14 @@ class HeroPage extends ConsumerWidget {
                     ),
                     CustomElevatedButton.icon(
                       style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
+                        shape: WidgetStateProperty.all(
                           const RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(
                               bottom: Radius.circular(4),
                             ),
                           ),
                         ),
-                        fixedSize: appTheme.getMaterialStateProperty(
+                        fixedSize: appTheme.getWidgetStateProperty(
                           defaultValue: Size(buttonFullWidth, 48),
                         ),
                       ),

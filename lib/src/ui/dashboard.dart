@@ -18,7 +18,6 @@ class _HomeState extends ConsumerState<Dashboard>
     with TickerProviderStateMixin {
   late AnimationController _controller;
   late AnimationController _waveHeightController;
-  late Animation<double> _waveHeightAnimation;
 
   @override
   void initState() {
@@ -31,9 +30,6 @@ class _HomeState extends ConsumerState<Dashboard>
     _waveHeightController = AnimationController(
       duration: const Duration(milliseconds: 2000),
       vsync: this,
-    );
-    _waveHeightAnimation = Tween<double>(begin: 0, end: 1).animate(
-      _waveHeightController,
     );
   }
 

@@ -93,7 +93,7 @@ class AppTheme {
     }
   }
 
-  MaterialStateProperty<T> getMaterialStateProperty<T>({
+  WidgetStateProperty<T> getWidgetStateProperty<T>({
     required T defaultValue,
     T? hovered,
     T? focused,
@@ -101,20 +101,20 @@ class AppTheme {
     T? selected,
     T? disabled,
   }) {
-    return MaterialStateProperty.resolveWith((states) {
-      if (states.contains(MaterialState.hovered) && hovered != null) {
+    return WidgetStateProperty.resolveWith((states) {
+      if (states.contains(WidgetState.hovered) && hovered != null) {
         return hovered;
       }
-      if (states.contains(MaterialState.focused) && focused != null) {
+      if (states.contains(WidgetState.focused) && focused != null) {
         return focused;
       }
-      if (states.contains(MaterialState.pressed) && pressed != null) {
+      if (states.contains(WidgetState.pressed) && pressed != null) {
         return pressed;
       }
-      if (states.contains(MaterialState.selected) && selected != null) {
+      if (states.contains(WidgetState.selected) && selected != null) {
         return selected;
       }
-      if (states.contains(MaterialState.disabled) && disabled != null) {
+      if (states.contains(WidgetState.disabled) && disabled != null) {
         return disabled;
       }
       return defaultValue;
@@ -161,18 +161,18 @@ class AppTheme {
   ThemeData _getTheme(bool dark) => _baseTheme(dark).copyWith(
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
-            textStyle: MaterialStateProperty.all(
+            textStyle: WidgetStateProperty.all(
               const TextTheme().labelLarge?.copyWith(
                     fontSize: 18,
                   ),
             ),
             animationDuration: const Duration(milliseconds: 200),
-            backgroundColor: getMaterialStateProperty(
+            backgroundColor: getWidgetStateProperty(
               defaultValue: _baseTheme(dark).colorScheme.primary,
               hovered: _baseTheme(dark).primaryColor,
               pressed: _baseTheme(dark).primaryColor,
             ),
-            foregroundColor: getMaterialStateProperty(
+            foregroundColor: getWidgetStateProperty(
               defaultValue: _baseTheme(dark).colorScheme.onPrimary,
               hovered: _baseTheme(dark).colorScheme.primary,
               pressed: _baseTheme(dark).colorScheme.primary,

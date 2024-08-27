@@ -1,5 +1,5 @@
-import 'package:portfolio/src/models/project_model.dart';
 import 'package:portfolio/src/repositories/api_repository.dart';
+import 'package:portfolio_core_data/portfolio_core_data.dart';
 
 class ProjectRepository {
   ApiRepository apiRepository = ApiRepository();

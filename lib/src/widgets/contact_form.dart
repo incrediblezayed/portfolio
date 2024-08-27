@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:portfolio/src/models/enquiry_model.dart';
 import 'package:portfolio/src/providers/providers.dart';
 import 'package:portfolio/src/repositories/enquiry_repository.dart';
 import 'package:portfolio/src/utils/device_utils.dart';
 import 'package:portfolio/src/utils/snackbar_utils.dart';
 import 'package:portfolio/src/widgets/custom_elevated_button.dart';
+import 'package:portfolio_core_data/portfolio_core_data.dart';
 
 class ContactForm extends ConsumerWidget {
   const ContactForm({super.key});
@@ -121,7 +121,7 @@ class ContactForm extends ConsumerWidget {
                   width: double.infinity,
                   child: CustomElevatedButton(
                     style: ButtonStyle(
-                      textStyle: appTheme.getMaterialStateProperty(
+                      textStyle: appTheme.getWidgetStateProperty(
                         defaultValue: const TextStyle(
                           fontWeight: FontWeight.normal,
                         ),
@@ -132,19 +132,19 @@ class ContactForm extends ConsumerWidget {
                           fontWeight: FontWeight.w100,
                         ),
                       ),
-                      fixedSize: MaterialStateProperty.all(
+                      fixedSize: WidgetStateProperty.all(
                         const Size(double.infinity, 48),
                       ),
-                      shadowColor: appTheme.getMaterialStateProperty(
+                      shadowColor: appTheme.getWidgetStateProperty(
                         defaultValue: theme.colorScheme.primary,
                       ),
-                      elevation: appTheme.getMaterialStateProperty(
+                      elevation: appTheme.getWidgetStateProperty(
                         defaultValue: 4,
                         hovered: 8,
                         pressed: 0,
                         focused: 0,
                       ),
-                      shape: appTheme.getMaterialStateProperty(
+                      shape: appTheme.getWidgetStateProperty(
                         defaultValue: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(4),
                         ),
@@ -202,11 +202,11 @@ class ContactForm extends ConsumerWidget {
                     },
                     child: const Text('Submit'),
                   ),
-                )
+                ),
               ],
             ),
           ),
-        )
+        ),
       ],
     );
   }

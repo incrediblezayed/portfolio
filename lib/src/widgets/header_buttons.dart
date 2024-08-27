@@ -30,14 +30,14 @@ class HeaderButtons extends StatelessWidget {
         decoration: BoxDecoration(
           border: !isLandscape && active
               ? Border(
-                  bottom: BorderSide(color: theme.colorScheme.onBackground),
+                  bottom: BorderSide(color: theme.colorScheme.onSurface),
                 )
               : null,
         ),
         child: Text(
           text,
           style: TextStyle(
-            color: theme.colorScheme.onBackground,
+            color: theme.colorScheme.onSurface,
             fontSize: DeviceUtils.minMaxSizeWithMediaQuery(
               mediaQuerySize: width,
               minSize: 12,

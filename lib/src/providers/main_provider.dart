@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio/src/models/experience_model.dart';
-import 'package:portfolio/src/models/project_model.dart';
-import 'package:portfolio/src/models/techstack_model.dart';
 import 'package:portfolio/src/repositories/experience_repository.dart';
 import 'package:portfolio/src/repositories/project_repository.dart';
 import 'package:portfolio/src/repositories/techstack_repository.dart';
+import 'package:portfolio_core_data/portfolio_core_data.dart';
 
 /// This is the provider that will be used to control the state of the main page
 class MainProvider extends ChangeNotifier {
