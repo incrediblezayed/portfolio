@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,7 +10,6 @@ import 'package:portfolio/src/utils/snackbar_utils.dart';
 import 'package:portfolio/src/widgets/api_cors_test_page.dart';
 import 'package:portfolio/src/widgets/custom_elevated_button.dart';
 import 'package:portfolio/src/widgets/hero_page_text.dart';
-import 'package:portfolio/src/widgets/html_view.dart';
 
 class HeroPage extends ConsumerWidget {
   const HeroPage({super.key});
@@ -174,7 +172,7 @@ class HeroPage extends ConsumerWidget {
                 onPressed: () async {
                   HapticFeedback.lightImpact();
                   final apiRepository = ApiRepository();
-                  if (kIsWeb) {
+                  /*    if (kIsWeb) {
                     final response = await apiRepository.get(
                       'https://hapi-cors-test-production.up.railway.app/',
                     );
@@ -188,14 +186,13 @@ class HeroPage extends ConsumerWidget {
                         ),
                       );
                     }
-                  } else {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ApiCorsTestPage(),
-                      ),
-                    );
-                  }
+                  } else { */
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ApiCorsTestPage(),
+                    ),
+                  );
                 },
                 child: const Text('Hello, I\'m Zayed, Test HAPI Cors ->'),
               ),
