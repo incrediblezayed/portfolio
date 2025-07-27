@@ -61,6 +61,58 @@ class ApiRepository {
     }
   }
 
+  /// Put method
+  Future<dynamic> put(
+    String path, {
+    Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? headers,
+    int successCode = 200,
+    dynamic body,
+  }) async {
+    try {
+      final response = await _dio.put<dynamic>(
+        path,
+        queryParameters: queryParameters,
+        data: body,
+        options: Options(headers: headers),
+      );
+
+      if (response.statusCode == successCode) {
+        return response.data!;
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  /// Delete method
+  Future<dynamic> delete(
+    String path, {
+    Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? headers,
+    int successCode = 200,
+    dynamic body,
+  }) async {
+    try {
+      final response = await _dio.delete<dynamic>(
+        path,
+        queryParameters: queryParameters,
+        data: body,
+        options: Options(headers: headers),
+      );
+
+      if (response.statusCode == successCode) {
+        return response.data!;
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   /// Method to save resume
   Future<bool> saveResume() async {
     try {
@@ -75,7 +127,7 @@ class ApiRepository {
               link: response.data as String,
             ),
             mimeType: MimeType.pdf,
-            ext: 'pdf',
+            fileExtension: 'pdf',
           );
         } else {
           await FileSaver.instance.saveFile(
@@ -84,7 +136,7 @@ class ApiRepository {
               link: response.data as String,
             ),
             mimeType: MimeType.pdf,
-            ext: 'pdf',
+            fileExtension: 'pdf',
           );
         }
 
