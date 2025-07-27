@@ -97,48 +97,52 @@ class _ApiCorsTestPageState extends State<ApiCorsTestPage> {
     required VoidCallback onTest,
     required String result,
   }) {
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
       margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
+        border: Border.all(color: Theme.of(context).colorScheme.outline),
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 10),
-          ElevatedButton(
-            onPressed: onTest,
-            child: Text('Test $title'),
-          ),
-          if (result.isNotEmpty) ...[
-            const SizedBox(height: 10),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
-                borderRadius: BorderRadius.circular(4),
+      child: AnimatedSize(
+        duration: const Duration(milliseconds: 150),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
-              child: SelectableText(
-                result,
-                style: TextStyle(
-                  fontFamily: 'monospace',
-                  fontSize: 12,
-                  color: Theme.of(context).colorScheme.onSurface,
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: onTest,
+              child: Text('Test $title'),
+            ),
+            if (result.isNotEmpty) ...[
+              const SizedBox(height: 10),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: SelectableText(
+                  result,
+                  style: TextStyle(
+                    fontFamily: 'monospace',
+                    fontSize: 12,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                 ),
               ),
-            ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }
