@@ -125,14 +125,15 @@ class _ApiCorsTestPageState extends State<ApiCorsTestPage> {
               width: double.infinity,
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Colors.grey.shade100,
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(4),
               ),
               child: SelectableText(
                 result,
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: 'monospace',
                   fontSize: 12,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
             ),
