@@ -25,8 +25,13 @@ import {
 } from "@/lib/caseVoice";
 import type { Case, ThemeId } from "@/lib/types";
 import { THEMES, isThemeId } from "@/lib/themes";
-import { useTheme } from "../../ThemeProvider";
+import { COLOR_MODES, useTheme } from "../../ThemeProvider";
+import type { ColorMode } from "../../ThemeProvider";
 import styles from "./Terminal.module.css";
+
+function isColorMode(value: string): value is ColorMode {
+  return (COLOR_MODES as readonly string[]).includes(value);
+}
 
 const NAV_COMMANDS = [
   "/about",
@@ -49,7 +54,7 @@ const OUTPUT_COMMANDS = [
   "emacs",
 ] as const;
 
-const ACTION_COMMANDS = ["/clear", "/theme", "exit"] as const;
+const ACTION_COMMANDS = ["/clear", "/skin", "/mode", "exit"] as const;
 
 const PRIMARY_HINTS = ["/help", "/about", "/work", "/contact"];
 
@@ -58,6 +63,8 @@ const ALL_AUTOCOMPLETE: string[] = [
   ...OUTPUT_COMMANDS,
   ...ACTION_COMMANDS,
   "cat ",
+  "/skin ",
+  "/mode ",
 ];
 
 type HistoryEntry = { id: string; command: string; output: ReactNode; isError?: boolean };
@@ -66,7 +73,8 @@ type CommandResult =
   | { kind: "navigate"; target: string }
   | { kind: "output"; node: ReactNode; isError?: boolean }
   | { kind: "clear" }
-  | { kind: "switchTheme"; theme: ThemeId }
+  | { kind: "switchSkin"; theme: ThemeId }
+  | { kind: "switchMode"; mode: ColorMode }
   | { kind: "exit" };
 
 export function Terminal() {
@@ -110,7 +118,7 @@ function Banner() {
 /* ─────────── PROMPT BLOCK (input + history) ─────────── */
 
 function PromptBlock() {
-  const { setTheme } = useTheme();
+  const { setTheme, setColorMode } = useTheme();
   const [value, setValue] = useState("");
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [exiting, setExiting] = useState(false);
@@ -153,7 +161,7 @@ function PromptBlock() {
         pushHistory(trimmed, `> jumped to /${result.target}`);
         return;
       }
-      if (result.kind === "switchTheme") {
+      if (result.kind === "switchSkin") {
         pushHistory(
           trimmed,
           <span>
@@ -161,6 +169,16 @@ function PromptBlock() {
           </span>,
         );
         globalThis.setTimeout(() => setTheme(result.theme), 300);
+        return;
+      }
+      if (result.kind === "switchMode") {
+        pushHistory(
+          trimmed,
+          <span>
+            color mode → <span className={styles.amber}>{result.mode}</span>
+          </span>,
+        );
+        setColorMode(result.mode);
         return;
       }
       if (result.kind === "exit") {
@@ -171,7 +189,7 @@ function PromptBlock() {
       }
       pushHistory(trimmed, result.node, result.isError);
     },
-    [pushHistory, setTheme],
+    [pushHistory, setTheme, setColorMode],
   );
 
   const handleKeyDown = useCallback(
@@ -307,15 +325,30 @@ function parseCatCommand(trimmed: string): CommandResult {
   return { kind: "output", node: <CatOutput caseStudy={found} /> };
 }
 
-function parseThemeCommand(trimmed: string): CommandResult {
-  const themeName = trimmed.slice(7).trim().toLowerCase();
-  if (isThemeId(themeName)) return { kind: "switchTheme", theme: themeName };
+function parseSkinCommand(trimmed: string): CommandResult {
+  const skinName = trimmed.slice(6).trim().toLowerCase();
+  if (isThemeId(skinName)) return { kind: "switchSkin", theme: skinName };
   return {
     kind: "output",
     node: (
       <span>
-        unknown theme: <span className={styles.amber}>{themeName}</span>. try one of:{" "}
+        unknown skin: <span className={styles.amber}>{skinName}</span>. try one of:{" "}
         {Object.keys(THEMES).join(", ")}
+      </span>
+    ),
+    isError: true,
+  };
+}
+
+function parseModeCommand(trimmed: string): CommandResult {
+  const modeName = trimmed.slice(6).trim().toLowerCase();
+  if (isColorMode(modeName)) return { kind: "switchMode", mode: modeName };
+  return {
+    kind: "output",
+    node: (
+      <span>
+        unknown mode: <span className={styles.amber}>{modeName}</span>. try one of:{" "}
+        {COLOR_MODES.join(", ")}
       </span>
     ),
     isError: true,
@@ -334,7 +367,8 @@ function parseCommand(input: string): CommandResult {
   if (simple) return simple();
 
   if (lower.startsWith("cat ")) return parseCatCommand(trimmed);
-  if (lower.startsWith("/theme ")) return parseThemeCommand(trimmed);
+  if (lower.startsWith("/skin ")) return parseSkinCommand(trimmed);
+  if (lower.startsWith("/mode ")) return parseModeCommand(trimmed);
 
   return {
     kind: "output",
@@ -374,8 +408,11 @@ function HelpOutput() {
           <code>/source</code> — github repo of this portfolio
         </li>
         <li>
-          <code>/theme &lt;name&gt;</code> — switch skin (decisionlog · editorial · twocolumn ·
+          <code>/skin &lt;name&gt;</code> — switch skin (decisionlog · editorial · twocolumn ·
           changelog · terminal · readingroom)
+        </li>
+        <li>
+          <code>/mode &lt;name&gt;</code> — color mode (default · light · dark)
         </li>
         <li>
           <code>ls</code> — list case studies

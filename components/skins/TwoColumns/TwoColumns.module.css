@@ -832,3 +832,35 @@
   border: 1px solid var(--tc-builder-fg-subtle);
   font-size: 10px;
 }
+
+/* ─────────── COLOR MODES ───────────
+   default: canonical (builder dark, strategist light)
+   light:   builder flipped to light · strategist stays light
+   dark:    builder stays dark        · strategist flipped to dark
+   ───────────────────────────────────────────── */
+
+[data-color-mode="light"] .root {
+  --tc-builder-bg: #f5f1e8;
+  --tc-builder-fg: #1a1715;
+  --tc-builder-fg-muted: #5b524a;
+  --tc-builder-fg-subtle: #948576;
+  --tc-builder-rule: #d4cab8;
+  --tc-builder-accent: #2d7a4e;
+}
+
+[data-color-mode="light"] .builderReflection {
+  background: color-mix(in srgb, var(--tc-builder-accent) 8%, transparent);
+}
+
+[data-color-mode="dark"] .root {
+  --tc-strategist-bg: #1a1410;
+  --tc-strategist-fg: #e8dfce;
+  --tc-strategist-fg-muted: #b5a896;
+  --tc-strategist-fg-subtle: #807261;
+  --tc-strategist-rule: #3a322a;
+  --tc-strategist-accent: #d4623a;
+}
+
+[data-color-mode="dark"] .strategistReflection {
+  background: color-mix(in srgb, var(--tc-strategist-accent) 8%, transparent);
+}

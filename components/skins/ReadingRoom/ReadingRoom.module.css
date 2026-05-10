@@ -460,3 +460,15 @@
 @media (prefers-reduced-motion: reduce) {
   /* No animations to disable — Reading Room is library-quiet by design */
 }
+
+/* ─────────── DARK MODE ─────────── */
+
+[data-color-mode="dark"] .root {
+  --rr-bg: #1a1410;
+  --rr-paper: #2a221c;
+  --rr-ink: #e8dfce;
+  --rr-ink-soft: #b5a896;
+  --rr-ink-faint: #807261;
+  --rr-rule: #3a322a;
+  --rr-accent: #d4623a;
+}

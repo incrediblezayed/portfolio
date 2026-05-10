@@ -827,3 +827,20 @@
     transform: translateX(0);
   }
 }
+
+/* ─────────── DARK MODE ─────────── */
+
+[data-color-mode="dark"] .root {
+  --ed-bg: #1a1410;
+  --ed-ink: #e8dfce;
+  --ed-ink-soft: #b5a896;
+  --ed-ink-faint: #807261;
+  --ed-rule: #3a322a;
+  --ed-accent: #ff7445;
+  --ed-grid-line: rgba(232, 223, 206, 0.04);
+}
+
+[data-color-mode="dark"] .paperOverlay {
+  opacity: 0.04;
+  mix-blend-mode: screen;
+}

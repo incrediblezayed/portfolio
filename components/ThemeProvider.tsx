@@ -12,11 +12,21 @@ import { isThemeId } from "@/lib/themes";
 import type { ThemeId } from "@/lib/types";
 
 const STORAGE_KEY = "portfolio.theme";
+const COLOR_MODE_KEY = "portfolio.colorMode";
 const URL_PARAM = "theme";
+
+export type ColorMode = "default" | "light" | "dark";
+const COLOR_MODES: ColorMode[] = ["default", "light", "dark"];
+
+function isColorMode(value: string | null | undefined): value is ColorMode {
+  return value === "default" || value === "light" || value === "dark";
+}
 
 interface ThemeContextValue {
   theme: ThemeId;
   setTheme: (next: ThemeId) => void;
+  colorMode: ColorMode;
+  setColorMode: (next: ColorMode) => void;
 }
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
@@ -44,6 +54,12 @@ function readBrowserTheme(): ThemeId | null {
   return null;
 }
 
+function readBrowserColorMode(): ColorMode | null {
+  if (globalThis.window === undefined) return null;
+  const stored = globalThis.localStorage.getItem(COLOR_MODE_KEY);
+  return isColorMode(stored) ? stored : null;
+}
+
 export function ThemeProvider({
   children,
   defaultTheme,
@@ -57,6 +73,12 @@ export function ThemeProvider({
     () => defaultTheme,
   );
 
+  const colorMode = useSyncExternalStore<ColorMode>(
+    subscribe,
+    () => readBrowserColorMode() ?? "default",
+    () => "default",
+  );
+
   const setTheme = useCallback((next: ThemeId) => {
     if (globalThis.window === undefined) return;
     globalThis.localStorage.setItem(STORAGE_KEY, next);
@@ -66,14 +88,22 @@ export function ThemeProvider({
     notifyAll();
   }, []);
 
+  const setColorMode = useCallback((next: ColorMode) => {
+    if (globalThis.window === undefined) return;
+    globalThis.localStorage.setItem(COLOR_MODE_KEY, next);
+    notifyAll();
+  }, []);
+
   const value = useMemo<ThemeContextValue>(
-    () => ({ theme, setTheme }),
-    [theme, setTheme],
+    () => ({ theme, setTheme, colorMode, setColorMode }),
+    [theme, setTheme, colorMode, setColorMode],
   );
 
   return (
     <ThemeContext.Provider value={value}>
-      <div data-theme={theme}>{children}</div>
+      <div data-theme={theme} data-color-mode={colorMode}>
+        {children}
+      </div>
     </ThemeContext.Provider>
   );
 }
@@ -85,3 +115,5 @@ export function useTheme(): ThemeContextValue {
   }
   return ctx;
 }
+
+export { COLOR_MODES };

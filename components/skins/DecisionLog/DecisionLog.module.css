@@ -826,3 +826,21 @@
 .footer p {
   margin: 0;
 }
+
+/* ─────────── DARK MODE ─────────── */
+
+[data-color-mode="dark"] .root {
+  --dl-bg: #1a1817;
+  --dl-fg: #e8e3da;
+  --dl-fg-muted: #a09a8d;
+  --dl-fg-subtle: #6b665d;
+  --dl-rule: #2e2a26;
+  --dl-accent: #7c9bff;
+  --dl-callout: #2a261f;
+  --dl-shadow: 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+[data-color-mode="dark"] .root ::selection {
+  background: #7c9bff;
+  color: #1a1817;
+}

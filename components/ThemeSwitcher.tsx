@@ -2,11 +2,18 @@
 
 import { useEffect, useRef, useState } from "react";
 import { THEMES, THEME_ORDER } from "@/lib/themes";
-import { useTheme } from "./ThemeProvider";
+import { COLOR_MODES, useTheme } from "./ThemeProvider";
+import type { ColorMode } from "./ThemeProvider";
 import styles from "./ThemeSwitcher.module.css";
 
+const COLOR_MODE_LABELS: Record<ColorMode, string> = {
+  default: "Default",
+  light: "Light",
+  dark: "Dark",
+};
+
 export function ThemeSwitcher() {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, colorMode, setColorMode } = useTheme();
   const [open, setOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -108,6 +115,28 @@ export function ThemeSwitcher() {
               );
             })}
           </ul>
+          <div className={styles.colorModeBlock} role="radiogroup" aria-label="Color mode">
+            <p className={styles.colorModeLabel}>Mode</p>
+            <div className={styles.colorModeButtons}>
+              {COLOR_MODES.map((mode) => {
+                const isActive = mode === colorMode;
+                return (
+                  <button
+                    key={mode}
+                    type="button"
+                    role="radio"
+                    aria-checked={isActive}
+                    className={`${styles.colorModeButton} ${
+                      isActive ? styles.colorModeButtonActive : ""
+                    }`}
+                    onClick={() => setColorMode(mode)}
+                  >
+                    {COLOR_MODE_LABELS[mode]}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
           <p className={styles.panelHint}>
             Press <kbd>1</kbd>–<kbd>6</kbd> to switch.
           </p>

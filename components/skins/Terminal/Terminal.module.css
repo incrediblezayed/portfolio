@@ -650,3 +650,31 @@
     animation: none;
   }
 }
+
+/* ─────────── LIGHT MODE (Terminal canonical = dark) ─────────── */
+
+[data-color-mode="light"] .root {
+  --term-bg: #fbfaf7;
+  --term-fg: #0a0a0a;
+  --term-fg-dim: #5a5a5a;
+  --term-fg-faint: #888888;
+  --term-rule: #d4d0c8;
+  --term-amber: #c0741a;
+  --term-error: #c62828;
+  --term-success: #2e7d32;
+}
+
+[data-color-mode="light"] .scanlines {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.012) 2px,
+    rgba(0, 0, 0, 0.012) 3px
+  );
+  mix-blend-mode: multiply;
+}
+
+[data-color-mode="light"] .prompt {
+  background: rgba(192, 116, 26, 0.05);
+}

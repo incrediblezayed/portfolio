@@ -64,6 +64,60 @@
   color: rgba(0, 0, 0, 0.55);
 }
 
+.colorModeBlock {
+  margin: 12px 8px 0;
+  padding: 12px 0 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  display: grid;
+  gap: 8px;
+}
+
+.colorModeLabel {
+  margin: 0;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.colorModeButtons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+
+.colorModeButton {
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  background: #ffffff;
+  color: #0a0a0a;
+  font-family: inherit;
+  font-size: 12px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.colorModeButton:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.colorModeButton:focus-visible {
+  outline: 2px solid #2848d4;
+  outline-offset: 2px;
+}
+
+.colorModeButtonActive {
+  background: rgba(40, 72, 212, 0.08);
+  border-color: #2848d4;
+  color: #2848d4;
+  font-weight: 600;
+}
+
+.colorModeButtonActive:hover {
+  background: rgba(40, 72, 212, 0.12);
+}
+
 .panelHint {
   margin: 12px 8px 4px;
   font-size: 11px;
