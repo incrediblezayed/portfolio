@@ -5,6 +5,7 @@ import { DecisionLog } from "./skins/DecisionLog";
 import { Editorial } from "./skins/Editorial";
 import { TwoColumns } from "./skins/TwoColumns";
 import { Changelog } from "./skins/Changelog";
+import { Terminal } from "./skins/Terminal";
 import { SkinPlaceholder } from "./skins/SkinPlaceholder";
 import { THEMES } from "@/lib/themes";
 
@@ -20,6 +21,7 @@ export function Portfolio() {
     case "changelog":
       return <Changelog />;
     case "terminal":
+      return <Terminal />;
     case "readingroom":
       return <SkinPlaceholder skin={THEMES[theme]} />;
     default:

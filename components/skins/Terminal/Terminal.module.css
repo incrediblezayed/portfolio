@@ -1,0 +1,652 @@
+/* ─────────────────────────────────────────────
+   Brutalist Terminal skin — basic version (no easter eggs).
+   Near-black bg, bone-white text, single amber accent.
+   Everything monospace: JetBrains Mono throughout.
+   ASCII chrome (aria-hidden), 1px borders only where structural.
+   ───────────────────────────────────────────── */
+
+.root {
+  --term-bg: #0a0a0a;
+  --term-fg: #e4e4e4;
+  --term-fg-dim: #888;
+  --term-fg-faint: #555;
+  --term-rule: #2a2a2a;
+  --term-amber: #ffaa33;
+  --term-error: #ef5350;
+  --term-success: #6ce29b;
+
+  position: relative;
+  background: var(--term-bg);
+  color: var(--term-fg);
+  font-family: var(--font-mono-jb), ui-monospace, SFMono-Regular, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  min-height: 100vh;
+  caret-color: var(--term-amber);
+}
+
+/* Subtle CRT scanline overlay (faint, structural — no decoration excess) */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(255, 255, 255, 0.012) 2px,
+    rgba(255, 255, 255, 0.012) 3px
+  );
+  mix-blend-mode: overlay;
+}
+
+.main {
+  position: relative;
+  z-index: 2;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 56px 32px 96px;
+  display: grid;
+  gap: 56px;
+}
+
+@media (max-width: 720px) {
+  .main {
+    padding: 32px 16px 64px;
+    gap: 40px;
+  }
+}
+
+.section {
+  display: grid;
+  gap: 16px;
+}
+
+.amber {
+  color: var(--term-amber);
+}
+
+/* ─────────── BANNER ─────────── */
+
+.banner {
+  display: grid;
+  gap: 8px;
+}
+
+.asciiBanner {
+  margin: 0;
+  font-family: inherit;
+  font-size: 11px;
+  line-height: 1.2;
+  color: var(--term-fg-dim);
+  white-space: pre;
+  overflow-x: auto;
+}
+
+@media (max-width: 720px) {
+  .asciiBanner {
+    font-size: 9px;
+  }
+}
+
+.bannerSub {
+  margin: 0;
+  font-size: 12px;
+  color: var(--term-fg-dim);
+}
+
+/* ─────────── PROMPT ─────────── */
+
+.promptShell {
+  border: 1px solid var(--term-amber);
+  background: rgba(255, 170, 51, 0.03);
+  display: grid;
+  gap: 0;
+}
+
+.history {
+  list-style: none;
+  margin: 0;
+  padding: 12px 14px 0;
+  display: grid;
+  gap: 14px;
+  border-bottom: 1px dashed var(--term-rule);
+  padding-bottom: 12px;
+}
+
+.historyEntry {
+  display: grid;
+  gap: 4px;
+}
+
+.historyCommand {
+  margin: 0;
+  font-size: 13px;
+  color: var(--term-fg);
+}
+
+.historyOutput {
+  margin: 0;
+  font-size: 13px;
+  color: var(--term-fg);
+  padding-left: 12px;
+  border-left: 1px solid var(--term-rule);
+}
+
+.historyOutputError {
+  margin: 0;
+  font-size: 13px;
+  color: var(--term-error);
+  padding-left: 12px;
+  border-left: 1px solid var(--term-error);
+}
+
+.promptForm {
+  margin: 0;
+}
+
+.commandLine {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  padding: 12px 14px;
+  cursor: text;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.4;
+  position: relative;
+}
+
+.promptPrefix {
+  color: var(--term-amber);
+  font-weight: 700;
+  margin-right: 8px;
+}
+
+.typed {
+  color: var(--term-fg);
+  white-space: pre;
+}
+
+.suggestionGhost {
+  color: var(--term-fg-faint);
+  white-space: pre;
+}
+
+.blockCaret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.05em;
+  background: var(--term-amber);
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  animation: terminalCaretBlink 1.05s steps(2) infinite;
+}
+
+.caretSolid {
+  animation: none;
+  opacity: 1;
+}
+
+@keyframes terminalCaretBlink {
+  50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blockCaret { animation: none; }
+}
+
+.invisibleInput {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  color: transparent;
+  caret-color: transparent;
+  cursor: text;
+}
+
+.invisibleInput:disabled {
+  cursor: default;
+}
+
+.hint {
+  margin: 8px 0 0;
+  font-size: 11px;
+  color: var(--term-fg-dim);
+}
+
+.hintLabel {
+  color: var(--term-fg-faint);
+}
+
+.hint code {
+  font: inherit;
+  color: var(--term-amber);
+  background: transparent;
+}
+
+.feedbackError {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: var(--term-error);
+}
+
+.feedbackOk {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: var(--term-success);
+}
+
+/* ─────────── SECTION HEADER (ASCII RULE) ─────────── */
+
+.sectionHeader {
+  margin: 0;
+}
+
+.sectionRule {
+  display: block;
+  font-family: inherit;
+  color: var(--term-fg-dim);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* ─────────── KV LIST + BLOCKS ─────────── */
+
+.kvList {
+  margin: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.row dt {
+  color: var(--term-fg-dim);
+}
+
+.row dd {
+  margin: 0;
+  word-break: break-word;
+}
+
+.link {
+  color: var(--term-fg);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--term-fg-dim);
+}
+
+.link:hover {
+  color: var(--term-amber);
+  border-bottom-color: var(--term-amber);
+}
+
+.block {
+  display: grid;
+  gap: 6px;
+}
+
+.blockLabel {
+  margin: 0;
+  font-size: 12px;
+  color: var(--term-fg-dim);
+}
+
+.blockBody {
+  display: grid;
+  gap: 8px;
+  padding-left: 14px;
+  border-left: 1px solid var(--term-rule);
+}
+
+.proseLine {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--term-fg);
+}
+
+.bulletList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.bulletList li {
+  line-height: 1.6;
+}
+
+.bulletMark {
+  color: var(--term-amber);
+  display: inline-block;
+  width: 14px;
+}
+
+.intro {
+  margin: 0;
+  font-size: 13px;
+  color: var(--term-fg-dim);
+}
+
+/* ─────────── CASES ─────────── */
+
+.caseList {
+  display: grid;
+  gap: 32px;
+}
+
+.caseBlock {
+  display: grid;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--term-rule);
+}
+
+.caseBlock:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.caseHead {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: baseline;
+  font-size: 14px;
+}
+
+.caseId {
+  color: var(--term-fg-faint);
+}
+
+.caseTitle {
+  font-weight: 600;
+  color: var(--term-fg);
+  font-size: 16px;
+}
+
+.statusShipped {
+  color: var(--term-success);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+}
+
+.statusWip {
+  color: var(--term-amber);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+}
+
+.metricList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.metricList li {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+
+.metricLabel {
+  color: var(--term-fg-dim);
+}
+
+.summaryLine {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--term-fg-dim);
+  line-height: 1.6;
+}
+
+.summaryKey {
+  color: var(--term-fg-faint);
+}
+
+/* ─────────── EXPERIENCE ─────────── */
+
+.experienceList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 18px;
+}
+
+.experienceItem {
+  display: grid;
+  gap: 4px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--term-rule);
+}
+
+.experienceItem:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.experiencePeriod {
+  margin: 0;
+  font-size: 11px;
+  color: var(--term-fg-faint);
+}
+
+.experienceTitle {
+  margin: 0;
+  font-size: 14px;
+  color: var(--term-fg);
+}
+
+/* ─────────── TOOLKIT ─────────── */
+
+.tagline {
+  margin: 0;
+  font-size: 11px;
+  color: var(--term-fg-dim);
+  word-break: break-word;
+  line-height: 1.8;
+}
+
+/* ─────────── PROJECTS ─────────── */
+
+.projectGroup {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.projectGroup:first-of-type {
+  margin-top: 0;
+}
+
+.projectGroupHeading {
+  margin: 0;
+  font-size: 12px;
+  color: var(--term-fg-dim);
+}
+
+.projectList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.projectItem {
+  display: grid;
+  gap: 2px;
+  padding: 8px 12px;
+  border-left: 1px solid var(--term-rule);
+  font-size: 13px;
+}
+
+.projectName {
+  margin: 0;
+  font-size: 14px;
+  color: var(--term-fg);
+}
+
+.projectMeta {
+  margin: 0;
+  font-size: 12px;
+  color: var(--term-fg-dim);
+}
+
+/* ─────────── FOOTER ─────────── */
+
+.footer {
+  margin-top: 24px;
+}
+
+.asciiFooter {
+  margin: 0;
+  font-family: inherit;
+  font-size: 11px;
+  line-height: 1.2;
+  color: var(--term-fg-faint);
+  white-space: pre;
+  overflow-x: auto;
+}
+
+@media (max-width: 720px) {
+  .asciiFooter {
+    font-size: 9px;
+  }
+}
+
+.footerLine {
+  margin: 8px 0 0;
+  font-size: 11px;
+  color: var(--term-fg-faint);
+}
+
+/* ─────────── EASTER-EGG OUTPUTS ─────────── */
+
+.outputGrid {
+  display: grid;
+  gap: 4px;
+}
+
+.outputGrid p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.outputDim {
+  color: var(--term-fg-dim);
+}
+
+.dimKey {
+  color: var(--term-fg-faint);
+  display: inline-block;
+  width: 80px;
+}
+
+.helpList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--term-fg);
+}
+
+.helpList code {
+  font: inherit;
+  color: var(--term-amber);
+}
+
+.lsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.lsList li {
+  display: grid;
+  grid-template-columns: 80px 1fr 90px;
+  gap: 12px;
+  align-items: baseline;
+}
+
+.lsId {
+  color: var(--term-fg-faint);
+}
+
+.lsName {
+  color: var(--term-fg);
+}
+
+.asciiInline {
+  margin: 0;
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 1.3;
+  color: var(--term-fg-dim);
+  white-space: pre;
+  overflow-x: auto;
+}
+
+/* ─────────── BOOT-UP ANIMATION ─────────── */
+
+@keyframes bootIn {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.bootLine0 { animation: bootIn 240ms ease-out 0ms backwards; }
+.bootLine1 { animation: bootIn 240ms ease-out 80ms backwards; }
+.bootLine2 { animation: bootIn 240ms ease-out 160ms backwards; }
+.bootLine3 { animation: bootIn 240ms ease-out 240ms backwards; }
+.bootLine4 { animation: bootIn 240ms ease-out 320ms backwards; }
+.bootLine5 { animation: bootIn 240ms ease-out 400ms backwards; }
+.bootLine6 { animation: bootIn 240ms ease-out 480ms backwards; }
+.bootLine7 { animation: bootIn 240ms ease-out 560ms backwards; }
+.bootLine8 { animation: bootIn 240ms ease-out 640ms backwards; }
+
+@media (prefers-reduced-motion: reduce) {
+  .bootLine0,
+  .bootLine1,
+  .bootLine2,
+  .bootLine3,
+  .bootLine4,
+  .bootLine5,
+  .bootLine6,
+  .bootLine7,
+  .bootLine8 {
+    animation: none;
+  }
+}
