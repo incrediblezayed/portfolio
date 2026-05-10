@@ -1,0 +1,810 @@
+/* ─────────────────────────────────────────────
+   Decision Log skin — the canonical default.
+   Quiet, off-white, structured, deep substance.
+   Display: Fraunces · Body: Geist · Mono: JetBrains Mono · Accent: cobalt #2848d4
+   ───────────────────────────────────────────── */
+
+.root {
+  --dl-bg: #fbfaf7;
+  --dl-fg: #1a1a1a;
+  --dl-fg-muted: #5a5a5a;
+  --dl-fg-subtle: #888;
+  --dl-rule: #e5e1d8;
+  --dl-accent: #2848d4;
+  --dl-callout: #f5f1e8;
+  --dl-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
+
+  background: var(--dl-bg);
+  color: var(--dl-fg);
+  font-family: var(--font-sans), -apple-system, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+.main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 96px 32px 160px;
+}
+
+@media (max-width: 600px) {
+  .main {
+    padding: 56px 20px 96px;
+  }
+}
+
+/* ─────────── HERO ─────────── */
+
+.hero {
+  display: grid;
+  gap: 24px;
+  margin-bottom: 80px;
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--dl-fg-subtle);
+}
+
+.heroName {
+  margin: 0;
+  font-family: var(--font-fraunces), serif;
+  font-size: clamp(48px, 8vw, 84px);
+  line-height: 1;
+  letter-spacing: -0.025em;
+  font-weight: 600;
+}
+
+.tagline {
+  margin: 0;
+  font-family: var(--font-fraunces), serif;
+  font-style: italic;
+  font-size: clamp(20px, 3vw, 26px);
+  line-height: 1.3;
+  color: var(--dl-fg);
+}
+
+.intro {
+  margin: 0;
+  max-width: 60ch;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--dl-fg);
+}
+
+.availability {
+  margin: 0;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--dl-fg-muted);
+}
+
+.availability span {
+  color: var(--dl-accent);
+  margin-right: 4px;
+}
+
+.socials {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 12px;
+}
+
+.socialLink {
+  color: var(--dl-fg);
+  text-decoration: none;
+  border-bottom: 1px solid var(--dl-rule);
+  padding-bottom: 1px;
+  transition: border-color 120ms ease;
+}
+
+.socialLink:hover {
+  border-bottom-color: var(--dl-accent);
+  color: var(--dl-accent);
+}
+
+/* ─────────── PHILOSOPHY ─────────── */
+
+.philosophy {
+  margin: 64px 0 80px;
+}
+
+.divider {
+  border: 0;
+  border-top: 1px solid var(--dl-rule);
+  margin: 0 0 48px;
+}
+
+.philosophyQuote {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.philosophyLine {
+  margin: 0;
+  font-family: var(--font-fraunces), serif;
+  font-style: italic;
+  font-size: clamp(20px, 2.6vw, 24px);
+  line-height: 1.4;
+  color: var(--dl-fg);
+}
+
+.philosophyLine:last-child {
+  color: var(--dl-fg-muted);
+}
+
+/* ─────────── SECTION HEADINGS ─────────── */
+
+.section {
+  margin: 96px 0;
+}
+
+.sectionHeading {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 48px;
+  border-top: 1px solid var(--dl-rule);
+  padding-top: 32px;
+}
+
+.sectionEyebrow {
+  margin: 0;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--dl-fg-subtle);
+}
+
+.sectionTitle {
+  margin: 0;
+  font-family: var(--font-fraunces), serif;
+  font-size: clamp(28px, 4vw, 36px);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+  color: var(--dl-fg);
+  max-width: 24ch;
+}
+
+.sectionKicker {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: var(--dl-fg-muted);
+  max-width: 60ch;
+}
+
+/* ─────────── CASES ─────────── */
+
+.cases {
+  margin: 96px 0;
+}
+
+.casesList {
+  display: grid;
+  gap: 96px;
+}
+
+.case {
+  display: grid;
+  gap: 32px;
+  scroll-margin-top: 64px;
+}
+
+.caseHeader {
+  display: grid;
+  gap: 12px;
+}
+
+.caseNumber {
+  margin: 0;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--dl-accent);
+}
+
+.caseTitle {
+  margin: 0;
+  font-family: var(--font-fraunces), serif;
+  font-size: clamp(36px, 5vw, 52px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+.caseMeta {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--dl-fg-muted);
+  line-height: 1.5;
+}
+
+.metaKey {
+  display: inline-block;
+  width: 70px;
+  color: var(--dl-fg-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 10px;
+}
+
+.repoLink {
+  color: var(--dl-fg-muted);
+  text-decoration: none;
+  border-bottom: 1px solid var(--dl-rule);
+}
+
+.repoLink:hover {
+  color: var(--dl-accent);
+  border-bottom-color: var(--dl-accent);
+}
+
+.reframe {
+  border-left: 2px solid var(--dl-accent);
+  background: var(--dl-callout);
+  padding: 16px 20px;
+  display: grid;
+  gap: 4px;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.reframe p {
+  margin: 0;
+  color: var(--dl-fg);
+}
+
+.reframeLabel {
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--dl-accent);
+}
+
+.summary {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.caseSection {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+@media (max-width: 600px) {
+  .caseSection {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+.caseSectionLabel {
+  margin: 0;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--dl-fg-subtle);
+  padding-top: 6px;
+  position: sticky;
+  top: 24px;
+  align-self: start;
+}
+
+.caseSectionBody {
+  display: grid;
+  gap: 16px;
+}
+
+.caseSectionBody p {
+  margin: 0;
+  line-height: 1.65;
+}
+
+.problemList {
+  margin: 0;
+  padding: 0 0 0 24px;
+  display: grid;
+  gap: 12px;
+  line-height: 1.6;
+}
+
+.problemList li::marker {
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--dl-fg-subtle);
+}
+
+/* ─────────── OPTIONS TABLE ─────────── */
+
+.optionsWrap {
+  overflow-x: auto;
+  border-top: 1px solid var(--dl-rule);
+  border-bottom: 1px solid var(--dl-rule);
+}
+
+.optionsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.optionsTable th,
+.optionsTable td {
+  padding: 14px 12px;
+  vertical-align: top;
+  text-align: left;
+  border-bottom: 1px solid var(--dl-rule);
+}
+
+.optionsTable tbody tr:last-child th,
+.optionsTable tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.optionsTable thead th {
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  color: var(--dl-fg-subtle);
+  border-bottom: 1px solid var(--dl-rule);
+}
+
+.optionsHeadLetter {
+  width: 32px;
+}
+
+.optionLetter {
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--dl-fg-muted);
+  text-align: center;
+  width: 32px;
+}
+
+.optionLabel {
+  width: 38%;
+  line-height: 1.5;
+}
+
+.optionRejection {
+  color: var(--dl-fg-muted);
+  line-height: 1.55;
+}
+
+.optionChosen .optionLetter,
+.optionChosen .optionLabel,
+.optionChosen .optionRejection {
+  color: var(--dl-accent);
+  font-weight: 500;
+}
+
+.optionChosen .optionLabel {
+  font-weight: 600;
+}
+
+/* ─────────── BET ─────────── */
+
+.betIntro {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+.betSection {
+  display: grid;
+  gap: 6px;
+}
+
+.betSectionHeading {
+  margin: 0;
+  font-family: var(--font-fraunces), serif;
+  font-style: italic;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--dl-fg);
+}
+
+.betSectionList {
+  margin: 0;
+  padding: 0 0 0 20px;
+  display: grid;
+  gap: 8px;
+  line-height: 1.6;
+}
+
+/* ─────────── OUTCOME ─────────── */
+
+.metrics {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  border-top: 1px solid var(--dl-rule);
+  border-bottom: 1px solid var(--dl-rule);
+  padding: 24px 0;
+}
+
+.metrics li {
+  display: grid;
+  gap: 4px;
+}
+
+.metricValue {
+  font-family: var(--font-fraunces), serif;
+  font-size: clamp(28px, 4vw, 36px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  color: var(--dl-accent);
+}
+
+.metricLabel {
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--dl-fg-subtle);
+}
+
+/* ─────────── REFLECTION ─────────── */
+
+.reflectionTier {
+  display: grid;
+  gap: 16px;
+}
+
+.reflectionPrimary,
+.reflectionSecondary {
+  margin: 0;
+  padding: 16px 20px;
+  border-left: 2px solid var(--dl-fg);
+  background: rgba(0, 0, 0, 0.025);
+  display: grid;
+  gap: 6px;
+  font-style: italic;
+  font-family: var(--font-fraunces), serif;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--dl-fg);
+}
+
+.reflectionSecondary {
+  border-left-color: var(--dl-fg-subtle);
+  font-size: 15px;
+  color: var(--dl-fg-muted);
+}
+
+.reflectionPrimary p,
+.reflectionSecondary p {
+  margin: 0;
+}
+
+.reflectionLabel {
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-style: normal;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--dl-fg-subtle);
+  font-weight: 600;
+}
+
+/* ─────────── EXPERIENCE ─────────── */
+
+.experienceList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 32px;
+}
+
+.experienceItem {
+  display: grid;
+  gap: 8px;
+  border-top: 1px solid var(--dl-rule);
+  padding-top: 24px;
+}
+
+.experienceHeader {
+  display: grid;
+  gap: 4px;
+}
+
+.experienceTitle {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.experienceMeta {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--dl-fg-subtle);
+}
+
+.experienceDescription {
+  margin: 0;
+  color: var(--dl-fg-muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.subProductList {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0 0 0 16px;
+  border-left: 1px solid var(--dl-rule);
+  display: grid;
+  gap: 12px;
+}
+
+.subProductList li {
+  display: grid;
+  gap: 4px;
+}
+
+.subProductHeading {
+  font-size: 14px;
+}
+
+.subProductPeriod {
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--dl-fg-subtle);
+}
+
+.subProductBody {
+  font-size: 14px;
+  color: var(--dl-fg-muted);
+  line-height: 1.55;
+}
+
+.closingNote {
+  margin: 0;
+  font-style: italic;
+  color: var(--dl-fg-subtle);
+  font-size: 14px;
+}
+
+.education {
+  margin-top: 48px;
+  border-top: 1px solid var(--dl-rule);
+  padding-top: 24px;
+}
+
+.educationHeading {
+  margin: 0 0 12px;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--dl-fg-subtle);
+}
+
+.educationRow {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--dl-fg-muted);
+}
+
+/* ─────────── TOOLKIT ─────────── */
+
+.toolkitGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+}
+
+@media (max-width: 760px) {
+  .toolkitGrid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+}
+
+.toolkitColumnHeading {
+  margin: 0 0 20px;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--dl-fg-subtle);
+}
+
+.engineeringList {
+  margin: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.engineeringRow {
+  display: grid;
+  gap: 4px;
+}
+
+.engineeringCategory {
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--dl-fg-subtle);
+  margin: 0;
+}
+
+.engineeringItems {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--dl-fg);
+}
+
+.productList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 18px;
+}
+
+.productRow {
+  display: grid;
+  gap: 4px;
+}
+
+.productCategory {
+  margin: 0;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--dl-fg-subtle);
+}
+
+.productHeadline {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--dl-fg);
+}
+
+.productBody {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--dl-fg-muted);
+}
+
+/* ─────────── PROJECTS ─────────── */
+
+.projectsGroups {
+  display: grid;
+  gap: 48px;
+}
+
+.projectsGroup {
+  display: grid;
+  gap: 16px;
+}
+
+.projectsGroupHeading {
+  margin: 0;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--dl-fg-subtle);
+}
+
+.projectList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 16px;
+}
+
+.projectItem {
+  display: grid;
+  gap: 4px;
+  border-top: 1px solid var(--dl-rule);
+  padding-top: 12px;
+}
+
+.projectName {
+  margin: 0;
+  font-size: 15px;
+}
+
+.projectName em {
+  color: var(--dl-fg-muted);
+  font-style: italic;
+}
+
+.projectDescription {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--dl-fg);
+}
+
+.projectMeta {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--dl-fg-subtle);
+}
+
+.projectStatus {
+  color: var(--dl-fg-muted);
+}
+
+/* ─────────── MARQUEE (compact in Decision Log) ─────────── */
+
+.marquee {
+  margin: 96px 0 64px;
+  border-top: 1px solid var(--dl-rule);
+  padding-top: 24px;
+}
+
+.marqueeText {
+  margin: 0;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--dl-fg-subtle);
+  line-height: 1.7;
+}
+
+/* ─────────── FOOTER ─────────── */
+
+.footer {
+  border-top: 1px solid var(--dl-rule);
+  padding-top: 24px;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--dl-fg-subtle);
+}
+
+.footer p {
+  margin: 0;
+}
