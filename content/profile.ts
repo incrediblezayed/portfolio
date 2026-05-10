@@ -29,7 +29,7 @@ export const profile: Profile = {
   engineeringCurrentRole:
     "Senior Product Manager, still close to the stack — InfoPhone + InfoToDo at Enso Webworks",
   engineeringTagline:
-    "I started as the person shipping the code. These days I care just as much about the bet behind it.",
+    "I started as the person shipping the code. These days I care just as much about the call behind it.",
   engineeringIntro:
     "I'm Hassan. I spent six years building Flutter and Node products, with Firebase, native mobile, and backend work mixed in. At Enso, I'm now PM on InfoPhone and InfoToDo, but I still stay close to architecture: InfoPhone's native rebuild, raw ejabberd/LiveKit/NestJS stack, and InfoToDo's offline-first sync. The common thread is simple: I like product work where the architecture matters.",
   engineeringAvailabilityMessage:

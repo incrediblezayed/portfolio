@@ -89,7 +89,7 @@ export const toolkit: Toolkit = {
     },
     {
       category: "Strategy",
-      headline: "Written bets, then alignment.",
+      headline: "Written proposals, then alignment.",
       body: "I prefer writing the direction down first: what changed, what options exist, what we are choosing, and what we expect to learn. The Decision Log format on this site is the same habit applied publicly.",
     },
     {
