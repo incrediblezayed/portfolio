@@ -13,15 +13,15 @@ export const toolkit: Toolkit = {
     },
     {
       category: "Mobile",
-      items: ["Flutter", "Native iOS", "Native Android", "Provider", "Riverpod", "BLoC", "GetX"],
+      items: ["Flutter", "Native iOS", "Native Android", "Provider", "Riverpod", "BLoC", "GetX", "PowerSync", "Drift"],
     },
     {
       category: "Backend",
-      items: ["Node.js (Express, Fastify, Hapi, NestJS)", "Prisma", "Drizzle", "REST APIs"],
+      items: ["NestJS", "Node.js (Express, Hapi, Fastify)", "TypeORM", "Drizzle", "Prisma", "REST APIs"],
     },
     {
       category: "Frontend (web)",
-      items: ["Vue.js", "Next.js"],
+      items: ["Vue 2", "Vuetify", "Next.js", "React"],
     },
     {
       category: "Real-time / communication",
@@ -29,7 +29,7 @@ export const toolkit: Toolkit = {
     },
     {
       category: "Cloud / infra",
-      items: ["Firebase", "Firestore", "Firebase Cloud Functions", "GCP", "GitHub Actions", "CodeMagic"],
+      items: ["Firebase", "Firestore", "Firebase Cloud Functions", "Supabase", "Postgres", "Redis", "GCP", "GitHub Actions", "CodeMagic"],
     },
     {
       category: "Tooling",

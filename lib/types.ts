@@ -121,7 +121,6 @@ export interface Case {
   title: string;
   meta: CaseMeta;
   summary: string;
-  reframeNote?: string;
   problem: CaseProblem;
   options: OptionRow[];
   bet: CaseBet;

@@ -2,6 +2,7 @@
 
 import { useTheme } from "./ThemeProvider";
 import { DecisionLog } from "./skins/DecisionLog";
+import { Editorial } from "./skins/Editorial";
 import { SkinPlaceholder } from "./skins/SkinPlaceholder";
 import { THEMES } from "@/lib/themes";
 
@@ -11,6 +12,7 @@ export function Portfolio() {
     case "decisionlog":
       return <DecisionLog />;
     case "editorial":
+      return <Editorial />;
     case "twocolumn":
     case "changelog":
     case "terminal":

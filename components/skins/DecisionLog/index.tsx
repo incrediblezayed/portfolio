@@ -8,7 +8,7 @@ import {
   projects,
   toolkit,
 } from "@/content";
-import type { Case, OptionRow, ProblemItem, Role } from "@/lib/types";
+import type { Case, OptionRow, Role } from "@/lib/types";
 import styles from "./DecisionLog.module.css";
 
 export function DecisionLog() {
@@ -70,8 +70,8 @@ function Philosophy() {
     <section className={styles.philosophy} aria-label="Operating philosophy">
       <hr className={styles.divider} />
       <blockquote className={styles.philosophyQuote}>
-        {philosophy.quote.map((line, idx) => (
-          <p key={idx} className={styles.philosophyLine}>
+        {philosophy.quote.map((line) => (
+          <p key={line} className={styles.philosophyLine}>
             {line}
           </p>
         ))}
@@ -97,7 +97,7 @@ function Cases() {
   );
 }
 
-function CaseStudy({ caseStudy: c }: { caseStudy: Case }) {
+function CaseStudy({ caseStudy: c }: Readonly<{ caseStudy: Case }>) {
   return (
     <article className={styles.case} id={c.id}>
       <header className={styles.caseHeader}>
@@ -130,13 +130,6 @@ function CaseStudy({ caseStudy: c }: { caseStudy: Case }) {
         </ul>
       </header>
 
-      {c.reframeNote ? (
-        <aside className={styles.reframe} role="note">
-          <p className={styles.reframeLabel}>Reframe note</p>
-          <p>{c.reframeNote}</p>
-        </aside>
-      ) : null}
-
       <p className={styles.summary}>{c.summary}</p>
 
       <CaseSection label="Problem">
@@ -162,7 +155,10 @@ function CaseStudy({ caseStudy: c }: { caseStudy: Case }) {
   );
 }
 
-function CaseSection({ label, children }: { label: string; children: React.ReactNode }) {
+function CaseSection({
+  label,
+  children,
+}: Readonly<{ label: string; children: React.ReactNode }>) {
   return (
     <div className={styles.caseSection}>
       <h4 className={styles.caseSectionLabel}>{label}</h4>
@@ -171,27 +167,27 @@ function CaseSection({ label, children }: { label: string; children: React.React
   );
 }
 
-function ProblemBlock({ problem }: { problem: Case["problem"] }) {
+function ProblemBlock({ problem }: Readonly<{ problem: Case["problem"] }>) {
   return (
     <>
       {problem.intro ? <p>{problem.intro}</p> : null}
       {problem.items?.length ? (
         <ol className={styles.problemList}>
-          {problem.items.map((item: ProblemItem, idx: number) => (
-            <li key={idx}>
+          {problem.items.map((item) => (
+            <li key={item.label}>
               <strong>{item.label}.</strong> {item.body}
             </li>
           ))}
         </ol>
       ) : null}
-      {problem.paragraphs?.map((p, idx) => (
-        <p key={`p-${idx}`}>{p}</p>
+      {problem.paragraphs?.map((p) => (
+        <p key={p}>{p}</p>
       ))}
     </>
   );
 }
 
-function OptionsTable({ options }: { options: OptionRow[] }) {
+function OptionsTable({ options }: Readonly<{ options: OptionRow[] }>) {
   return (
     <div className={styles.optionsWrap}>
       <table className={styles.optionsTable}>
@@ -223,17 +219,17 @@ function OptionsTable({ options }: { options: OptionRow[] }) {
   );
 }
 
-function BetBlock({ bet }: { bet: Case["bet"] }) {
+function BetBlock({ bet }: Readonly<{ bet: Case["bet"] }>) {
   return (
     <>
       {bet.intro ? <p className={styles.betIntro}>{bet.intro}</p> : null}
-      {bet.sections?.map((section, idx) => (
-        <div key={idx} className={styles.betSection}>
+      {bet.sections?.map((section) => (
+        <div key={section.heading} className={styles.betSection}>
           <h5 className={styles.betSectionHeading}>{section.heading}</h5>
           {Array.isArray(section.body) ? (
             <ul className={styles.betSectionList}>
-              {section.body.map((item, i) => (
-                <li key={i}>{item}</li>
+              {section.body.map((item) => (
+                <li key={item}>{item}</li>
               ))}
             </ul>
           ) : (
@@ -245,27 +241,27 @@ function BetBlock({ bet }: { bet: Case["bet"] }) {
   );
 }
 
-function OutcomeBlock({ outcome }: { outcome: Case["outcome"] }) {
+function OutcomeBlock({ outcome }: Readonly<{ outcome: Case["outcome"] }>) {
   return (
     <>
       {outcome.metrics?.length ? (
         <ul className={styles.metrics}>
-          {outcome.metrics.map((m, idx) => (
-            <li key={idx}>
+          {outcome.metrics.map((m) => (
+            <li key={m.label}>
               <span className={styles.metricValue}>{m.value}</span>
               <span className={styles.metricLabel}>{m.label}</span>
             </li>
           ))}
         </ul>
       ) : null}
-      {outcome.paragraphs.map((p, idx) => (
-        <p key={idx}>{p}</p>
+      {outcome.paragraphs.map((p) => (
+        <p key={p}>{p}</p>
       ))}
     </>
   );
 }
 
-function ReflectionBlock({ reflection }: { reflection: Case["reflection"] }) {
+function ReflectionBlock({ reflection }: Readonly<{ reflection: Case["reflection"] }>) {
   if (reflection.primary || reflection.secondary) {
     return (
       <div className={styles.reflectionTier}>
@@ -286,8 +282,8 @@ function ReflectionBlock({ reflection }: { reflection: Case["reflection"] }) {
   }
   return (
     <blockquote className={styles.reflectionPrimary}>
-      {reflection.paragraphs?.map((p, idx) => (
-        <p key={idx}>{p}</p>
+      {reflection.paragraphs?.map((p) => (
+        <p key={p}>{p}</p>
       ))}
     </blockquote>
   );
@@ -301,8 +297,8 @@ function Experience() {
         title="Six years across startup chaos and enterprise structure."
       />
       <ul className={styles.experienceList}>
-        {experience.map((role, idx) => (
-          <ExperienceRow key={`${role.company}-${idx}`} role={role} />
+        {experience.map((role) => (
+          <ExperienceRow key={`${role.company}-${role.period}`} role={role} />
         ))}
       </ul>
       <div className={styles.education}>
@@ -321,7 +317,7 @@ function Experience() {
   );
 }
 
-function ExperienceRow({ role }: { role: Role }) {
+function ExperienceRow({ role }: Readonly<{ role: Role }>) {
   return (
     <li className={styles.experienceItem}>
       <header className={styles.experienceHeader}>
@@ -445,11 +441,11 @@ function SectionHeading({
   eyebrow,
   title,
   kicker,
-}: {
+}: Readonly<{
   eyebrow: string;
   title: string;
   kicker?: string;
-}) {
+}>) {
   return (
     <header className={styles.sectionHeading}>
       <p className={styles.sectionEyebrow}>{eyebrow}</p>

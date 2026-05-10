@@ -2,7 +2,7 @@ import { profile } from "@/content";
 import type { ThemeRegistryEntry } from "@/lib/types";
 import styles from "./SkinPlaceholder.module.css";
 
-export function SkinPlaceholder({ skin }: { skin: ThemeRegistryEntry }) {
+export function SkinPlaceholder({ skin }: Readonly<{ skin: ThemeRegistryEntry }>) {
   return (
     <div className={styles.root}>
       <div

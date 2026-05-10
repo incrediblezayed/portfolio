@@ -9,12 +9,12 @@ export const cases: Case[] = [
   {
     id: "infophone",
     number: 1,
-    title: "Infophone",
+    title: "InfoPhone",
     meta: {
       year: "2025",
       duration: "ongoing",
       role: "Product Manager (& engineer of the prior build)",
-      stack: "Native iOS (Swift) + Native Android (Kotlin) + raw ejabberd + LiveKit + NestJS",
+      stack: "Native iOS (Swift) + Native Android (Kotlin) + raw ejabberd + LiveKit + NestJS + Drizzle",
       status: "In testing phase. Not yet shipped to end users.",
     },
     summary:
@@ -58,7 +58,7 @@ export const cases: Case[] = [
       },
       {
         letter: "C",
-        label: "Native (Kotlin/Swift) + raw ejabberd + LiveKit + NestJS",
+        label: "Native (Kotlin/Swift) + raw ejabberd + LiveKit + NestJS + Drizzle",
         rejection: "Chosen.",
       },
       {
@@ -69,7 +69,7 @@ export const cases: Case[] = [
     ],
     bet: {
       intro:
-        "We bet on native iOS (Swift) and native Android (Kotlin), with raw ejabberd (no wrapper SDK) for chat and LiveKit for calls, all glued together with a NestJS backend.",
+        "We bet on native iOS (Swift) and native Android (Kotlin), with raw ejabberd (no wrapper SDK) for chat and LiveKit for calls, all glued together with a NestJS + Drizzle backend.",
       sections: [
         {
           heading: "Why this stack at all — code ownership",
@@ -112,13 +112,12 @@ export const cases: Case[] = [
     id: "clickked",
     number: 2,
     title: "Clickked",
-    reframeNote:
-      'This case was originally framed around a "marketplace expansion" — but that was a stakeholder USP from inception, completed before I joined. As sole technical lead from mid-2023, the actual decision I owned and learned from was the v1 paywall placement and its v2 pivot. That is the case below.',
     meta: {
       year: "joined mid-2023; project itself started 2021",
       duration: "mid-2023 – present (ongoing)",
       role: "Sole technical lead. Every product/tech decision since joining — paywall placement, consultant web app architecture, NestJS backend design.",
-      stack: "Flutter (iOS + Android user app) + Flutter web (consultant CMS) + NestJS backend",
+      stack:
+        "Flutter user app + Flutter consultant/admin apps + Firebase/Supabase services + NestJS/TypeORM consultant backend",
       status:
         "v1 currently live on Play Store + App Store. v2 (paywall pivot + consultant flow updates) is in development, ~2 months in, not yet shipped.",
     },

@@ -1,0 +1,829 @@
+/* ─────────────────────────────────────────────
+   Editorial skin — magazine spread.
+   Cream paper, warm black ink, vermillion accent.
+   Display: Instrument Serif (italic for emphasis)
+   Body: Geist · Mono: JetBrains Mono
+   ───────────────────────────────────────────── */
+
+.root {
+  --ed-bg: #f1ebe1;
+  --ed-ink: #1a1715;
+  --ed-ink-soft: #5b524a;
+  --ed-ink-faint: #948576;
+  --ed-rule: #d4cab8;
+  --ed-accent: #d94a1f;
+  --ed-grid-line: rgba(26, 23, 21, 0.04);
+
+  position: relative;
+  background: var(--ed-bg);
+  color: var(--ed-ink);
+  min-height: 100vh;
+  font-family:
+    var(--font-sans),
+    -apple-system,
+    system-ui,
+    sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+
+  background-image:
+    linear-gradient(to right, var(--ed-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--ed-grid-line) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+.paperOverlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.06;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+.main {
+  position: relative;
+  z-index: 1;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 96px 32px 160px;
+  display: grid;
+  gap: 0;
+}
+
+@media (max-width: 720px) {
+  .main {
+    padding: 56px 20px 96px;
+  }
+  .root {
+    background-size: 40px 40px;
+  }
+}
+
+/* ─────────── HERO ─────────── */
+
+.hero {
+  display: grid;
+  gap: 28px;
+  margin-bottom: 96px;
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ed-accent);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.heroName {
+  margin: 0;
+  font-family: var(--font-instrument-serif), serif;
+  font-size: clamp(72px, 13vw, 156px);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  font-weight: 400;
+  color: var(--ed-ink);
+}
+
+.heroNameStrong {
+  font-style: normal;
+}
+
+.heroNameItalic {
+  font-style: italic;
+  color: var(--ed-accent);
+}
+
+.tagline {
+  margin: 0;
+  font-family: var(--font-instrument-serif), serif;
+  font-size: clamp(24px, 4vw, 36px);
+  line-height: 1.2;
+  font-weight: 400;
+  color: var(--ed-ink-soft);
+  max-width: 22ch;
+}
+
+.tagline em {
+  font-style: italic;
+}
+
+.heroBody {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 48px;
+  align-items: start;
+  margin-top: 16px;
+}
+
+@media (max-width: 720px) {
+  .heroBody {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+.intro {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.7;
+  max-width: 50ch;
+}
+
+.heroAside {
+  display: grid;
+  gap: 20px;
+  border-top: 1px solid var(--ed-rule);
+  padding-top: 16px;
+}
+
+.availability {
+  margin: 0;
+  font-family: var(--font-instrument-serif), serif;
+  font-size: 16px;
+  font-style: italic;
+  color: var(--ed-ink-soft);
+}
+
+.socials {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.socials a {
+  color: var(--ed-ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--ed-accent);
+  padding-bottom: 1px;
+  transition: color 120ms ease;
+}
+
+.socials a:hover {
+  color: var(--ed-accent);
+}
+
+/* ─────────── MARQUEE ─────────── */
+
+.marquee {
+  overflow: hidden;
+  border-top: 1px solid var(--ed-ink);
+  border-bottom: 1px solid var(--ed-ink);
+  padding: 18px 0;
+  margin: 0 -32px 48px;
+  position: relative;
+}
+
+@media (max-width: 720px) {
+  .marquee {
+    margin: 0 -20px 0;
+  }
+}
+
+.marqueeTrack {
+  display: flex;
+  gap: 36px;
+  white-space: nowrap;
+  width: max-content;
+  animation: marqueeScroll 50s linear infinite;
+}
+
+.marqueeItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 36px;
+  font-family: var(--font-instrument-serif), serif;
+  font-style: italic;
+  font-size: 22px;
+  color: var(--ed-ink);
+}
+
+.marqueeDot {
+  color: var(--ed-accent);
+  font-style: normal;
+  font-size: 14px;
+}
+
+@keyframes marqueeScroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ─────────── SECTION HEADINGS ─────────── */
+
+.sectionHeading {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 48px;
+  max-width: 32ch;
+}
+
+.sectionEyebrow {
+  margin: 0;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ed-accent);
+}
+
+.sectionTitle {
+  margin: 0;
+  font-family: var(--font-instrument-serif), serif;
+  font-size: clamp(36px, 5.5vw, 56px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  color: var(--ed-ink);
+}
+
+.sectionTitle em {
+  font-style: italic;
+}
+
+.sectionKicker {
+  margin: 0;
+  font-family: var(--font-instrument-serif), serif;
+  font-style: italic;
+  font-size: 18px;
+  color: var(--ed-ink-soft);
+}
+
+/* ─────────── PHILOSOPHY ─────────── */
+
+.philosophy {
+  margin: 32px 0 96px;
+  padding: 56px 0;
+  border-top: 1px solid var(--ed-ink);
+  border-bottom: 1px solid var(--ed-ink);
+  text-align: center;
+  display: grid;
+  gap: 16px;
+  justify-items: center;
+}
+
+.philosophyQuote {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+  max-width: 60ch;
+}
+
+.philosophyLine {
+  margin: 0;
+  font-family: var(--font-instrument-serif), serif;
+  font-size: clamp(28px, 4vw, 38px);
+  line-height: 1.25;
+  font-weight: 400;
+  color: var(--ed-ink);
+}
+
+.philosophyLine em {
+  font-style: italic;
+}
+
+.philosophyLine:last-child em {
+  color: var(--ed-accent);
+}
+
+.philosophyAttribution {
+  margin: 0;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ed-ink-faint);
+}
+
+/* ─────────── CASES ─────────── */
+
+.cases {
+  margin: 96px 0;
+}
+
+.caseList {
+  display: grid;
+  gap: 96px;
+}
+
+.case {
+  display: grid;
+  gap: 28px;
+  scroll-margin-top: 64px;
+}
+
+.caseHeader {
+  display: grid;
+  gap: 8px;
+  border-bottom: 1px solid var(--ed-rule);
+  padding-bottom: 16px;
+}
+
+.caseEyebrow {
+  margin: 0;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ed-accent);
+}
+
+.caseTitle {
+  margin: 0;
+  font-family: var(--font-instrument-serif), serif;
+  font-size: clamp(40px, 6vw, 64px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  color: var(--ed-ink);
+}
+
+.caseTitle em {
+  font-style: italic;
+}
+
+.caseMeta {
+  margin: 4px 0 0;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ed-ink-faint);
+  line-height: 1.5;
+}
+
+/* Magazine multi-column flow for case body prose */
+.caseFlow {
+  column-count: 2;
+  column-gap: 40px;
+  column-rule: 1px solid var(--ed-rule);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+@media (max-width: 720px) {
+  .caseFlow {
+    column-count: 1;
+    column-rule: 0;
+  }
+}
+
+.caseFlow p {
+  margin: 0 0 14px;
+  break-inside: avoid;
+}
+
+.caseFlow p:last-child {
+  margin-bottom: 0;
+}
+
+/* Lede paragraph — drop cap via ::first-letter */
+.lede {
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.lede::first-letter {
+  float: left;
+  font-family: var(--font-instrument-serif), serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 5.4em;
+  line-height: 0.85;
+  color: var(--ed-accent);
+  padding: 0.05em 0.08em 0 0;
+  margin-top: 0.04em;
+}
+
+/* Inline kind labels (BET., OUTCOME.) — small mono caps prefix */
+.inlineLabel {
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  color: var(--ed-accent);
+  margin-right: 8px;
+}
+
+.metrics {
+  list-style: none;
+  margin: 16px 0;
+  padding: 18px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  border-top: 1px solid var(--ed-ink);
+  border-bottom: 1px solid var(--ed-ink);
+  column-span: all;
+  break-inside: avoid;
+}
+
+.metric {
+  display: grid;
+  gap: 4px;
+}
+
+.metricValue {
+  font-family: var(--font-instrument-serif), serif;
+  font-style: italic;
+  font-size: clamp(28px, 4vw, 36px);
+  line-height: 1;
+  color: var(--ed-accent);
+}
+
+.metricLabel {
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ed-ink-faint);
+}
+
+.pullquote {
+  margin: 28px 0 0;
+  padding: 32px 16px;
+  border-top: 1px solid var(--ed-ink);
+  border-bottom: 1px solid var(--ed-ink);
+  text-align: center;
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+}
+
+.pullquote p {
+  margin: 0;
+  font-family: var(--font-instrument-serif), serif;
+  font-size: clamp(22px, 3vw, 28px);
+  line-height: 1.35;
+  max-width: 48ch;
+  color: var(--ed-ink);
+}
+
+.pullquote p em {
+  font-style: italic;
+}
+
+.pullquote footer {
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ed-accent);
+}
+
+/* ─────────── EXPERIENCE ─────────── */
+
+.experience {
+  margin: 96px 0;
+}
+
+.experienceList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 32px;
+}
+
+.experienceItem {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 32px;
+  align-items: start;
+  border-top: 1px solid var(--ed-rule);
+  padding-top: 24px;
+}
+
+@media (max-width: 720px) {
+  .experienceItem {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+.experiencePeriod {
+  margin: 0;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ed-ink-faint);
+  padding-top: 4px;
+}
+
+.experienceBody {
+  display: grid;
+  gap: 6px;
+}
+
+.experienceTitle {
+  margin: 0;
+  font-size: 16px;
+}
+
+.experienceTitle strong {
+  font-weight: 600;
+}
+
+.experienceRoleTitle {
+  font-family: var(--font-instrument-serif), serif;
+  font-style: italic;
+  color: var(--ed-ink-soft);
+  font-size: 17px;
+}
+
+.experienceDescription {
+  margin: 0;
+  color: var(--ed-ink-soft);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.subProductList {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0 0 0 16px;
+  border-left: 1px solid var(--ed-accent);
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--ed-ink-soft);
+}
+
+.subProductList em {
+  font-style: italic;
+  color: var(--ed-ink);
+}
+
+/* ─────────── TOOLKIT ─────────── */
+
+.toolkit {
+  margin: 96px 0;
+}
+
+.toolkitGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+}
+
+@media (max-width: 720px) {
+  .toolkitGrid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+}
+
+.toolkitColumn {
+  display: grid;
+  gap: 24px;
+}
+
+.toolkitColumnEyebrow {
+  margin: 0;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ed-accent);
+  border-bottom: 1px solid var(--ed-rule);
+  padding-bottom: 8px;
+}
+
+.engineeringList {
+  margin: 0;
+  display: grid;
+  gap: 16px;
+}
+
+.engineeringRow {
+  display: grid;
+  gap: 4px;
+}
+
+.engineeringRow dt {
+  margin: 0;
+  font-family: var(--font-instrument-serif), serif;
+  font-style: italic;
+  font-size: 17px;
+  color: var(--ed-ink);
+}
+
+.engineeringRow dd {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ed-ink-soft);
+}
+
+.productList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 18px;
+}
+
+.productList li {
+  display: grid;
+  gap: 4px;
+}
+
+.productCategory {
+  margin: 0;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ed-ink-faint);
+}
+
+.productHeadline {
+  margin: 0;
+  font-family: var(--font-instrument-serif), serif;
+  font-size: 18px;
+  color: var(--ed-ink);
+}
+
+.productHeadline em {
+  font-style: italic;
+}
+
+/* ─────────── PROJECTS ─────────── */
+
+.projects {
+  margin: 96px 0;
+}
+
+.projectsGroups {
+  display: grid;
+  gap: 40px;
+}
+
+.projectsGroup {
+  display: grid;
+  gap: 16px;
+}
+
+.projectsGroupHeading {
+  margin: 0;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ed-accent);
+  border-bottom: 1px solid var(--ed-rule);
+  padding-bottom: 8px;
+}
+
+.projectList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.projectItem {
+  display: grid;
+  gap: 4px;
+  border-bottom: 1px dotted var(--ed-rule);
+  padding-bottom: 12px;
+}
+
+.projectItem:last-child {
+  border-bottom: 0;
+}
+
+.projectName {
+  margin: 0;
+  font-size: 16px;
+}
+
+.projectName strong {
+  font-weight: 600;
+}
+
+.projectTagline {
+  font-family: var(--font-instrument-serif), serif;
+  font-style: italic;
+  color: var(--ed-ink-soft);
+}
+
+.projectMeta {
+  margin: 0;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--ed-ink-faint);
+}
+
+/* ─────────── FOOTER ─────────── */
+
+.footer {
+  margin-top: 96px;
+  padding-top: 32px;
+  border-top: 1px solid var(--ed-ink);
+  display: grid;
+  gap: 12px;
+  text-align: center;
+  justify-items: center;
+}
+
+.footerLine {
+  margin: 0;
+  font-family: var(--font-instrument-serif), serif;
+  font-size: 28px;
+  font-style: italic;
+  color: var(--ed-accent);
+}
+
+.footerLineMeta {
+  margin: 0;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ed-ink-faint);
+}
+
+.footerLineMeta kbd {
+  font: inherit;
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid var(--ed-ink-faint);
+  font-size: 10px;
+}
+
+/* ─────────── STAGGERED ENTRY ANIMATION ─────────── */
+
+@keyframes staggerIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stagger0 {
+  animation: staggerIn 700ms ease-out 0ms both;
+}
+.stagger1 {
+  animation: staggerIn 700ms ease-out 80ms both;
+}
+.stagger2 {
+  animation: staggerIn 700ms ease-out 160ms both;
+}
+.stagger3 {
+  animation: staggerIn 700ms ease-out 240ms both;
+}
+.stagger4 {
+  animation: staggerIn 700ms ease-out 320ms both;
+}
+.stagger5 {
+  animation: staggerIn 700ms ease-out 400ms both;
+}
+.stagger6 {
+  animation: staggerIn 700ms ease-out 480ms both;
+}
+.stagger7 {
+  animation: staggerIn 700ms ease-out 560ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stagger0,
+  .stagger1,
+  .stagger2,
+  .stagger3,
+  .stagger4,
+  .stagger5,
+  .stagger6,
+  .stagger7 {
+    animation: none;
+  }
+  .marqueeTrack {
+    animation: none;
+    transform: translateX(0);
+  }
+}

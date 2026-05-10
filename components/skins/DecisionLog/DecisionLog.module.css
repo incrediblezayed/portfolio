@@ -16,16 +16,26 @@
 
   background: var(--dl-bg);
   color: var(--dl-fg);
-  font-family: var(--font-sans), -apple-system, system-ui, sans-serif;
+  font-family:
+    var(--font-sans),
+    -apple-system,
+    system-ui,
+    sans-serif;
   font-size: 16px;
   line-height: 1.6;
   min-height: 100vh;
 }
 
 .main {
-  max-width: 760px;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 96px 32px 160px;
+  padding: 96px 48px 160px;
+}
+
+@media (max-width: 1024px) {
+  .main {
+    padding: 80px 32px 128px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -285,13 +295,21 @@
   margin: 0;
   font-size: 17px;
   line-height: 1.65;
+  max-width: 65ch;
 }
 
 .caseSection {
   display: grid;
-  grid-template-columns: 90px 1fr;
+  grid-template-columns: 90px minmax(0, 65ch) 1fr;
   gap: 32px;
   align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .caseSection {
+    grid-template-columns: 90px minmax(0, 1fr) 0;
+    gap: 28px;
+  }
 }
 
 @media (max-width: 600px) {
