@@ -20,7 +20,7 @@ export interface ChangelogEntry {
 function fauxHash(input: string): string {
   let h = 0x811c9dc5;
   for (let i = 0; i < input.length; i++) {
-    h ^= input.charCodeAt(i);
+    h ^= input.codePointAt(i) ?? 0;
     h = Math.imul(h, 0x01000193);
   }
   return ((h >>> 0).toString(16) + "abcdef").slice(0, 7);
@@ -41,9 +41,12 @@ const MONTH_INDEX: Record<string, string> = {
   dec: "12",
 };
 
+const PERIOD_START_PATTERN = /^([A-Za-z]+)\s+(\d{4})/;
+const YEAR_PATTERN = /(\d{4})/;
+
 function parsePeriodStart(period: string): { yyyy_mm: string; label: string } {
   // Parse "Feb 2026 – present" or "Oct 2023 – Sep 2024" → "2026-02"
-  const match = period.match(/^([A-Za-z]+)\s+(\d{4})/);
+  const match = PERIOD_START_PATTERN.exec(period);
   if (!match) return { yyyy_mm: "0000-00", label: period };
   const monthRaw = match[1].toLowerCase().slice(0, 3);
   const month = MONTH_INDEX[monthRaw] ?? "01";
@@ -59,14 +62,17 @@ function caseToEntry(c: Case): ChangelogEntry {
   const isInTesting = /testing|in development|in-flight/i.test(c.meta.status);
   const status: ChangelogStatus = isInTesting ? "wip" : "shipped";
 
-  // Pick a date — use case meta.year if it's parseable
-  const yearMatch = c.meta.year.match(/(\d{4})/);
-  const year = yearMatch ? yearMatch[1] : "2025";
-  // Use a reasonable month per case
+  // Pick a date — surface the most relevant release for the changelog,
+  // not the original launch date.
+  const yearMatch = YEAR_PATTERN.exec(c.meta.year);
+  const yearByCase: Record<string, string> = {
+    file_saver: "2026", // v0.4.0 release
+  };
+  const year = yearByCase[c.id] ?? (yearMatch ? yearMatch[1] : "2025");
   const monthByCase: Record<string, string> = {
     infophone: "05",
     clickked: "03", // v2 in dev currently
-    file_saver: "03",
+    file_saver: "05", // v0.4.0 release
   };
   const month = monthByCase[c.id] ?? "01";
   const yyyy_mm = `${year}-${month}`;
@@ -89,7 +95,7 @@ function caseToEntry(c: Case): ChangelogEntry {
   const titleByCase: Record<string, string> = {
     infophone: "InfoPhone — native rebuild in testing",
     clickked: "Clickked — v2 paywall pivot in development",
-    file_saver: "file_saver — first release on pub.dev",
+    file_saver: "file_saver — v0.4.0 ships SPM, streaming, Wasm cleanup",
   };
 
   // Body — take canonical product voice short paragraphs
@@ -110,8 +116,12 @@ function caseToEntry(c: Case): ChangelogEntry {
       "NestJS + TypeORM consultant backend",
     ],
     file_saver: [
-      "Cross-platform Dart API: FileSaver.saveAs(...)",
-      "Web (Blob), iOS (Documents), Android (MediaStore/SAF)",
+      "Swift Package Manager support (iOS, macOS)",
+      "Streaming writes — saveAsStream + saveLinkAsStream",
+      "downloadLink for web + Android DownloadManager (no Dart memory copies)",
+      "Conditional imports — clean Web/Wasm analysis",
+      "Native file-path copying (iOS, macOS, Windows) — saveAs avoids loading bytes",
+      "Android path-traversal hardening + writes off the main thread",
     ],
   };
 
@@ -171,9 +181,9 @@ export function statusLabel(status: ChangelogStatus): string {
 
 export function escapeXml(text: string): string {
   return text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&apos;");
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&apos;");
 }

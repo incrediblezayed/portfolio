@@ -395,16 +395,16 @@ export const cases: Case[] = [
     number: 3,
     title: "file_saver",
     meta: {
-      year: "First release 11 March 2021",
-      duration: "~4 years and counting (active maintenance)",
+      year: "First release 11 March 2021 · v0.4.0 May 2026",
+      duration: "~5 years and counting (active maintenance)",
       role: "Author and sole maintainer",
       stack: "Dart, pub.dev, cross-platform (web + mobile + desktop)",
       status:
-        "Live on pub.dev — 190k+ downloads · 491 likes · 140 pub points · active maintenance",
+        "Live on pub.dev — 185k+ downloads · 491 likes · 140 pub points · v0.4.0 shipped May 2026 · active maintenance",
       repoUrl: "https://github.com/incrediblezayed/file_saver",
     },
     summary:
-      "file_saver is an open-source Dart package that saves files cross-platform from Flutter apps — web, mobile, and desktop. I built it in 2021 for a personal project when no existing package handled the web-vs-mobile platform fork cleanly. Four years on, it's at 190k+ pub.dev downloads with active maintenance — written, owned, and maintained alone. This case is about the architectural call I made on day one — how to structure the abstraction — and how it has aged.",
+      "file_saver is an open-source Dart package that saves files cross-platform from Flutter apps — web, mobile, and desktop. I built it in 2021 for a personal project when no existing package handled the web-vs-mobile platform fork cleanly. Five years on, it's at 185k+ monthly downloads with active maintenance — most recent release v0.4.0 (May 2026) added Swift Package Manager support, streaming writes, and Wasm-friendly conditional imports without breaking the public API. This case is about the architectural call I made on day one — how to structure the abstraction — and how it has aged.",
     problem: {
       intro: {
         audience: "both",
@@ -551,25 +551,26 @@ export const cases: Case[] = [
         {
           audience: "both",
           voices: {
-            tech: "Four years later, the monolithic structure has scaled across web, mobile, and desktop without forcing a major package split.",
+            tech: "Five years in, the monolithic structure still holds. v0.4.0 (May 2026) added Swift Package Manager support for iOS and macOS, conditional imports that keep Web/Wasm analysis clean, streaming writes via saveAsStream and saveLinkAsStream, native file-path copying on iOS/macOS/Windows so saveAs avoids loading inputs into Dart memory, and Android path-traversal hardening — all additive, none breaking the user-facing API.",
             product:
-              "The bet aged well: platform support expanded without breaking the developer-facing promise.",
+              "The bet aged well: v0.4.0 shipped in May 2026 with SPM support, streaming downloads, and security hardening — meaningful evolution that didn't ask any user to migrate or change a single import. The architectural call from day one keeps paying.",
           },
         },
         {
           audience: "both",
           voices: {
-            tech: "The original architecture remained additive. New platform work could slot into the same package model instead of forcing a public API reset.",
+            tech: "The monolithic structure absorbed Linux, Windows, and macOS desktop platforms; absorbed Wasm-friendly conditional imports; absorbed streaming primitives and authenticated URL downloads. Each addition slotted into the existing package model instead of forcing a public API reset. The FileSaver.saveAs(...) call signature is unchanged from the very first release.",
             product:
-              "API stability became part of the product value. Developers could keep trusting the package instead of relearning it.",
+              "API stability became part of the product value. Five years and four major releases later, developers can still trust the package instead of relearning it. Adding new platforms and capabilities has been additive, not breaking.",
           },
         },
       ],
       metrics: [
-        { label: "downloads", value: "190k+", audience: "both" },
+        { label: "monthly downloads", value: "185k+", audience: "both" },
         { label: "likes on pub.dev", value: "491", audience: "both" },
         { label: "pub points", value: "140", audience: "both" },
-        { label: "years active", value: "4", audience: "both" },
+        { label: "years active", value: "5", audience: "both" },
+        { label: "current release", value: "v0.4.0", audience: "both" },
       ],
     },
     reflection: {
@@ -579,6 +580,6 @@ export const cases: Case[] = [
         "As steward of a widely used package, I should have treated maintainer experience as product surface too. The API was simple for users, but the project was too dependent on one maintainer.",
     },
     prose:
-      "On the eleventh of March, 2021, I published the first version of file_saver to pub.dev. It started as scratch for a project of my own. Flutter had no clean way to save a file that worked across web, iOS, Android, and desktop, and asking dev-users to add four packages for a single feature felt wrong.\n\nThe architectural call was to keep the abstraction monolithic. One package, one import — `FileSaver.saveAs(...)` — with platform-specific files inside, swapped at compile time via conditional imports: `dart:html` for web, `dart:io` for mobile, native channels for desktop. The alternative was the path_provider convention: a platform interface package and per-platform implementation packages. Architecturally cleaner, perhaps, but it would have asked every dev-user to add multiple packages for a single feature. I picked the dev ergonomic over the architectural purity.\n\nFour years on, the bet has held up. The package gets roughly 185,000 downloads a month, sits at 491 likes and 140 pub points, and is still under active maintenance. The monolithic structure scaled across web, mobile, and desktop as Flutter itself expanded; new platforms slotted into the existing structure without breaking the user-facing API. There hasn't been a major refactor.\n\nWhat I would do differently isn't the package — it's the scaffolding around it. Contribution guidelines and a maintainer policy should have been in place from day one; 185k monthly downloads is too much usage for a single bus factor to carry. Tests and CI should have shipped with the first commit, so updates land with confidence rather than caution. And when desktop platforms arrived, I should have explicitly revisited whether the monolithic structure still made sense, rather than letting it absorb them by default.\n\nThe Bet was right. The discipline around the Bet was the part that needed more from me.",
+      "On the eleventh of March, 2021, I published the first version of file_saver to pub.dev. It started as scratch for a project of my own. Flutter had no clean way to save a file that worked across web, iOS, Android, and desktop, and asking dev-users to add four packages for a single feature felt wrong.\n\nThe architectural call was to keep the abstraction monolithic. One package, one import — `FileSaver.saveAs(...)` — with platform-specific files inside, swapped at compile time via conditional imports: `dart:html` for web, `dart:io` for mobile, native channels for desktop. The alternative was the path_provider convention: a platform interface package and per-platform implementation packages. Architecturally cleaner, perhaps, but it would have asked every dev-user to add multiple packages for a single feature. I picked the dev ergonomic over the architectural purity.\n\nFive years on, the bet has held up. The package gets roughly 185,000 downloads a month, sits at 491 likes and 140 pub points, and is still under active maintenance. v0.4.0 shipped this May with Swift Package Manager support for iOS and macOS, streaming writes for both local files and authenticated URL downloads, Wasm-friendly conditional imports, native file-path copying that keeps large inputs out of Dart memory, and Android path-traversal hardening. Every one of those additions slotted into the existing package model. The `FileSaver.saveAs(...)` call signature is unchanged from the very first release.\n\nWhat I would do differently isn't the package — it's the scaffolding around it. Contribution guidelines and a maintainer policy should have been in place from day one; 185k monthly downloads is too much usage for a single bus factor to carry. Tests and CI should have shipped with the first commit, so updates land with confidence rather than caution. And when desktop platforms arrived, I should have explicitly revisited whether the monolithic structure still made sense, rather than letting it absorb them by default.\n\nThe Bet was right. The discipline around the Bet was the part that needed more from me.",
   },
 ];
