@@ -122,6 +122,8 @@ function PromptBlock() {
   const [value, setValue] = useState("");
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [exiting, setExiting] = useState(false);
+  const [historyIndex, setHistoryIndex] = useState(-1);
+  const [draft, setDraft] = useState("");
   const idGen = useId();
   const counterRef = useRef(0);
   const historyEndRef = useRef<HTMLDivElement>(null);
@@ -197,9 +199,31 @@ function PromptBlock() {
       if (e.key === "Tab" && ghost) {
         e.preventDefault();
         setValue((prev) => prev + ghost);
+        return;
+      }
+      if (e.key === "ArrowUp") {
+        if (history.length === 0) return;
+        e.preventDefault();
+        if (historyIndex === -1) setDraft(value);
+        const next = historyIndex === -1 ? history.length - 1 : Math.max(0, historyIndex - 1);
+        setHistoryIndex(next);
+        setValue(history[next].command);
+        return;
+      }
+      if (e.key === "ArrowDown") {
+        if (historyIndex === -1) return;
+        e.preventDefault();
+        const next = historyIndex + 1;
+        if (next >= history.length) {
+          setHistoryIndex(-1);
+          setValue(draft);
+        } else {
+          setHistoryIndex(next);
+          setValue(history[next].command);
+        }
       }
     },
-    [ghost],
+    [ghost, history, historyIndex, value, draft],
   );
 
   const handleSubmit = useCallback(
@@ -208,6 +232,8 @@ function PromptBlock() {
       if (exiting) return;
       runCommand(value);
       setValue("");
+      setHistoryIndex(-1);
+      setDraft("");
     },
     [value, runCommand, exiting],
   );
@@ -277,6 +303,7 @@ function PromptBlock() {
       </div>
       <p className={styles.hint}>
         <span className={styles.hintLabel}>tab</span> to autocomplete ·{" "}
+        <span className={styles.hintLabel}>↑↓</span> history ·{" "}
         <span className={styles.hintLabel}>enter</span> to run · try:{" "}
         {PRIMARY_HINTS.map((cmd, idx) => (
           <span key={cmd}>
