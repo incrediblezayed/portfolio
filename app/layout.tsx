@@ -55,6 +55,9 @@ export const metadata: Metadata = {
   description: metadataDescription,
   alternates: {
     canonical: "/",
+    types: {
+      "application/rss+xml": "/feed.xml",
+    },
   },
   openGraph: {
     title: `${profile.name} — ${profile.tagline}`,
