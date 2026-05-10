@@ -8,6 +8,11 @@ import {
   projects,
   toolkit,
 } from "@/content";
+import {
+  readCanonical,
+  readCanonicalParagraphs,
+  readOptionCanonical,
+} from "@/lib/caseVoice";
 import type { Case, OptionRow, Role } from "@/lib/types";
 import styles from "./DecisionLog.module.css";
 
@@ -31,12 +36,15 @@ export function DecisionLog() {
 function Hero() {
   return (
     <header className={styles.hero}>
-      <p className={styles.eyebrow}>{profile.location} · {profile.currentRole}</p>
+      <p className={styles.eyebrow}>
+        {profile.location} · {profile.currentRole}
+      </p>
       <h1 className={styles.heroName}>{profile.name}</h1>
       <p className={styles.tagline}>{profile.tagline}</p>
       <p className={styles.intro}>{profile.intro}</p>
       <p className={styles.availability}>
-        <span aria-hidden="true">{"//"}</span> {profile.availability.message.toLowerCase()}
+        <span aria-hidden="true">{"//"}</span>{" "}
+        {profile.availability.message.toLowerCase()}
       </p>
       <SocialBar />
     </header>
@@ -56,7 +64,12 @@ function SocialBar() {
     <ul className={styles.socials}>
       {links.map((link) => (
         <li key={link.label}>
-          <a href={link.url} className={styles.socialLink} target="_blank" rel="noreferrer">
+          <a
+            href={link.url}
+            className={styles.socialLink}
+            target="_blank"
+            rel="noreferrer"
+          >
             {link.label}
           </a>
         </li>
@@ -101,7 +114,9 @@ function CaseStudy({ caseStudy: c }: Readonly<{ caseStudy: Case }>) {
   return (
     <article className={styles.case} id={c.id}>
       <header className={styles.caseHeader}>
-        <p className={styles.caseNumber}>Case {String(c.number).padStart(2, "0")}</p>
+        <p className={styles.caseNumber}>
+          Case {String(c.number).padStart(2, "0")}
+        </p>
         <h3 className={styles.caseTitle}>{c.title}</h3>
         <ul className={styles.caseMeta}>
           <li>
@@ -122,7 +137,12 @@ function CaseStudy({ caseStudy: c }: Readonly<{ caseStudy: Case }>) {
           {c.meta.repoUrl ? (
             <li>
               <span className={styles.metaKey}>repo</span>{" "}
-              <a href={c.meta.repoUrl} target="_blank" rel="noreferrer" className={styles.repoLink}>
+              <a
+                href={c.meta.repoUrl}
+                target="_blank"
+                rel="noreferrer"
+                className={styles.repoLink}
+              >
                 {c.meta.repoUrl.replace("https://", "")}
               </a>
             </li>
@@ -170,19 +190,21 @@ function CaseSection({
 function ProblemBlock({ problem }: Readonly<{ problem: Case["problem"] }>) {
   return (
     <>
-      {problem.intro ? <p>{problem.intro}</p> : null}
+      {problem.intro ? <p>{readCanonical(problem.intro)}</p> : null}
       {problem.items?.length ? (
         <ol className={styles.problemList}>
           {problem.items.map((item) => (
             <li key={item.label}>
-              <strong>{item.label}.</strong> {item.body}
+              <strong>{item.label}.</strong> {readCanonical(item)}
             </li>
           ))}
         </ol>
       ) : null}
-      {problem.paragraphs?.map((p) => (
-        <p key={p}>{p}</p>
-      ))}
+      {problem.paragraphs
+        ?.flatMap((p) => readCanonicalParagraphs(p))
+        .map((p) => (
+          <p key={p}>{p}</p>
+        ))}
     </>
   );
 }
@@ -202,14 +224,18 @@ function OptionsTable({ options }: Readonly<{ options: OptionRow[] }>) {
         </thead>
         <tbody>
           {options.map((opt) => {
-            const chosen = /chosen/i.test(opt.rejection);
+            const chosen = opt.selected ?? false;
+            const option = readOptionCanonical(opt);
             return (
-              <tr key={opt.letter} className={chosen ? styles.optionChosen : undefined}>
+              <tr
+                key={opt.letter}
+                className={chosen ? styles.optionChosen : undefined}
+              >
                 <th scope="row" className={styles.optionLetter}>
                   {opt.letter}
                 </th>
-                <td className={styles.optionLabel}>{opt.label}</td>
-                <td className={styles.optionRejection}>{opt.rejection}</td>
+                <td className={styles.optionLabel}>{option.label}</td>
+                <td className={styles.optionRejection}>{option.rejection}</td>
               </tr>
             );
           })}
@@ -222,18 +248,20 @@ function OptionsTable({ options }: Readonly<{ options: OptionRow[] }>) {
 function BetBlock({ bet }: Readonly<{ bet: Case["bet"] }>) {
   return (
     <>
-      {bet.intro ? <p className={styles.betIntro}>{bet.intro}</p> : null}
+      {bet.intro ? (
+        <p className={styles.betIntro}>{readCanonical(bet.intro)}</p>
+      ) : null}
       {bet.sections?.map((section) => (
         <div key={section.heading} className={styles.betSection}>
           <h5 className={styles.betSectionHeading}>{section.heading}</h5>
-          {Array.isArray(section.body) ? (
+          {readCanonicalParagraphs(section).length > 1 ? (
             <ul className={styles.betSectionList}>
-              {section.body.map((item) => (
+              {readCanonicalParagraphs(section).map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
           ) : (
-            <p>{section.body}</p>
+            <p>{readCanonicalParagraphs(section)[0]}</p>
           )}
         </div>
       ))}
@@ -254,38 +282,29 @@ function OutcomeBlock({ outcome }: Readonly<{ outcome: Case["outcome"] }>) {
           ))}
         </ul>
       ) : null}
-      {outcome.paragraphs.map((p) => (
-        <p key={p}>{p}</p>
-      ))}
+      {outcome.paragraphs
+        .flatMap((p) => readCanonicalParagraphs(p))
+        .map((p) => (
+          <p key={p}>{p}</p>
+        ))}
     </>
   );
 }
 
-function ReflectionBlock({ reflection }: Readonly<{ reflection: Case["reflection"] }>) {
-  if (reflection.primary || reflection.secondary) {
-    return (
-      <div className={styles.reflectionTier}>
-        {reflection.primary ? (
-          <blockquote className={styles.reflectionPrimary}>
-            <p className={styles.reflectionLabel}>primary — ownership</p>
-            <p>{reflection.primary}</p>
-          </blockquote>
-        ) : null}
-        {reflection.secondary ? (
-          <blockquote className={styles.reflectionSecondary}>
-            <p className={styles.reflectionLabel}>secondary — process learning</p>
-            <p>{reflection.secondary}</p>
-          </blockquote>
-        ) : null}
-      </div>
-    );
-  }
+function ReflectionBlock({
+  reflection,
+}: Readonly<{ reflection: Case["reflection"] }>) {
   return (
-    <blockquote className={styles.reflectionPrimary}>
-      {reflection.paragraphs?.map((p) => (
-        <p key={p}>{p}</p>
-      ))}
-    </blockquote>
+    <div className={styles.reflectionTier}>
+      <blockquote className={styles.reflectionPrimary}>
+        <p className={styles.reflectionLabel}>product — ownership</p>
+        <p>{reflection.product}</p>
+      </blockquote>
+      <blockquote className={styles.reflectionSecondary}>
+        <p className={styles.reflectionLabel}>engineering — process learning</p>
+        <p>{reflection.engineering}</p>
+      </blockquote>
+    </div>
   );
 }
 
@@ -344,7 +363,9 @@ function ExperienceRow({ role }: Readonly<{ role: Role }>) {
           ))}
         </ul>
       ) : null}
-      {role.closingNote ? <p className={styles.closingNote}>{role.closingNote}</p> : null}
+      {role.closingNote ? (
+        <p className={styles.closingNote}>{role.closingNote}</p>
+      ) : null}
     </li>
   );
 }
@@ -363,7 +384,9 @@ function Toolkit() {
             {toolkit.engineering.map((group) => (
               <div key={group.category} className={styles.engineeringRow}>
                 <dt className={styles.engineeringCategory}>{group.category}</dt>
-                <dd className={styles.engineeringItems}>{group.items.join(" · ")}</dd>
+                <dd className={styles.engineeringItems}>
+                  {group.items.join(" · ")}
+                </dd>
               </div>
             ))}
           </dl>
@@ -431,7 +454,8 @@ function Footer() {
   return (
     <footer className={styles.footer}>
       <p>
-        © {new Date().getFullYear()} {profile.name}. Six skins, same content. Try the others.
+        © {new Date().getFullYear()} {profile.name}. Six skins, same content.
+        Try the others.
       </p>
     </footer>
   );

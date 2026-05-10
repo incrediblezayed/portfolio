@@ -13,11 +13,28 @@ export const toolkit: Toolkit = {
     },
     {
       category: "Mobile",
-      items: ["Flutter", "Native iOS", "Native Android", "Provider", "Riverpod", "BLoC", "GetX", "PowerSync", "Drift"],
+      items: [
+        "Flutter",
+        "Native iOS",
+        "Native Android",
+        "Provider",
+        "Riverpod",
+        "BLoC",
+        "GetX",
+        "PowerSync",
+        "Drift",
+      ],
     },
     {
       category: "Backend",
-      items: ["NestJS", "Node.js (Express, Hapi, Fastify)", "TypeORM", "Drizzle", "Prisma", "REST APIs"],
+      items: [
+        "NestJS",
+        "Node.js (Express, Hapi, Fastify)",
+        "TypeORM",
+        "Drizzle",
+        "Prisma",
+        "REST APIs",
+      ],
     },
     {
       category: "Frontend (web)",
@@ -25,11 +42,29 @@ export const toolkit: Toolkit = {
     },
     {
       category: "Real-time / communication",
-      items: ["XMPP", "ejabberd", "WebRTC", "LiveKit", "Janus", "Method channels", "UIKitView / PlatformViewLink"],
+      items: [
+        "XMPP",
+        "ejabberd",
+        "WebRTC",
+        "LiveKit",
+        "Janus",
+        "Method channels",
+        "UIKitView / PlatformViewLink",
+      ],
     },
     {
       category: "Cloud / infra",
-      items: ["Firebase", "Firestore", "Firebase Cloud Functions", "Supabase", "Postgres", "Redis", "GCP", "GitHub Actions", "CodeMagic"],
+      items: [
+        "Firebase",
+        "Firestore",
+        "Firebase Cloud Functions",
+        "Supabase",
+        "Postgres",
+        "Redis",
+        "GCP",
+        "GitHub Actions",
+        "CodeMagic",
+      ],
     },
     {
       category: "Tooling",
@@ -41,33 +76,31 @@ export const toolkit: Toolkit = {
     },
     {
       category: "Notable open source",
-      items: ["file_saver — cross-platform file saving for Flutter, multi-year maintenance"],
+      items: [
+        "file_saver — cross-platform file saving for Flutter, multi-year maintenance",
+      ],
     },
   ],
   product: [
     {
       category: "Discovery",
-      headline: "Currently inbound-driven.",
-      body:
-        "Product signals come through the team, leadership, and internal stakeholders. Direct user research is the next gap I'm closing — both products are early-stage enough that the cost of guessing wrong is still small, but that window narrows quarterly.",
+      headline: "Signal before process.",
+      body: "Most product signals currently come through shipped behavior, team feedback, leadership context, and stakeholder conversations. Direct user research is the next area I want to make more consistent, especially while the products are still early enough to change direction cheaply.",
     },
     {
       category: "Strategy",
-      headline: "Roadmap proposal, written.",
-      body:
-        "I draft direction and propose; alignment lands through team review and adjustment. No formal prioritization framework yet — calls are instinct + experience. The discipline forms through writing decisions down (the case studies on this site are the artifact of that habit forming).",
+      headline: "Written bets, then alignment.",
+      body: "I prefer writing the direction down first: what changed, what options exist, what we are choosing, and what we expect to learn. The Decision Log format on this site is the same habit applied publicly.",
     },
     {
       category: "Analytics",
       headline: "Firebase Analytics.",
-      body:
-        "Both products are early in their production lifecycle, so the dashboard is sparse by design — instrumenting properly is a roadmap item, not a backfill.",
+      body: "I use Firebase Analytics where it exists, but I care more about whether the funnel answers the right question. Clickked's paywall decision came from exactly that kind of signal: the event shape was basic, but the drop-off was clear.",
     },
     {
       category: "Communication",
-      headline: "Slack-first, documents-second.",
-      body:
-        "Sprint planning has dedicated docs; everything else lives in Slack threads. Proper PRDs are not yet in the workflow — case studies on this site are proof-of-concept for that habit forming.",
+      headline: "Slack for speed, docs for decisions.",
+      body: "Slack works for momentum; written notes are where decisions become reusable. Sprint planning already has structure, and the next maturity step is turning more product calls into short decision docs.",
     },
     {
       category: "Execution",
@@ -76,9 +109,8 @@ export const toolkit: Toolkit = {
     },
     {
       category: "Frameworks",
-      headline: "No formal frameworks yet.",
-      body:
-        "Decisions on instinct + experience. The Decision Log format used in the case studies on this site is my attempt to give that instinct a structure I can show, critique, and improve.",
+      headline: "Lightweight by default.",
+      body: "I don't force a framework when a clear memo will do. For now, the useful shape is simple: problem, options, bet, outcome, reflection.",
     },
   ],
 };

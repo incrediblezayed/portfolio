@@ -23,14 +23,20 @@ export interface Socials {
 
 export interface Profile {
   name: string;
-  tagline: string;
-  intro: string;
+  tagline: string;        // canonical (DecisionLog, Editorial, Reading Room, Changelog, Terminal)
+  intro: string;          // canonical
   location: string;
-  currentRole: string;
+  currentRole: string;    // canonical
   email: string;
   socials: Socials;
   availability: Availability;
   defaultTheme: ThemeId;
+
+  // Optional engineering-voice overrides (read by Two Columns Builder column)
+  engineeringTagline?: string;
+  engineeringIntro?: string;
+  engineeringCurrentRole?: string;
+  engineeringAvailabilityMessage?: string;
 }
 
 export interface RoleSubProduct {
@@ -45,6 +51,8 @@ export interface Role {
   period: string;
   location: string;
   description: string;
+  engineeringSummary: string;
+  productSummary: string;
   subProducts?: RoleSubProduct[];
   closingNote?: string;
 }
@@ -57,29 +65,46 @@ export interface Education {
 
 export type CaseAudienceTag = "tech" | "product" | "both";
 
-export interface OptionRow {
-  letter: string;
-  label: string;
-  rejection: string;
-  audience?: CaseAudienceTag;
-}
+export type CaseVoice = Exclude<CaseAudienceTag, "both">;
 
-export interface ProblemItem {
-  label: string;
-  body: string;
-  audience?: CaseAudienceTag;
-}
+export type AudienceText<T = string> =
+  | { audience: "tech"; voices: { tech: T } }
+  | { audience: "product"; voices: { product: T } }
+  | { audience: "both"; voices: { tech: T; product: T } };
 
-export interface BetSection {
-  heading: string;
-  body: string | string[];
-  audience?: CaseAudienceTag;
-}
+export type AudienceBlock = AudienceText<string | string[]>;
+
+export type OptionRow =
+  | {
+      letter: string;
+      selected?: boolean;
+      audience: "tech";
+      voices: { tech: { label: string; rejection: string } };
+    }
+  | {
+      letter: string;
+      selected?: boolean;
+      audience: "product";
+      voices: { product: { label: string; rejection: string } };
+    }
+  | {
+      letter: string;
+      selected?: boolean;
+      audience: "both";
+      voices: {
+        tech: { label: string; rejection: string };
+        product: { label: string; rejection: string };
+      };
+    };
+
+export type ProblemItem = AudienceText & { label: string };
+
+export type BetSection = AudienceBlock & { heading: string };
 
 export interface OutcomeMetric {
   label: string;
   value: string;
-  audience?: CaseAudienceTag;
+  audience: CaseAudienceTag;
 }
 
 export interface CaseMeta {
@@ -92,27 +117,24 @@ export interface CaseMeta {
 }
 
 export interface CaseProblem {
-  intro?: string;
+  intro?: AudienceText;
   items?: ProblemItem[];
-  paragraphs?: string[];
+  paragraphs?: AudienceText[];
 }
 
 export interface CaseBet {
-  intro?: string;
+  intro?: AudienceText;
   sections?: BetSection[];
 }
 
 export interface CaseOutcome {
-  paragraphs: string[];
+  paragraphs: AudienceText[];
   metrics?: OutcomeMetric[];
 }
 
 export interface CaseReflection {
-  paragraphs?: string[];
-  primary?: string;
-  secondary?: string;
-  primaryAudience?: CaseAudienceTag;
-  secondaryAudience?: CaseAudienceTag;
+  engineering: string;
+  product: string;
 }
 
 export interface Case {
@@ -146,7 +168,8 @@ export interface Toolkit {
 }
 
 export interface Philosophy {
-  quote: string[];
+  quote: string[];                   // canonical
+  engineeringQuote?: string[];       // optional engineering voice (Two Columns Builder)
 }
 
 export type Marquee = string[];
@@ -155,6 +178,8 @@ export interface Project {
   name: string;
   tagline: string;
   description: string;
+  engineeringSummary: string;
+  productSummary: string;
   stack: string;
   status: string;
 }

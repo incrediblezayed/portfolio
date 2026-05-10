@@ -7,6 +7,7 @@ import {
   projects,
   toolkit,
 } from "@/content";
+import { readCanonical, readCanonicalParagraphs } from "@/lib/caseVoice";
 import type { Case, Role } from "@/lib/types";
 import styles from "./Editorial.module.css";
 
@@ -60,7 +61,11 @@ function Hero() {
               <a href={`mailto:${profile.email}`}>email</a>
             </li>
             <li>
-              <a href={profile.socials.linkedin} target="_blank" rel="noreferrer">
+              <a
+                href={profile.socials.linkedin}
+                target="_blank"
+                rel="noreferrer"
+              >
                 linkedin
               </a>
             </li>
@@ -120,14 +125,19 @@ function Philosophy() {
           </p>
         ))}
       </blockquote>
-      <p className={styles.philosophyAttribution}>— {profile.name.split(" ")[0]}</p>
+      <p className={styles.philosophyAttribution}>
+        — {profile.name.split(" ")[0]}
+      </p>
     </section>
   );
 }
 
 function Cases() {
   return (
-    <section className={`${styles.cases} ${styles.stagger3}`} aria-label="Case studies">
+    <section
+      className={`${styles.cases} ${styles.stagger3}`}
+      aria-label="Case studies"
+    >
       <SectionHeading
         eyebrow="Three Decisions"
         title="The bets, in print."
@@ -145,7 +155,7 @@ function Cases() {
 function pickFirstBetBody(c: Case): string | null {
   const section = c.bet.sections?.[0];
   if (!section) return null;
-  return Array.isArray(section.body) ? section.body[0] : section.body;
+  return readCanonicalParagraphs(section)[0] ?? null;
 }
 
 function CaseEssay({ caseStudy: c }: Readonly<{ caseStudy: Case }>) {
@@ -170,7 +180,7 @@ function CaseEssay({ caseStudy: c }: Readonly<{ caseStudy: Case }>) {
 
         {c.bet.intro ? (
           <p>
-            <InlineLabel>Bet.</InlineLabel> {c.bet.intro}
+            <InlineLabel>Bet.</InlineLabel> {readCanonical(c.bet.intro)}
           </p>
         ) : null}
 
@@ -188,7 +198,10 @@ function CaseEssay({ caseStudy: c }: Readonly<{ caseStudy: Case }>) {
         ) : null}
 
         <p>
-          <InlineLabel>Outcome.</InlineLabel> {c.outcome.paragraphs[0]}
+          <InlineLabel>Outcome.</InlineLabel>{" "}
+          {c.outcome.paragraphs[0]
+            ? readCanonicalParagraphs(c.outcome.paragraphs[0])[0]
+            : null}
         </p>
       </div>
 
@@ -202,7 +215,7 @@ function InlineLabel({ children }: Readonly<{ children: React.ReactNode }>) {
 }
 
 function ReflectionPullQuote({ caseStudy: c }: Readonly<{ caseStudy: Case }>) {
-  const text = c.reflection.primary ?? c.reflection.paragraphs?.[0] ?? "";
+  const text = c.reflection.product;
   if (!text) return null;
   return (
     <blockquote className={styles.pullquote}>
@@ -216,7 +229,10 @@ function ReflectionPullQuote({ caseStudy: c }: Readonly<{ caseStudy: Case }>) {
 
 function Experience() {
   return (
-    <section className={`${styles.experience} ${styles.stagger4}`} aria-label="Experience">
+    <section
+      className={`${styles.experience} ${styles.stagger4}`}
+      aria-label="Experience"
+    >
       <SectionHeading eyebrow="Curriculum" title="Six years on the floor." />
       <ul className={styles.experienceList}>
         {experience.map((role) => (
@@ -253,7 +269,10 @@ function ExperienceRow({ role }: Readonly<{ role: Role }>) {
 
 function Toolkit() {
   return (
-    <section className={`${styles.toolkit} ${styles.stagger5}`} aria-label="Toolkit">
+    <section
+      className={`${styles.toolkit} ${styles.stagger5}`}
+      aria-label="Toolkit"
+    >
       <SectionHeading eyebrow="Toolkit" title="What stays in the kit." />
       <div className={styles.toolkitGrid}>
         <div className={styles.toolkitColumn}>
@@ -287,7 +306,10 @@ function Toolkit() {
 
 function Projects() {
   return (
-    <section className={`${styles.projects} ${styles.stagger6}`} aria-label="Other work">
+    <section
+      className={`${styles.projects} ${styles.stagger6}`}
+      aria-label="Other work"
+    >
       <SectionHeading
         eyebrow="Selected ships"
         title="What didn't make the case study cut."
@@ -323,8 +345,8 @@ function Footer() {
         <em>End of issue.</em>
       </p>
       <p className={styles.footerLineMeta}>
-        © {new Date().getFullYear()} {profile.name} · Six skins, same content. Press{" "}
-        <kbd>1</kbd> for the canonical Decision Log.
+        © {new Date().getFullYear()} {profile.name} · Six skins, same content.
+        Press <kbd>1</kbd> for the canonical Decision Log.
       </p>
     </footer>
   );

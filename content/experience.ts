@@ -13,6 +13,10 @@ export const experience: Role[] = [
     location: "Mumbai, India",
     description:
       "Senior Product Manager on two Enso products. Cross-functional across both — engineering, design, and stakeholder communication.",
+    engineeringSummary:
+      "Owned architecture-facing decisions across InfoPhone and InfoToDo: native rebuild direction, self-hosted communication infrastructure, and offline-first/productivity stack choices after taking over an initially outsourced product.",
+    productSummary:
+      "Managed two active product surfaces across engineering, design, and stakeholders, closing requirement gaps and balancing rebuild risk, roadmap clarity, and delivery sequencing.",
     subProducts: [
       {
         product: "InfoPhone",
@@ -24,7 +28,7 @@ export const experience: Role[] = [
         product: "InfoToDo",
         period: "Feb 2026 – present",
         description:
-          "Personal task management with tasks, notes, reminders, and offline-first sync. Flutter app with PowerSync/Drift locally, Next.js admin, and a NestJS + TypeORM/Postgres backend.",
+          "Personal task management with tasks, notes, reminders, and offline-first sync. Initially outsourced; I led the early tech architecture, then came back officially to close requirement gaps and make further product and technical decisions.",
       },
     ],
   },
@@ -35,6 +39,10 @@ export const experience: Role[] = [
     location: "Mumbai, India",
     description:
       "Product Manager on InfoPhone — owning the architectural rebuild from a wrapped-vendor SDK to native iOS/Android + raw ejabberd + LiveKit + NestJS. Promoted to Senior Product Manager in Feb 2026 when InfoToDo was added to my portfolio.",
+    engineeringSummary:
+      "Drove the InfoPhone rebuild from Flutter/vendor SDK toward native apps, raw ejabberd, LiveKit, NestJS, and Drizzle-backed ownership.",
+    productSummary:
+      "Made the hard product call to stop patching a working build once the vendor/platform ceiling became more expensive than a rebuild.",
   },
   {
     company: "Enso Webworks",
@@ -43,6 +51,10 @@ export const experience: Role[] = [
     location: "Mumbai, India",
     description:
       "Built InfoProfile from scratch with a 4-developer team. Owned core services — BLoC wrapper, API handler, environment flavors, Firebase integration, auth, notifications, and media flows. Helped shape the team's architectural conventions early. Built and maintained backend APIs in Node.js/TypeScript with Hapi.",
+    engineeringSummary:
+      "Built InfoProfile core architecture with BLoC wrappers, API handlers, flavors, Firebase integrations, media/auth flows, and Hapi backend APIs.",
+    productSummary:
+      "Helped turn a new product into repeatable team conventions, balancing solo ownership with a four-developer delivery model.",
   },
   {
     company: "Trubary Technologies Pvt. Ltd.",
@@ -51,6 +63,10 @@ export const experience: Role[] = [
     location: "Mumbai, India",
     description:
       "Maintained and extended Pappyon: a Flutter mobile app, Vue 2/Vuetify business portal, and Firebase Cloud Functions. Worked across Firestore, Auth, Storage, messaging, payments, QR/link preview flows, and cross-platform workflow automation.",
+    engineeringSummary:
+      "Worked across Flutter, Vue 2/Vuetify, Firebase Cloud Functions, Firestore, auth, storage, payments, and messaging workflows.",
+    productSummary:
+      "Kept mobile and business portal behavior aligned for a production product with real-time data, payments, and operational workflow needs.",
   },
   {
     company: "Exceptions",
@@ -59,6 +75,10 @@ export const experience: Role[] = [
     location: "Mumbai, India",
     description:
       "End-to-end ownership across Flutter + Firebase client projects including Fin Moto Corp, ServYou 24, and GharTak. Client-facing on requirements, team-facing on code review and delivery quality. Where I learned to translate vague client asks into concrete development plans.",
+    engineeringSummary:
+      "Delivered multiple Flutter + Firebase client apps end to end, including marketplace, taxi, home-service, and food-delivery style workflows.",
+    productSummary:
+      "Translated vague client asks into buildable scopes, handled delivery expectations, and maintained quality across several parallel client products.",
   },
   {
     company: "Pegasus InfoCorp",
@@ -67,6 +87,10 @@ export const experience: Role[] = [
     location: "Mumbai, India",
     description:
       "Worked on Caratlane's internal Digital QC app in Flutter. Wrote the test suite that took coverage from 0 to 80%, enforced linting/code standards, and made one small Ruby-side dropdown value change when the workflow needed it.",
+    engineeringSummary:
+      "Worked on Caratlane's Flutter QC app, raised test coverage from 0 to 80%, enforced linting, and handled a small Ruby workflow change.",
+    productSummary:
+      "Learned quality discipline inside a larger product environment where reliability, standards, and process were the deliverable.",
   },
   {
     company: "Capgemini",
@@ -75,6 +99,10 @@ export const experience: Role[] = [
     location: "Mumbai, India",
     description:
       ".NET / C# shadow project alongside senior engineers. Server operations, UAT data migrations, user-ticket triage. First exposure to enterprise-scale process — the slow, structured kind that's the opposite of startup chaos.",
+    engineeringSummary:
+      "Worked around .NET/C# shadow projects, server operations, UAT data migrations, and user-ticket support.",
+    productSummary:
+      "Gained enterprise process exposure: structured triage, slower release rhythms, and the discipline of operating inside large delivery systems.",
   },
   {
     company: "Swift Media Labs",
@@ -83,6 +111,10 @@ export const experience: Role[] = [
     location: "Mumbai, India",
     description:
       "Service-based Flutter app work with a 3-developer team. Architected frontend/backend boundaries with the backend team. Led 2 junior developers through requirements interpretation and project planning — first taste of being responsible for someone else's output.",
+    engineeringSummary:
+      "Built Flutter app surfaces and coordinated frontend/backend boundaries with the backend team.",
+    productSummary:
+      "Led two junior developers through requirements interpretation and planning, taking responsibility for output beyond my own code.",
   },
   {
     company: "Frynds & Co",
@@ -91,6 +123,10 @@ export const experience: Role[] = [
     location: "Mumbai, India",
     description:
       "Built Hungry, a food delivery system, from scratch — Flutter app, Firebase backend services, and TypeScript/Node.js Cloud Functions. On-site at the client's office, with every change reviewed in person. End-to-end ownership of architecture, build, and deployment.",
+    engineeringSummary:
+      "Built Hungry from scratch with Flutter, Firebase, and TypeScript Cloud Functions, covering architecture, build, and deployment.",
+    productSummary:
+      "Owned delivery on-site with direct client review for every change, turning feedback into product behavior immediately.",
   },
 ];
 

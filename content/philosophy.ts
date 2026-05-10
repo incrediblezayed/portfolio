@@ -11,4 +11,9 @@ export const philosophy: Philosophy = {
     "The best ones are the bets you don't take.",
     "I'm still learning the difference.",
   ],
+  engineeringQuote: [
+    "Good systems are mostly good tradeoffs.",
+    "The expensive part is the code you have to live with.",
+    "I'm still learning when not to add another layer.",
+  ],
 };

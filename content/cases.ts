@@ -14,98 +14,217 @@ export const cases: Case[] = [
       year: "2025",
       duration: "ongoing",
       role: "Product Manager (& engineer of the prior build)",
-      stack: "Native iOS (Swift) + Native Android (Kotlin) + raw ejabberd + LiveKit + NestJS + Drizzle",
+      stack:
+        "Native iOS (Swift) + Native Android (Kotlin) + raw ejabberd + LiveKit + NestJS + Drizzle",
       status: "In testing phase. Not yet shipped to end users.",
     },
     summary:
       "Real-time chat + voice/video at Enso Webworks. We shipped a Flutter + MirrorFly build, used it in production, and made the call to scrap it and rebuild native — raw ejabberd for chat, LiveKit for calls, NestJS for the rest. This case is about killing a working build before sunk cost killed the product.",
     problem: {
-      intro: "Five layered issues compounded across the original Flutter + MirrorFly stack:",
+      intro: {
+        audience: "both",
+        voices: {
+          tech: "The old stack had five compounding failure points: call performance, SDK opacity, blocked platform features, Flutter's iOS PiP ceiling, and native call screens routed back through method channels.",
+          product:
+            "The issue was not one bad bug; it was cumulative drag. Every workaround added more velocity tax, while the product still missed features users expect from a modern communication app.",
+        },
+      },
       items: [
         {
           label: "Performance issues across multiple surfaces",
-          body: "Call setup latency, UI jank during active calls, memory pressure on long sessions.",
+          audience: "both",
+          voices: {
+            tech: "Call setup felt slow, active-call screens showed UI jank, and long sessions created memory pressure. Crashes, memory leaks, and thread issues appeared across rendering, call lifecycle, and session stability instead of one isolated module.",
+            product:
+              "The core product promise was real-time communication, and the old build made that promise feel unreliable. Frequent crashes and laggy calls made users distrust the entire app, even when the rest of the product worked.",
+          },
         },
         {
           label: "MirrorFly SDK opacity",
-          body: "Connectivity was direct WebRTC + sockets internally, but the implementation was MirrorFly's proprietary code. We asked repeatedly for proper Kotlin/Swift integration code; what came back wasn't usable. The architectural ideas were sound; the code-level handover was a black box. No community fallback — vendor was the only debugging path.",
+          audience: "both",
+          voices: {
+            tech: "Connectivity was direct WebRTC + sockets, but in MirrorFly's proprietary implementation. Repeated requests for usable Kotlin/Swift integration code returned hand-waving. Vendor SDK was the only debugging path: no source access, no community fallback. Every bug was a black-box ticket.",
+            product:
+              "We were locked into a vendor whose code we couldn't read. Every bug routed through their support queue; basic protocol questions cost us weeks. Speed of iteration depends on access to your own stack, and we didn't have it.",
+          },
         },
         {
           label: "Closed SDK = blocked features",
-          body: "Screen sharing, Picture-in-Picture, and backup/restore were all unsupported and could not be added without forking the vendor's stack.",
+          audience: "both",
+          voices: {
+            tech: "Screen sharing, PiP, and backup/restore were not extension points we could implement around. The SDK did not expose the surfaces we needed, and we could not fork vendor internals to add them ourselves.",
+            product:
+              "The roadmap was being shaped by vendor support, not user needs. Features that should have been table stakes stayed blocked, creating competitive gaps we could explain internally but not justify to users.",
+          },
         },
         {
           label: "Flutter ceiling at iOS PiP",
-          body: "Even where MirrorFly didn't block us, Flutter did — iOS PiP integration was effectively impossible because call rendering was already going through UiKitView / PlatformViewLink to native.",
+          audience: "both",
+          voices: {
+            tech: "iOS PiP needed native lifecycle control around the call surface, but the Flutter build was already rendering calls through UIKitView / PlatformViewLink and method-channel coordination. The integration point was too far from the platform API.",
+            product:
+              "PiP is expected behavior for a serious calling product in 2025. Missing it made the product feel dated, and another Flutter workaround would not have been a credible promise.",
+          },
         },
         {
           label: "Wrapper-on-native architecture",
-          body: "Calls and video screens were already written in native Swift/Kotlin and exposed to Flutter through method channels. We were paying both Flutter overhead and maintaining native code — worst of both worlds, with no upside.",
+          audience: "both",
+          voices: {
+            tech: "Calls and video screens were already native Swift/Kotlin, then bridged back into Flutter through method channels. We were paying Flutter runtime cost and native maintenance cost at the same time.",
+            product:
+              "Every feature carried a double implementation tax. The team was moving slower while still not getting the benefits of a fully native product or a clean cross-platform one.",
+          },
         },
       ],
     },
     options: [
       {
         letter: "A",
-        label: "Patch the existing MirrorFly + Flutter stack",
-        rejection: "Each fix exposed the next failure. The SDK itself was the ceiling — patching couldn't lift it.",
+        audience: "both",
+        selected: false,
+        voices: {
+          tech: {
+            label: "Incremental MirrorFly + Flutter patches",
+            rejection:
+              "SDK bumps and custom workarounds only moved the failure point. Each fix exposed the next ceiling, and the parts we needed to change were still inside vendor code.",
+          },
+          product: {
+            label: "Stay the course and delay the rebuild",
+            rejection:
+              "This would reduce short-term disruption but keep users on the same unreliable path. It was a deferment of the hard call, not a solution.",
+          },
+        },
       },
       {
         letter: "B",
-        label: "Stay on Flutter, swap MirrorFly for an alternative calling SDK",
-        rejection:
-          "We built a POC with Stream. It worked functionally, but the team anticipated re-hitting the same cross-platform bottlenecks (PiP, screen share, low-level platform APIs) that MirrorFly had already taught us about. Same box, different sticker.",
+        audience: "both",
+        selected: false,
+        voices: {
+          tech: {
+            label: "Keep Flutter and swap the calling vendor",
+            rejection:
+              "The Stream POC proved another SDK could work functionally, but PiP, screen share, and low-level native API access would still run into the same abstraction ceiling.",
+          },
+          product: {
+            label: "Take a smaller rebuild with a different vendor",
+            rejection:
+              "It reduced migration cost but kept the product dependent on someone else's roadmap. The risk surface changed names; the ownership problem stayed.",
+          },
+        },
       },
       {
         letter: "C",
-        label: "Native (Kotlin/Swift) + raw ejabberd + LiveKit + NestJS + Drizzle",
-        rejection: "Chosen.",
+        audience: "both",
+        selected: true,
+        voices: {
+          tech: {
+            label:
+              "Native Swift/Kotlin + raw ejabberd + LiveKit + NestJS + Drizzle",
+            rejection: "Chosen.",
+          },
+          product: {
+            label: "Full stack ownership with no platform ceiling",
+            rejection: "Chosen.",
+          },
+        },
       },
       {
         letter: "D",
-        label: "Other cross-platform — React Native, KMP",
-        rejection: "Same ceiling category as Flutter. Would re-introduce the same vendor/abstraction risks.",
+        audience: "both",
+        selected: false,
+        voices: {
+          tech: {
+            label:
+              "Move to another cross-platform layer like React Native or KMP",
+            rejection:
+              "It stayed in the same category: another abstraction above native, with the same risk around platform-specific call features.",
+          },
+          product: {
+            label: "Rewrite into a different cross-platform promise",
+            rejection:
+              "That would create migration work without changing the problem class. Different stack, same ceiling.",
+          },
+        },
       },
     ],
     bet: {
-      intro:
-        "We bet on native iOS (Swift) and native Android (Kotlin), with raw ejabberd (no wrapper SDK) for chat and LiveKit for calls, all glued together with a NestJS + Drizzle backend.",
+      intro: {
+        audience: "both",
+        voices: {
+          tech: "Rebuild the product on native iOS and Android, raw ejabberd for chat, LiveKit for calls, and a NestJS + Drizzle backend we could inspect and operate ourselves.",
+          product:
+            "Choose ownership over convenience: one expensive rebuild now, instead of letting vendor opacity and platform compromises tax every future feature.",
+        },
+      },
       sections: [
         {
           heading: "Why this stack at all — code ownership",
-          body:
-            "The previous build had three layers of opacity: MirrorFly's wrapper code we couldn't read, MirrorFly's vendor support latency, and our own method-channel glue holding the two together. The new stack has one layer of code — all of which we either wrote ourselves or can read. ejabberd and LiveKit are both open source with large communities; our integration on top of them is ours. When something breaks at 2am, we can read every line in the call stack — both ours and our dependencies'. That's the bet, before any of the more specific reasons below.",
+          audience: "both",
+          voices: {
+            tech: "The old build had vendor wrapper code, vendor support latency, and our own method-channel glue. The new stack collapses that into readable integration code over open systems: ejabberd, LiveKit, and our backend.",
+            product:
+              "The bet was operational confidence. During an incident, the team should debug by reading code and logs, not by waiting for a vendor reply.",
+          },
         },
         {
           heading: "Why native specifically",
-          body:
-            '"No limitation, no compromise." We had hit enough ceilings — PiP, screen share, opaque SDK debugging — that another cross-platform stack felt like a slightly bigger box that would still have a lid. Native = unbounded platform access for the lifetime of the product. We chose to pay the cost of the rebuild once instead of paying compromise costs forever.',
+          audience: "both",
+          voices: {
+            tech: "Native gives direct access to PiP, CallKit, ConnectionService, background behavior, and platform-specific media lifecycle without fighting method-channel boundaries.",
+            product:
+              "The product should not negotiate with its framework for basic communication features. Native keeps future UX decisions open instead of pre-deciding what is impossible.",
+          },
         },
         {
           heading: "Why LiveKit specifically",
-          body: [
-            "Operational expertise already exists. Another app at Enso runs on LiveKit. Org-level knowledge of self-hosting, scaling, and observability is real, not theoretical.",
-            "Multi-provider future. We expect to add more call providers over time. LiveKit is provider #1 with an abstraction layer designed to accommodate provider #2.",
-          ],
+          audience: "both",
+          voices: {
+            tech: [
+              "LiveKit gave us a readable SDK, mature signaling/media primitives, and self-hosting instead of another opaque communication wrapper.",
+              "The call-provider layer is designed so LiveKit can be provider #1 without making every future provider change a rewrite.",
+            ],
+            product: [
+              "Enso already had operational knowledge from another LiveKit app, so adoption risk was lower than a cold vendor switch.",
+              "Choosing LiveKit kept the door open for future provider swaps instead of betting the product on one external roadmap.",
+            ],
+          },
         },
         {
           heading: "Why raw ejabberd over a wrapper",
-          body:
-            "Same logic as MirrorFly's rejection — owning the chat layer directly, with the ability to read every protocol decision and extend system-level behavior, was worth more than any wrapper's convenience.",
+          audience: "both",
+          voices: {
+            tech: "Raw ejabberd keeps protocol-level access in our hands: XMPP behavior, extensions, delivery semantics, and self-hosting can be inspected instead of inferred through a wrapper.",
+            product:
+              "For chat, long-term stewardship mattered more than SDK convenience. The product needed a stack we could own for years, not a vendor shortcut we might outgrow again.",
+          },
         },
       ],
     },
     outcome: {
       paragraphs: [
-        "In testing phase as of writing. Native iOS and Android builds are active; ejabberd, LiveKit, and NestJS infrastructure are self-hosted. Not yet shipped to end users.",
-        "Early signals: features that were impossible on the old stack (PiP, screen share, backup/restore) are now in scope; team velocity on platform-specific features has visibly improved with the native codebase replacing the method-channel maze.",
+        {
+          audience: "both",
+          voices: {
+            tech: "Native iOS and Android builds are active, with ejabberd, LiveKit, and NestJS infrastructure self-hosted. The rebuild has reached testing instead of remaining a paper architecture.",
+            product:
+              "The product is in testing, not shipped to end users yet. The important milestone is that the team has crossed from patching the old build to validating the new one.",
+          },
+        },
+        {
+          audience: "both",
+          voices: {
+            tech: "PiP, screen share, and backup/restore are now implementation problems inside our stack, not vendor-permission problems. Removing the method-channel maze made platform-specific work more direct.",
+            product:
+              "Features that were previously blocked are now in scope. The team can make product commitments based on capability, not vendor limitation.",
+          },
+        },
       ],
     },
     reflection: {
-      primary:
-        "Killed it later than I should have. Each patch sprint added sunk-cost weight to the eventual kill decision. The signals were there earlier than I acted on them — Flutter's UiKitView overhead, MirrorFly's opacity on debugging, the gap between SDK promises and platform realities. I needed to stop patching and start writing the kill memo two months sooner than I did.",
-      secondary:
-        "For technical SDKs, I'd push for dev-led POC criteria before vendor commitment — even when the call comes from leadership. Hard requirements (PiP, screen share, backup/restore) tested against the SDK in week one would have surfaced MirrorFly's gaps before we built on top of it.",
+      engineering:
+        "I should have forced SDK proof earlier: PiP, screen share, backup/restore, source-level debugging, and failure-mode ownership should have been week-one POC gates before the team built on top of MirrorFly.",
+      product:
+        "I killed the old build later than I should have. Every patch sprint made the sunk cost heavier, but the signals were already clear. I should have written the kill memo two months sooner.",
     },
   },
   {
@@ -117,69 +236,154 @@ export const cases: Case[] = [
       duration: "mid-2023 – present (ongoing)",
       role: "Sole technical lead. Every product/tech decision since joining — paywall placement, consultant web app architecture, NestJS backend design.",
       stack:
-        "Flutter user app + Flutter consultant/admin apps + Firebase/Supabase services + NestJS/TypeORM consultant backend",
+        "Flutter user app + Flutter web consultant/admin apps + Supabase dating backend + Firebase chat/notifications + GetStream video + NestJS/TypeORM consultant backend on Supabase Postgres",
       status:
         "v1 currently live on Play Store + App Store. v2 (paywall pivot + consultant flow updates) is in development, ~2 months in, not yet shipped.",
     },
     summary:
       "Clickked is a two-sided dating + consultant marketplace. The marketplace shape was a stakeholder vision from inception, completed during 2021–2023. I joined mid-2023 as sole technical lead and have owned every product/tech call since. The product has two paywall surfaces — the dating side (the focus of this case) and the consultant side, which is always open to browse with a pay-per-session model for bookings. This case is about the v1 dating paywall placement and the v2 pivot it forced.",
     problem: {
+      intro: {
+        audience: "both",
+        voices: {
+          tech: "The v1 paywall trigger lived inside onboarding, before the user reached the match-feed loop. Payment state was firing before the core engagement state had a chance to initialize as value.",
+          product:
+            "The hypothesis was that early gating would prove conversion intent. In practice, it asked users to pay before they had experienced the thing they were being asked to buy.",
+        },
+      },
       paragraphs: [
-        "v1 shipped with the paywall placed roughly halfway through profile setup, during onboarding. The implicit hypothesis: gating users early would force conversion intent before they invested time in the product.",
-        "The actual signal in production: ~90% drop-off at the paywall. Nine out of ten users hitting the gate left the funnel before they had ever swiped, matched, or experienced the core product loop. The paywall was gating before any aha-moment had landed — collecting friction, not conversions.",
+        {
+          audience: "both",
+          voices: {
+            tech: "The paywall appeared roughly halfway through profile setup, inside the onboarding state flow rather than after a product action like swipe, match, or consultant booking.",
+            product:
+              "Users were gated mid-investment. They had spent effort creating a profile, but had not yet received dating-product value.",
+          },
+        },
+        {
+          audience: "both",
+          voices: {
+            tech: "Firebase funnel data showed around 90% drop-off at the gate. The relevant conversion step was payment completion, and the users reaching payment were not completing at a healthy ratio.",
+            product:
+              "Nine out of ten users left before swiping, matching, or seeing the core loop. The paywall was collecting friction, not conversion intent.",
+          },
+        },
       ],
     },
     options: [
       {
         letter: "A",
-        label: "Keep v1 placement, accept the drop-off as the cost of conversion",
-        rejection:
-          "Drop-off wasn't proving conversion intent — it was just losing users at the gate without monetizing them.",
+        audience: "both",
+        selected: false,
+        voices: {
+          tech: {
+            label: "Keep the onboarding paywall trigger",
+            rejection:
+              "Firebase showed users entering the gated flow without completing payment. The drop-off was not a useful conversion signal; it was a misplaced funnel step.",
+          },
+          product: {
+            label: "Accept the funnel cost and wait for intent to emerge",
+            rejection:
+              "A 90% gate-loss before value delivery is funnel breakage, not quality filtering.",
+          },
+        },
       },
       {
         letter: "B",
-        label: "Remove the paywall entirely",
-        rejection: "Marketplace economics need paid users; this defers the monetization problem instead of solving it.",
+        audience: "both",
+        selected: false,
+        voices: {
+          tech: {
+            label: "Disable the dating paywall into a free-tier mode",
+            rejection:
+              "It removes the immediate trigger but postpones monetization logic into a later backend/state model.",
+          },
+          product: {
+            label: "Move to a fully free dating surface",
+            rejection:
+              "The marketplace still needs paid users. Removing the gate entirely defers the business problem instead of solving it.",
+          },
+        },
       },
       {
         letter: "C",
-        label:
-          "Move paywall to after the user's first swipe — let the core product loop fire once, then gate",
-        rejection: "Chosen.",
+        audience: "both",
+        selected: true,
+        voices: {
+          tech: {
+            label: "Move the paywall trigger to after the first swipe",
+            rejection: "Chosen.",
+          },
+          product: {
+            label: "Gate after the first aha-moment",
+            rejection: "Chosen.",
+          },
+        },
       },
     ],
     bet: {
-      intro:
-        "Move the paywall from halfway through profile setup to after the user's first swipe. The v2 release bundles this paywall change with consultant-side flow updates; ~2 months in development, not yet shipped.",
+      intro: {
+        audience: "both",
+        voices: {
+          tech: "Refactor the trigger from onboarding state to post-first-swipe state, while v2 also carries consultant flow updates across Flutter web, Supabase, Firebase chat/notifications, GetStream video sessions, and the NestJS consultant backend.",
+          product:
+            "Move the dating paywall from halfway through profile setup to after the first swipe. The v2 pivot is in development and not shipped yet.",
+        },
+      },
       sections: [
         {
           heading: 'Why "first swipe" specifically — two reasons',
-          body: [
-            "The product already has a free surface. Consultants are always open to browse without payment; the dating-side paywall isn't the user's first encounter with Clickked, just the first encounter with the dating feature. The first swipe is the smallest possible unit of dating-product value — enough that the user has tasted what we're selling, not so much that we're giving away the loop.",
-            "Paywall as a quality filter. A small payment after the first swipe filters bot and fake accounts out of the dating marketplace. Genuine users who want to date will pay; bot operators won't bother paying for accounts they can't monetize. We chose the placement that maximizes real users on both sides of the marketplace, even at the cost of volume — marketplace integrity over signup-count vanity.",
-          ],
+          audience: "both",
+          voices: {
+            tech: "First swipe is the smallest reliable engagement event. It is easier to reason about than profile-progress heuristics, and the payment requirement after it can reduce bot-driven swipe inflation.",
+            product:
+              "Consultants already give Clickked an always-open free surface. The dating paywall can act after the user tastes the dating loop, while still filtering low-quality or bot accounts.",
+          },
         },
         {
           heading: "The product instinct underneath",
-          body:
-            "Gate after the aha-moment, not before. Paywalls placed before value has been delivered get rejected as toll booths; paywalls placed after value has been delivered get accepted as fair trade.",
+          audience: "both",
+          voices: {
+            tech: "The state machine becomes free -> swiped -> gated -> paid. The payment boundary moves later, after engagement is observed instead of before feed value is delivered.",
+            product:
+              "Paywall before value feels like a toll booth. Paywall after value feels like a fair trade.",
+          },
         },
       ],
     },
     outcome: {
       paragraphs: [
-        "v2 pivot is in-flight, decided based on observed drop-off in v1. Implementation has been roughly two months including the consultant flow updates that ride alongside the paywall move. Not yet shipped.",
-        "Expected directional outcome, based on the diagnosed problem: drop-off shifts from pre-product to post-aha-moment, where it represents real conversion intent — users choosing whether to pay for something they've already experienced rather than abandoning at a toll booth.",
+        {
+          audience: "both",
+          voices: {
+            tech: "v2 is in development, bundling the paywall trigger move with consultant flow changes across Supabase, Firebase chat/notifications, GetStream calls, and the NestJS consultant backend. The next proof point should come from post-release funnel telemetry.",
+            product:
+              "The pivot is in-flight because v1 showed a clear drop-off pattern. It is not yet a shipped win, but it is a decision grounded in observed behavior.",
+          },
+        },
+        {
+          audience: "both",
+          voices: {
+            tech: "The expected telemetry change is that paywall exposure moves after an engagement event, so abandonment is measured after product contact instead of during onboarding.",
+            product:
+              "If users leave after the first swipe, that is a sharper signal. It means they tried the value proposition before deciding whether to pay.",
+          },
+        },
       ],
       metrics: [
-        { label: "v1 drop-off at the paywall", value: "~90%" },
-        { label: "v2 in development", value: "~2 months" },
+        {
+          label: "v1 drop-off at the paywall",
+          value: "~90%",
+          audience: "both",
+        },
+        { label: "v2 in development", value: "~2 months", audience: "both" },
       ],
     },
     reflection: {
-      paragraphs: [
-        "v1's paywall placement should have been v2's from day one. The product already had a free surface (the consultant side); gating dating before users had even swiped meant we were collecting friction at a step that came too early in the funnel. A 90% drop-off was predictable in hindsight — we put the toll booth before the aha-moment instead of after it. The two months of v2 development are correcting a call I should have pushed back on (or proposed differently) when v1 was shipping.",
-      ],
+      engineering:
+        "I would instrument the funnel more aggressively from the first release: onboarding step exits, gate exposure, payment started, payment completed, first swipe, and retry behavior should have made the failure visible earlier.",
+      product:
+        "The paywall placement should have been after the first swipe from day one. The consultant surface already gave users a free entry point; dating needed to show value before asking for money.",
     },
   },
   {
@@ -191,74 +395,184 @@ export const cases: Case[] = [
       duration: "~4 years and counting (active maintenance)",
       role: "Author and sole maintainer",
       stack: "Dart, pub.dev, cross-platform (web + mobile + desktop)",
-      status: "Live on pub.dev — 185k+ downloads · 491 likes · 140 pub points · active maintenance",
+      status:
+        "Live on pub.dev — 190k+ downloads · 491 likes · 140 pub points · active maintenance",
       repoUrl: "https://github.com/incrediblezayed/file_saver",
     },
     summary:
-      "file_saver is an open-source Dart package that saves files cross-platform from Flutter apps — web, mobile, and desktop. I built it in 2021 for a personal project when no existing package handled the web-vs-mobile platform fork cleanly. Four years on, it's at 185k+ pub.dev downloads with active maintenance — written, owned, and maintained alone. This case is about the architectural call I made on day one — how to structure the abstraction — and how it has aged.",
+      "file_saver is an open-source Dart package that saves files cross-platform from Flutter apps — web, mobile, and desktop. I built it in 2021 for a personal project when no existing package handled the web-vs-mobile platform fork cleanly. Four years on, it's at 190k+ pub.dev downloads with active maintenance — written, owned, and maintained alone. This case is about the architectural call I made on day one — how to structure the abstraction — and how it has aged.",
     problem: {
-      intro: "File saving in Flutter requires fundamentally different platform implementations:",
+      intro: {
+        audience: "both",
+        voices: {
+          tech: "File saving splits into unrelated platform implementations: browser APIs on web, sandbox/share flows on iOS, scoped storage on Android, and native dialogs on desktop.",
+          product:
+            "Flutter developers do not want to learn four save-file models for one feature. They need one mental model that works across target platforms.",
+        },
+      },
       items: [
-        { label: "Web", body: "Browser download APIs (Blob + anchor tag patterns)." },
-        { label: "Mobile (iOS)", body: "Documents directory + share sheets." },
-        { label: "Mobile (Android)", body: "MediaStore / SAF (Storage Access Framework)." },
-        { label: "Desktop", body: "OS-level file dialogs." },
+        {
+          label: "Web",
+          audience: "both",
+          voices: {
+            tech: "Web saving depends on browser download behavior: Blob creation, anchor-triggered downloads, MIME handling, and dart:html constraints.",
+            product:
+              "A web developer expects an instant browser download, not a plugin setup story or a platform-specific detour.",
+          },
+        },
+        {
+          label: "Mobile (iOS)",
+          audience: "both",
+          voices: {
+            tech: "iOS saving has to respect sandboxing, documents directories, and native share or document flows.",
+            product:
+              "iOS users expect the platform-native share/save experience. The package has to feel like the OS, not like a custom workaround.",
+          },
+        },
+        {
+          label: "Mobile (Android)",
+          audience: "both",
+          voices: {
+            tech: "Android saving has to deal with MediaStore, SAF, scoped storage, and behavior changes across Android versions.",
+            product:
+              "Android fragmentation is exactly what the package should absorb. The developer should not rewrite file-saving logic for each OS version.",
+          },
+        },
+        {
+          label: "Desktop",
+          audience: "both",
+          voices: {
+            tech: "Desktop saving depends on OS-level file dialogs and platform-channel/native implementation differences.",
+            product:
+              "Desktop users expect native save dialogs. A cross-platform package has to preserve that expectation while hiding the implementation split.",
+          },
+        },
+        {
+          label: "Single import to hide the fork from developers",
+          audience: "both",
+          voices: {
+            tech: "The design constraint was one public API over multiple private implementations, using conditional imports and platform-specific files internally.",
+            product:
+              "The value was developer ergonomics: call FileSaver.saveAs(...) and stop thinking about which platform is underneath.",
+          },
+        },
       ],
       paragraphs: [
-        "These have nothing in common at the implementation layer. I needed a single import that hid this fork from the developer using the package — FileSaver.saveAs(...) and forget the platform. The decision was how to structure that unification internally.",
+        {
+          audience: "both",
+          voices: {
+            tech: "The implementations share almost nothing below the public API, so the architecture had to hide the fork without pretending the fork did not exist.",
+            product:
+              "The developer-facing promise was one import and one API. The platform complexity belongs inside the package, not in the user's app code.",
+          },
+        },
       ],
     },
     options: [
       {
         letter: "A",
-        label:
-          "Monolithic package — one import, separate platform files inside, conditional imports (dart:html for web, dart:io for mobile, channels for desktop)",
-        rejection: "Chosen.",
+        audience: "both",
+        selected: true,
+        voices: {
+          tech: {
+            label:
+              "One package with conditional imports and internal platform files",
+            rejection: "Chosen.",
+          },
+          product: {
+            label: "One import for the developer",
+            rejection: "Chosen.",
+          },
+        },
       },
       {
         letter: "B",
-        label:
-          "Platform interface + per-platform implementations — file_saver_platform_interface + file_saver_web + file_saver_android etc. (path_provider-style)",
-        rejection:
-          '"Correct by convention" but forces users to add multiple packages for a single-feature library. The user-facing cost outweighed architectural purity.',
+        audience: "both",
+        selected: false,
+        voices: {
+          tech: {
+            label:
+              "Platform interface plus per-platform implementation packages",
+            rejection:
+              "This is architecturally conventional, but too heavy for a single-feature package where users do not need swappable implementations.",
+          },
+          product: {
+            label: "Architecturally pure, but more install friction",
+            rejection:
+              "For this package, asking users to add multiple packages would make the solution feel bigger than the problem.",
+          },
+        },
       },
       {
         letter: "C",
-        label: "Separate packages per platform, no unification",
-        rejection: "Defeats the purpose. The whole point was a single API across platforms.",
+        audience: "both",
+        selected: false,
+        voices: {
+          tech: {
+            label: "Separate platform packages with no unified abstraction",
+            rejection:
+              "It avoids abstraction cost but pushes every platform branch to the app developer.",
+          },
+          product: {
+            label: "Make the developer choose the platform path manually",
+            rejection:
+              "That defeats the core promise: one API for saving files anywhere Flutter runs.",
+          },
+        },
       },
     ],
     bet: {
-      intro:
-        "Monolithic package with internal platform-specific files. One import for the user. Conditional imports handle the platform switches inside. The repo lives at one path; web/mobile/desktop are sibling files in the same package.",
+      intro: {
+        audience: "both",
+        voices: {
+          tech: "Keep the package monolithic, route platform differences through internal files, and expose one stable public API.",
+          product:
+            "Optimize for the developer's first five minutes: add one package, call one method, ship the feature.",
+        },
+      },
       sections: [
         {
           heading: "The product instinct underneath",
-          body:
-            '"How many packages does my user have to add?" is a stronger UX axis than "How architecturally pure is the abstraction?" Platform-interface splits make sense when users might want to swap or replace implementations. file_saver does one thing — save a file — and there is nothing to swap. User simplicity won, and the architectural cost of the conditional-import dance was acceptable for a domain this small.',
+          audience: "both",
+          voices: {
+            tech: "The domain was small enough that a monolithic abstraction stayed clean. There were no meaningful alternative implementations users needed to swap at runtime.",
+            product:
+              "The deciding question was not architectural purity; it was how many packages the user had to add for one simple job.",
+          },
         },
       ],
     },
     outcome: {
       paragraphs: [
-        "Four years in, the bet has aged well. The monolithic structure scaled to support web, mobile, and desktop platforms as Flutter itself expanded. No major refactor required to add platforms; new ones slot into the existing structure without breaking the user-facing API.",
-        "The architectural call from day one hasn't required revisiting. Adding platforms has been additive, not breaking.",
+        {
+          audience: "both",
+          voices: {
+            tech: "Four years later, the monolithic structure has scaled across web, mobile, and desktop without forcing a major package split.",
+            product:
+              "The bet aged well: platform support expanded without breaking the developer-facing promise.",
+          },
+        },
+        {
+          audience: "both",
+          voices: {
+            tech: "The original architecture remained additive. New platform work could slot into the same package model instead of forcing a public API reset.",
+            product:
+              "API stability became part of the product value. Developers could keep trusting the package instead of relearning it.",
+          },
+        },
       ],
       metrics: [
-        { label: "monthly downloads", value: "185k+" },
-        { label: "likes on pub.dev", value: "491" },
-        { label: "pub points", value: "140" },
-        { label: "years active", value: "4" },
+        { label: "downloads", value: "190k+", audience: "both" },
+        { label: "likes on pub.dev", value: "491", audience: "both" },
+        { label: "pub points", value: "140", audience: "both" },
+        { label: "years active", value: "4", audience: "both" },
       ],
     },
     reflection: {
-      paragraphs: [
-        "The architectural Bet has held up — monolithic was the right call for a single-feature package, and new platforms (web, mobile, desktop) have been additive rather than breaking. What I'd do differently is the scaffolding around the package, not the package itself:",
-        "1. Contribution guidelines + a clear maintainer policy from day one. 185k+ downloads is a lot of usage depending on a single bus factor. The package wasn't structured to accept community help, so I became the bottleneck the project couldn't afford.",
-        "2. Tests + CI from the first commit. Updates would ship with confidence rather than caution; \"did this regress?\" would be answered by a green check rather than by re-reading the diff.",
-        "3. A more explicit revisit when desktop platforms arrived. The monolithic structure absorbed Linux/Windows/macOS without breaking, but I should have asked the question — does this still make sense? — rather than letting the answer be implicit.",
-        "The Bet was right. The discipline around the Bet was the part that needed more from me.",
-      ],
+      engineering:
+        "The architecture held, but the project needed stronger scaffolding earlier: tests, CI, contribution guidelines, and an explicit revisit when desktop support became real.",
+      product:
+        "As steward of a widely used package, I should have treated maintainer experience as product surface too. The API was simple for users, but the project was too dependent on one maintainer.",
     },
   },
 ];

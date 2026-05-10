@@ -1,0 +1,834 @@
+/* ─────────────────────────────────────────────
+   Two Columns, One Person — split viewport.
+   Left: builder. Near-black bg, terminal green, JetBrains Mono.
+   Right: strategist. Cream bg, warm black, Fraunces serif.
+   Same content, two voices.
+   ───────────────────────────────────────────── */
+
+.root {
+  --tc-builder-bg: #0d0d0d;
+  --tc-builder-fg: #e6e6e6;
+  --tc-builder-fg-muted: #999;
+  --tc-builder-fg-subtle: #6a6a6a;
+  --tc-builder-rule: #2a2a2a;
+  --tc-builder-accent: #6ce29b;
+
+  --tc-strategist-bg: #f1ebe1;
+  --tc-strategist-fg: #1a1715;
+  --tc-strategist-fg-muted: #5b524a;
+  --tc-strategist-fg-subtle: #948576;
+  --tc-strategist-rule: #d4cab8;
+  --tc-strategist-accent: #8b3a1f;
+
+  min-height: 100vh;
+  background: var(--tc-builder-bg);
+}
+
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .split {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─────────── BUILDER COLUMN (LEFT) ─────────── */
+
+.builderColumn {
+  background: var(--tc-builder-bg);
+  color: var(--tc-builder-fg);
+  font-family: var(--font-mono-jb), ui-monospace, SFMono-Regular, monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  padding: 64px 40px;
+  border-right: 1px solid var(--tc-builder-rule);
+  display: grid;
+  gap: 64px;
+}
+
+@media (max-width: 900px) {
+  .builderColumn {
+    padding: 48px 24px;
+    border-right: 0;
+    border-bottom: 1px solid var(--tc-builder-rule);
+  }
+}
+
+.builderSection {
+  display: grid;
+  gap: 16px;
+}
+
+.builderEyebrow {
+  margin: 0;
+  font-size: 11px;
+  text-transform: lowercase;
+  letter-spacing: 0.04em;
+  color: var(--tc-builder-accent);
+}
+
+.builderName {
+  margin: 0;
+  font-family: var(--font-mono-jb), monospace;
+  font-size: clamp(28px, 4vw, 38px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+  color: var(--tc-builder-fg);
+}
+
+.builderRole {
+  margin: 0;
+  font-size: 12px;
+  color: var(--tc-builder-fg-muted);
+}
+
+.builderTagline {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: var(--tc-builder-fg);
+}
+
+.builderIntro {
+  margin: 8px 0 0;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--tc-builder-fg-muted);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.builderAvailability {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: var(--tc-builder-fg-muted);
+}
+
+.builderAccent {
+  color: var(--tc-builder-accent);
+}
+
+.builderSocials {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 12px;
+}
+
+.builderSocials a {
+  color: var(--tc-builder-fg);
+  text-decoration: none;
+  border-bottom: 1px solid var(--tc-builder-accent);
+  padding-bottom: 1px;
+}
+
+.builderSocials a:hover {
+  color: var(--tc-builder-accent);
+}
+
+.builderQuoteBlock {
+  margin: 0;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--tc-builder-fg);
+  white-space: pre-wrap;
+}
+
+.builderSectionTitle {
+  margin: 4px 0 16px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--tc-builder-fg);
+}
+
+/* ─── BUILDER CASES ─── */
+
+.builderCase {
+  border-top: 1px solid var(--tc-builder-rule);
+  padding-top: 32px;
+  margin-top: 16px;
+  display: grid;
+  gap: 24px;
+}
+
+.builderCase:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.builderCaseHeader {
+  display: grid;
+  gap: 8px;
+}
+
+.builderCaseNum {
+  margin: 0;
+  font-size: 11px;
+  color: var(--tc-builder-accent);
+}
+
+.builderCaseTitle {
+  margin: 0;
+  font-family: inherit;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--tc-builder-fg);
+}
+
+.builderMeta {
+  margin: 8px 0 0;
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--tc-builder-fg-muted);
+  line-height: 1.55;
+}
+
+.builderMeta div {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 12px;
+}
+
+.builderMeta dt {
+  color: var(--tc-builder-fg-subtle);
+  text-transform: lowercase;
+}
+
+.builderMeta dd {
+  margin: 0;
+}
+
+.builderMeta a {
+  color: var(--tc-builder-fg-muted);
+  text-decoration: none;
+  border-bottom: 1px solid var(--tc-builder-rule);
+}
+
+.builderMeta a:hover {
+  color: var(--tc-builder-accent);
+  border-bottom-color: var(--tc-builder-accent);
+}
+
+.builderBlock {
+  display: grid;
+  gap: 8px;
+}
+
+.builderBlockLabel {
+  margin: 0;
+  font-size: 11px;
+  color: var(--tc-builder-accent);
+}
+
+.builderProblemList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.builderProblemList strong {
+  color: var(--tc-builder-fg);
+  font-weight: 600;
+}
+
+.builderOptionsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.builderOptionsTable th,
+.builderOptionsTable td {
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--tc-builder-rule);
+  color: var(--tc-builder-fg-muted);
+}
+
+.builderOptionsTable th {
+  width: 28px;
+  font-weight: 600;
+  color: var(--tc-builder-fg-subtle);
+}
+
+.builderChosen th,
+.builderChosen td {
+  color: var(--tc-builder-accent);
+  font-weight: 500;
+}
+
+.builderBetSection {
+  display: grid;
+  gap: 6px;
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--tc-builder-rule);
+}
+
+.builderBetSection:last-child {
+  border-bottom: 0;
+}
+
+.builderBetHeading {
+  margin: 0;
+  font-size: 11px;
+  color: var(--tc-builder-fg-subtle);
+}
+
+.builderBetSection p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.builderBetList {
+  margin: 0;
+  padding: 0 0 0 16px;
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.builderMetrics {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.builderMetrics li {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  color: var(--tc-builder-fg-muted);
+}
+
+.builderMetrics .builderAccent {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.builderReflection {
+  margin: 0;
+  padding: 12px 14px;
+  background: rgba(108, 226, 155, 0.06);
+  border-left: 2px solid var(--tc-builder-accent);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--tc-builder-fg-muted);
+}
+
+/* ─── BUILDER EXPERIENCE ─── */
+
+.builderExperienceList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.builderRoleHead {
+  margin: 0;
+  font-size: 13px;
+  color: var(--tc-builder-fg);
+}
+
+.builderRoleDesc {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--tc-builder-fg-muted);
+  line-height: 1.55;
+}
+
+.builderRolePeriod {
+  color: var(--tc-builder-fg-subtle);
+  font-size: 11px;
+}
+
+.builderSubList {
+  list-style: none;
+  margin: 6px 0 0 16px;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--tc-builder-fg-muted);
+}
+
+/* ─── BUILDER TOOLKIT ─── */
+
+.builderToolkit {
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.builderToolkitRow {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 16px;
+  font-size: 12px;
+}
+
+.builderToolkitRow dt {
+  color: var(--tc-builder-accent);
+}
+
+.builderToolkitRow dd {
+  margin: 0;
+  color: var(--tc-builder-fg-muted);
+  line-height: 1.55;
+}
+
+/* ─── BUILDER PROJECTS ─── */
+
+.builderProjectGroup {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.builderProjectGroup:first-of-type {
+  margin-top: 0;
+}
+
+.builderProjectHeading {
+  margin: 0;
+  font-size: 11px;
+  color: var(--tc-builder-accent);
+}
+
+.builderProjectList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--tc-builder-fg-muted);
+  line-height: 1.55;
+}
+
+.builderProjectList strong {
+  color: var(--tc-builder-fg);
+  font-weight: 600;
+}
+
+.builderProjectStatus {
+  color: var(--tc-builder-fg-subtle);
+}
+
+.builderMarqueeText {
+  margin: 0;
+  font-size: 11px;
+  color: var(--tc-builder-fg-muted);
+  word-break: break-all;
+  line-height: 1.8;
+}
+
+/* ─────────── STRATEGIST COLUMN (RIGHT) ─────────── */
+
+.strategistColumn {
+  background: var(--tc-strategist-bg);
+  color: var(--tc-strategist-fg);
+  font-family: var(--font-sans), -apple-system, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  padding: 64px 48px;
+  display: grid;
+  gap: 64px;
+}
+
+@media (max-width: 900px) {
+  .strategistColumn {
+    padding: 48px 24px;
+  }
+}
+
+.strategistSection {
+  display: grid;
+  gap: 16px;
+}
+
+.strategistEyebrow {
+  margin: 0;
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--tc-strategist-accent);
+}
+
+.strategistName {
+  margin: 0;
+  font-family: var(--font-fraunces), serif;
+  font-size: clamp(40px, 5vw, 56px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  color: var(--tc-strategist-fg);
+}
+
+.strategistRole {
+  margin: 0;
+  font-family: var(--font-fraunces), serif;
+  font-size: 16px;
+  font-style: italic;
+  color: var(--tc-strategist-fg-muted);
+}
+
+.strategistTagline {
+  margin: 4px 0 0;
+  font-family: var(--font-fraunces), serif;
+  font-size: clamp(20px, 2.4vw, 24px);
+  font-style: italic;
+  line-height: 1.3;
+  color: var(--tc-strategist-fg);
+}
+
+.strategistIntro {
+  margin: 12px 0 0;
+  font-size: 16px;
+  line-height: 1.7;
+  max-width: 50ch;
+}
+
+.strategistAvailability {
+  margin: 8px 0 0;
+  font-family: var(--font-fraunces), serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--tc-strategist-fg-muted);
+}
+
+.strategistQuote {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.strategistQuote p {
+  margin: 0;
+  font-family: var(--font-fraunces), serif;
+  font-style: italic;
+  font-size: clamp(20px, 2.6vw, 24px);
+  line-height: 1.3;
+  color: var(--tc-strategist-fg);
+}
+
+.strategistQuote p:last-child em {
+  color: var(--tc-strategist-accent);
+}
+
+.strategistSectionTitle {
+  margin: 4px 0 16px;
+  font-family: var(--font-fraunces), serif;
+  font-size: clamp(24px, 3vw, 32px);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+  color: var(--tc-strategist-fg);
+}
+
+/* ─── STRATEGIST CASES ─── */
+
+.strategistCase {
+  border-top: 1px solid var(--tc-strategist-rule);
+  padding-top: 32px;
+  margin-top: 16px;
+  display: grid;
+  gap: 20px;
+}
+
+.strategistCase:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.strategistCaseHeader {
+  display: grid;
+  gap: 6px;
+}
+
+.strategistCaseNum {
+  margin: 0;
+  font-family: var(--font-mono-jb), monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--tc-strategist-accent);
+}
+
+.strategistCaseTitle {
+  margin: 0;
+  font-family: var(--font-fraunces), serif;
+  font-size: clamp(28px, 3.4vw, 36px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+.strategistCaseRole {
+  margin: 0;
+  font-family: var(--font-fraunces), serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--tc-strategist-fg-muted);
+}
+
+.strategistLede {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.strategistBlock {
+  display: grid;
+  gap: 8px;
+}
+
+.strategistBlockLabel {
+  margin: 0;
+  font-family: var(--font-fraunces), serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--tc-strategist-fg);
+}
+
+.strategistBlock p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--tc-strategist-fg-muted);
+}
+
+.strategistReflection {
+  margin: 12px 0 0;
+  padding: 16px 20px;
+  border-left: 2px solid var(--tc-strategist-accent);
+  background: rgba(139, 58, 31, 0.04);
+  font-family: var(--font-fraunces), serif;
+  font-size: 16px;
+  line-height: 1.55;
+  display: grid;
+  gap: 8px;
+}
+
+.strategistReflection p {
+  margin: 0;
+  color: var(--tc-strategist-fg);
+}
+
+.strategistReflection footer {
+  font-family: var(--font-mono-jb), monospace;
+  font-style: normal;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--tc-strategist-accent);
+}
+
+/* ─── STRATEGIST EXPERIENCE ─── */
+
+.strategistExperienceList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 20px;
+}
+
+.strategistRole {
+  display: grid;
+  gap: 4px;
+}
+
+.strategistRoleHead {
+  margin: 0;
+  font-size: 15px;
+}
+
+.strategistRoleTitle {
+  font-family: var(--font-fraunces), serif;
+  color: var(--tc-strategist-fg-muted);
+}
+
+.strategistRolePeriod {
+  margin: 0;
+  font-family: var(--font-mono-jb), monospace;
+  font-size: 11px;
+  color: var(--tc-strategist-fg-subtle);
+}
+
+.strategistRoleDesc {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: var(--tc-strategist-fg-muted);
+  line-height: 1.6;
+}
+
+.strategistSubList {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0 0 0 16px;
+  border-left: 1px solid var(--tc-strategist-rule);
+  display: grid;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--tc-strategist-fg-muted);
+}
+
+.strategistSubList em {
+  font-family: var(--font-fraunces), serif;
+  color: var(--tc-strategist-fg);
+}
+
+/* ─── STRATEGIST PRODUCT TOOLKIT ─── */
+
+.strategistProductList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 16px;
+}
+
+.strategistProductRow {
+  display: grid;
+  gap: 4px;
+  border-bottom: 1px dotted var(--tc-strategist-rule);
+  padding-bottom: 12px;
+}
+
+.strategistProductRow:last-child {
+  border-bottom: 0;
+}
+
+.strategistProductCategory {
+  margin: 0;
+  font-family: var(--font-mono-jb), monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--tc-strategist-fg-subtle);
+}
+
+.strategistProductHeadline {
+  margin: 0;
+  font-family: var(--font-fraunces), serif;
+  font-size: 16px;
+  color: var(--tc-strategist-fg);
+}
+
+.strategistProductBody {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--tc-strategist-fg-muted);
+}
+
+/* ─── STRATEGIST PROJECTS ─── */
+
+.strategistProjectGroup {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.strategistProjectGroup:first-of-type {
+  margin-top: 0;
+}
+
+.strategistProjectHeading {
+  margin: 0;
+  font-family: var(--font-mono-jb), monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--tc-strategist-fg-subtle);
+}
+
+.strategistProjectList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.strategistProjectName {
+  margin: 0;
+  font-size: 14px;
+}
+
+.strategistProjectTagline {
+  font-family: var(--font-fraunces), serif;
+  color: var(--tc-strategist-fg-muted);
+}
+
+.strategistProjectMeta {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--tc-strategist-fg-muted);
+  line-height: 1.55;
+}
+
+.strategistProjectStatus {
+  font-family: var(--font-mono-jb), monospace;
+  font-size: 11px;
+  color: var(--tc-strategist-fg-subtle);
+}
+
+.strategistMarqueeText {
+  margin: 0;
+  font-family: var(--font-mono-jb), monospace;
+  font-size: 11px;
+  color: var(--tc-strategist-fg-subtle);
+  line-height: 1.8;
+}
+
+/* ─────────── FOOTER ─────────── */
+
+.footer {
+  background: var(--tc-builder-bg);
+  color: var(--tc-builder-fg-subtle);
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 11px;
+  padding: 24px 40px;
+  text-align: center;
+  border-top: 1px solid var(--tc-builder-rule);
+}
+
+.footer p {
+  margin: 0;
+}
+
+.footer kbd {
+  font: inherit;
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid var(--tc-builder-fg-subtle);
+  font-size: 10px;
+}
