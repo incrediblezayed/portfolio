@@ -27,7 +27,11 @@ export function HorizontalReel() {
   });
 
   const maxTranslateVw = (PANEL_COUNT - 1) * 100;
-  const translateX = isMobile ? 0 : -progress * maxTranslateVw;
+  // Clamp defensively — progress is already 0-1 from useScrollProgress but
+  // this prevents any overshoot if floating-point drift sneaks in.
+  const translateX = isMobile
+    ? 0
+    : Math.max(-maxTranslateVw, Math.min(0, -progress * maxTranslateVw));
 
   const activeIndex = Math.min(
     PANEL_COUNT - 1,

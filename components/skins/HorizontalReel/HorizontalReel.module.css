@@ -33,12 +33,15 @@
   position: sticky;
   top: 0;
   height: 100vh;
+  width: 100vw;
   overflow: hidden;
   background: var(--hr-bg);
+  contain: layout paint; /* isolate sticky from page-level layout shifts */
 }
 
 .strip {
   display: flex;
+  flex-wrap: nowrap;
   width: 700vw; /* 7 panels × 100vw */
   height: 100%;
   /* transform: translateX(...) — set inline by JS based on scroll progress */
@@ -89,15 +92,24 @@
 /* ─────────── Panels (each 100vw) ─────────── */
 
 .panel {
+  /* Hard-pin every panel to exactly one viewport wide, one viewport tall.
+     Multiple width constraints + overflow:hidden prevent any content from
+     bleeding horizontally — which was causing the last panel to appear to
+     overscroll left as the strip translated. */
   width: 100vw;
+  min-width: 100vw;
+  max-width: 100vw;
   height: 100vh;
+  max-height: 100vh;
   flex-shrink: 0;
+  flex-grow: 0;
   padding: 64px 80px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   border-right: 1px solid var(--hr-rule);
   position: relative;
+  overflow: hidden;
 }
 
 /* Tiny "frame ticks" on top/bottom edges = filmstrip ornament */
@@ -480,6 +492,9 @@
 /* Toolkit panel */
 
 .toolkitPanel {
+  /* allow vertical scroll inside the panel for long content,
+     but lock horizontal to prevent bleed past the strip cell */
+  overflow-x: hidden;
   overflow-y: auto;
 }
 
@@ -563,6 +578,7 @@
 /* Experience panel */
 
 .experiencePanel {
+  overflow-x: hidden;
   overflow-y: auto;
 }
 
@@ -577,27 +593,32 @@
 
 .experienceRow {
   display: grid;
-  grid-template-columns: 180px 1fr 1fr;
-  gap: 24px;
+  grid-template-columns: 160px 1fr 1fr;
+  gap: 20px;
   align-items: baseline;
-  padding: 14px 0;
+  padding: 10px 0;
   border-bottom: 1px solid var(--hr-rule);
+  min-width: 0;
 }
 
 .experiencePeriod {
   font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 11px;
+  font-size: 10px;
   letter-spacing: 0.04em;
-  color: var(--hr-accent);
+  color: var(--case-accent, var(--hr-accent));
   margin: 0;
 }
 
 .experienceTitle {
   font-family: var(--font-fraunces), Georgia, serif;
   font-weight: 400;
-  font-size: 17px;
+  font-size: 15px;
   color: var(--hr-fg);
   margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .experienceCompany {
@@ -607,9 +628,10 @@
   margin: 0;
 }
 
-/* Projects panel */
+/* Projects panel — in the strip, vertical scroll inside for long content */
 
 .projectsPanel {
+  overflow-x: hidden;
   overflow-y: auto;
 }
 
