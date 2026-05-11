@@ -7,6 +7,9 @@ export const THEME_ORDER: ThemeId[] = [
   "changelog",
   "terminal",
   "readingroom",
+  "reel",
+  "horizontalreel",
+  "scene",
 ];
 
 export const THEMES: Record<ThemeId, ThemeRegistryEntry> = {
@@ -51,6 +54,27 @@ export const THEMES: Record<ThemeId, ThemeRegistryEntry> = {
     description: "Library quiet. Drop caps, single column, long-form prose.",
     swatch: { background: "#fbf7f0", foreground: "#2a2520", accent: "#8b3a1f" },
     shortcut: "6",
+  },
+  reel: {
+    id: "reel",
+    name: "The Reel",
+    description: "Cinematic pin-scroll. Chapters morph between palettes.",
+    swatch: { background: "#0e0e10", foreground: "#f5f1ea", accent: "#d94a1f" },
+    shortcut: "7",
+  },
+  horizontalreel: {
+    id: "horizontalreel",
+    name: "Horizontal Reel",
+    description: "Vertical scroll pans the camera sideways. Filmstrip showreel.",
+    swatch: { background: "#0a0a0a", foreground: "#fafafa", accent: "#ff8c42" },
+    shortcut: "8",
+  },
+  scene: {
+    id: "scene",
+    name: "Scene",
+    description: "Real WebGL 3D. Camera glides through floating panels in space.",
+    swatch: { background: "#06061a", foreground: "#f5f5fa", accent: "#a78bfa" },
+    shortcut: "9",
   },
 };
 

@@ -160,9 +160,16 @@ function pickFirstBetBody(c: Case): string | null {
 
 function CaseEssay({ caseStudy: c }: Readonly<{ caseStudy: Case }>) {
   const firstBetBody = pickFirstBetBody(c);
+  const brandAccentStyle = c.brand
+    ? ({ "--case-accent": c.brand.primary } as React.CSSProperties)
+    : undefined;
 
   return (
-    <article className={styles.case} id={`editorial-${c.id}`}>
+    <article
+      className={styles.case}
+      id={`editorial-${c.id}`}
+      style={brandAccentStyle}
+    >
       <header className={styles.caseHeader}>
         <p className={styles.caseEyebrow}>
           Case {String(c.number).padStart(2, "0")} · {c.meta.year}

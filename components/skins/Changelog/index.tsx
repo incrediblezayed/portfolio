@@ -51,8 +51,11 @@ function Feed({ entries }: Readonly<{ entries: ChangelogEntry[] }>) {
 }
 
 function Entry({ entry }: Readonly<{ entry: ChangelogEntry }>) {
+  const brandAccentStyle = entry.brand
+    ? ({ "--entry-accent": entry.brand.primary } as React.CSSProperties)
+    : undefined;
   return (
-    <article className={styles.entry}>
+    <article className={styles.entry} style={brandAccentStyle}>
       <header className={styles.entryMeta}>
         <span className={styles.entryDate}>{entry.dateLabel}</span>
         <span className={styles.entryHash}>{entry.hash}</span>

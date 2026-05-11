@@ -224,7 +224,7 @@
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: var(--dl-accent);
+  color: var(--case-accent, var(--dl-accent));
 }
 
 .caseTitle {
@@ -264,12 +264,12 @@
 }
 
 .repoLink:hover {
-  color: var(--dl-accent);
-  border-bottom-color: var(--dl-accent);
+  color: var(--case-accent, var(--dl-accent));
+  border-bottom-color: var(--case-accent, var(--dl-accent));
 }
 
 .reframe {
-  border-left: 2px solid var(--dl-accent);
+  border-left: 2px solid var(--case-accent, var(--dl-accent));
   background: var(--dl-callout);
   padding: 16px 20px;
   display: grid;
@@ -288,7 +288,7 @@
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: var(--dl-accent);
+  color: var(--case-accent, var(--dl-accent));
 }
 
 .summary {
@@ -419,7 +419,7 @@
 .optionChosen .optionLetter,
 .optionChosen .optionLabel,
 .optionChosen .optionRejection {
-  color: var(--dl-accent);
+  color: var(--case-accent, var(--dl-accent));
   font-weight: 500;
 }
 
@@ -483,7 +483,7 @@
   line-height: 1;
   letter-spacing: -0.02em;
   font-weight: 600;
-  color: var(--dl-accent);
+  color: var(--case-accent, var(--dl-accent));
 }
 
 .metricLabel {

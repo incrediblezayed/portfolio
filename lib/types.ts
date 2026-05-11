@@ -4,7 +4,10 @@ export type ThemeId =
   | "twocolumn"
   | "decisionlog"
   | "terminal"
-  | "readingroom";
+  | "readingroom"
+  | "reel"
+  | "horizontalreel"
+  | "scene";
 
 export type AvailabilitySignal = "open" | "selective" | "closed";
 
@@ -137,6 +140,37 @@ export interface CaseReflection {
   product: string;
 }
 
+export interface BrandGradientStop {
+  color: string;
+  /** Position 0-100 (percentage) */
+  offset: number;
+}
+
+export interface BrandGradient {
+  /** CSS gradient angle in degrees (90 = left→right, 165 = top-left→bottom-right) */
+  direction: number;
+  stops: BrandGradientStop[];
+}
+
+export interface BrandScale {
+  100: string;
+  200: string;
+  300: string;
+  400: string;
+  500: string;
+}
+
+export interface BrandColor {
+  /** The single solid brand color — always present. */
+  primary: string;
+  /** Optional multi-stop gradient (some brands have one, others don't). */
+  gradient?: BrandGradient;
+  /** Optional lightest→darkest scale (100 light → 500 dark, brand at 500). */
+  scale?: BrandScale;
+  /** Optional secondary palette (e.g., Clickked's lavender Secondary 100-500). */
+  secondary?: BrandScale;
+}
+
 export interface Case {
   id: string;
   number: number;
@@ -149,6 +183,8 @@ export interface Case {
   outcome: CaseOutcome;
   reflection: CaseReflection;
   prose?: string;
+  /** Optional brand color spec. Used by skins to tint per-case accents. */
+  brand?: BrandColor;
 }
 
 export interface ToolkitEngineeringGroup {

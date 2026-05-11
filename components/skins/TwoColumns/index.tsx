@@ -128,9 +128,12 @@ function BuilderCase({ caseStudy: c }: Readonly<{ caseStudy: Case }>) {
     isForVoice(p, voice),
   );
   const metrics = c.outcome.metrics?.filter((m) => isForVoice(m, voice)) ?? [];
+  const brandAccentStyle = c.brand
+    ? ({ "--case-accent": c.brand.primary } as React.CSSProperties)
+    : undefined;
 
   return (
-    <article className={styles.builderCase}>
+    <article className={styles.builderCase} style={brandAccentStyle}>
       <header className={styles.builderCaseHeader}>
         <p className={styles.builderCaseNum}>
           case_{String(c.number).padStart(2, "0")}
@@ -431,9 +434,12 @@ function StrategistCase({ caseStudy: c }: Readonly<{ caseStudy: Case }>) {
     isForVoice(p, voice),
   );
   const metrics = c.outcome.metrics?.filter((m) => isForVoice(m, voice)) ?? [];
+  const brandAccentStyle = c.brand
+    ? ({ "--case-accent": c.brand.primary } as React.CSSProperties)
+    : undefined;
 
   return (
-    <article className={styles.strategistCase}>
+    <article className={styles.strategistCase} style={brandAccentStyle}>
       <header className={styles.strategistCaseHeader}>
         <p className={styles.strategistCaseNum}>
           Case {String(c.number).padStart(2, "0")} · {c.meta.year}

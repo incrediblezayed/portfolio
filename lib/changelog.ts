@@ -1,5 +1,5 @@
 import { cases, experience } from "@/content";
-import type { Case, Role } from "./types";
+import type { BrandColor, Case, Role } from "./types";
 
 export type ChangelogStatus = "shipped" | "wip" | "draft";
 
@@ -15,6 +15,8 @@ export interface ChangelogEntry {
   added?: string[]; // bullet adds
   removed?: string[]; // bullet removes
   stack?: string;
+  /** Per-entry brand color (cases only — roles inherit skin accent). */
+  brand?: BrandColor;
 }
 
 function fauxHash(input: string): string {
@@ -143,6 +145,7 @@ function caseToEntry(c: Case): ChangelogEntry {
     added: addedByCase[c.id]?.length ? addedByCase[c.id] : undefined,
     removed: removedByCase[c.id]?.length ? removedByCase[c.id] : undefined,
     stack: c.meta.stack,
+    brand: c.brand,
   };
 }
 

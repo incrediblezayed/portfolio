@@ -148,7 +148,7 @@
   font-size: 5em;
   line-height: 0.85;
   padding: 0.06em 0.1em 0 0;
-  color: var(--rr-accent);
+  color: var(--case-accent, var(--rr-accent));
 }
 
 /* ─────────── EPIGRAPH ─────────── */
@@ -248,7 +248,7 @@
   margin: 24px 0;
   padding: 16px 20px;
   background: var(--rr-paper);
-  border-left: 2px solid var(--rr-accent);
+  border-left: 2px solid var(--case-accent, var(--rr-accent));
   display: grid;
   gap: 8px;
 }
@@ -266,7 +266,7 @@
   font-style: italic;
   font-weight: 600;
   font-size: 22px;
-  color: var(--rr-accent);
+  color: var(--case-accent, var(--rr-accent));
 }
 
 .marginLabel {

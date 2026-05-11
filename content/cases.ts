@@ -228,6 +228,18 @@ export const cases: Case[] = [
     },
     prose:
       "The Infophone codebase had been earning its keep for almost a year when the cracks added up. Calls dropped on iOS, screen sharing was always ten weeks away, and the chat layer routed through a vendor SDK whose source code we couldn't read. We had shipped what worked, used it in production, and watched the issues compound until patching no longer paid for itself.\n\nThe honest call was to throw it away.\n\nWe rebuilt from scratch. Native iOS in Swift, native Android in Kotlin, raw ejabberd for chat, LiveKit for calls, NestJS and Drizzle for everything else. The new stack has one layer of code instead of three layers of opacity — the vendor wrapper, the vendor's support latency, and the method-channel glue holding the two together. When something breaks at 2am now, we can read every line in the call stack, both ours and our dependencies'.\n\nThe rebuild is in testing as I write this. Native builds are active, ejabberd and LiveKit and NestJS are all self-hosted, and features that were impossible on the old stack — Picture-in-Picture, screen sharing, backup and restore — are now in scope. Team velocity on platform-specific work has visibly improved with the native codebase replacing the method-channel maze.\n\nThe lesson, the one I'm still chewing on, is that I should have killed the old build sooner. Each patch sprint added sunk-cost weight to the eventual decision, and the signals were clear earlier than I acted on them. The kill memo should have been written two months before it was. Most of the cost of a hard call lives in the time between recognising it and writing it down.",
+    brand: {
+      // InfoPhone — single brand color provided by user. Scale derived in HSL
+      // space from #3C3B6F (h≈241, s≈30%). No designer-provided gradient.
+      primary: "#3C3B6F",
+      scale: {
+        100: "#C5C5DA",
+        200: "#9F9FC2",
+        300: "#7878A6",
+        400: "#51508A",
+        500: "#3C3B6F",
+      },
+    },
   },
   {
     id: "clickked",
@@ -389,6 +401,32 @@ export const cases: Case[] = [
     },
     prose:
       "Clickked started in 2021 as a one-sided dating app. By the time I joined as sole technical lead in mid-2023, the product had grown a second side — a consultant marketplace — and was live on the Play Store and App Store. My job was to build, ship, and improve. The most consequential decision I made was about a single screen: the paywall.\n\nVersion one placed the paywall halfway through profile setup. The implicit hypothesis was that gating users early would force conversion intent before they invested time in the app. The actual signal in production was unambiguous: roughly nine of every ten users hitting that screen left without paying. They never swiped, never matched, never experienced anything we were selling. We were collecting friction at a step that came too early in the funnel.\n\nFor version two, we moved the paywall to after the user's first swipe. The product already had a free surface — consultants, always open to browse — so the paywall is no longer a user's first encounter with Clickked, just the first encounter with the dating side. That first swipe is the smallest possible unit of dating-product value: enough that the user has tasted what we are selling, not so much that we are giving the loop away. As a side effect, a small payment after the first swipe acts as a quality filter against bots. Marketplace integrity over signup-volume vanity.\n\nThe v2 release is in development as I write this — about two months in, including the consultant flow updates that ride alongside the paywall move. Not yet shipped.\n\nIn hindsight, v1's paywall placement should have been v2's from day one. The drop-off was predictable in retrospect: gating users before any aha-moment had landed was a textbook misread of where value lives in a dating app. The instrumentation should have made that visible inside a week. The call should have been mine to make before v1 left the building.",
+    brand: {
+      // Clickked — full brand system provided by designer.
+      primary: "#4D1E6A",
+      gradient: {
+        direction: 90,
+        stops: [
+          { color: "#933CC9", offset: 0 },
+          { color: "#952F9E", offset: 45.83 },
+          { color: "#4D1E6A", offset: 100 },
+        ],
+      },
+      scale: {
+        100: "#C8B9D1",
+        200: "#AD98BA",
+        300: "#88689B",
+        400: "#714B88",
+        500: "#4D1E6A",
+      },
+      secondary: {
+        100: "#E8E2EB",
+        200: "#D7C4E1",
+        300: "#C5A9D3",
+        400: "#B998CB",
+        500: "#A87EBE",
+      },
+    },
   },
   {
     id: "file_saver",
@@ -400,11 +438,11 @@ export const cases: Case[] = [
       role: "Author and sole maintainer",
       stack: "Dart, pub.dev, cross-platform (web + mobile + desktop)",
       status:
-        "Live on pub.dev — 185k+ downloads · 491 likes · 140 pub points · v0.4.0 shipped May 2026 · active maintenance",
+        "Live on pub.dev — 190k+ downloads · 491 likes · 160/160 pub points · v0.4.0 shipped May 2026 · active maintenance",
       repoUrl: "https://github.com/incrediblezayed/file_saver",
     },
     summary:
-      "file_saver is an open-source Dart package that saves files cross-platform from Flutter apps — web, mobile, and desktop. I built it in 2021 for a personal project when no existing package handled the web-vs-mobile platform fork cleanly. Five years on, it's at 185k+ monthly downloads with active maintenance — most recent release v0.4.0 (May 2026) added Swift Package Manager support, streaming writes, and Wasm-friendly conditional imports without breaking the public API. This case is about the architectural call I made on day one — how to structure the abstraction — and how it has aged.",
+      "file_saver is an open-source Dart package that saves files cross-platform from Flutter apps — web, mobile, and desktop. I built it in 2021 for a personal project when no existing package handled the web-vs-mobile platform fork cleanly. Five years on, it's at 190k+ monthly downloads with active maintenance — most recent release v0.4.0 (May 2026) added Swift Package Manager support, streaming writes, and Wasm-friendly conditional imports without breaking the public API. This case is about the architectural call I made on day one — how to structure the abstraction — and how it has aged.",
     problem: {
       intro: {
         audience: "both",
@@ -566,9 +604,9 @@ export const cases: Case[] = [
         },
       ],
       metrics: [
-        { label: "monthly downloads", value: "185k+", audience: "both" },
+        { label: "monthly downloads", value: "190k+", audience: "both" },
         { label: "likes on pub.dev", value: "491", audience: "both" },
-        { label: "pub points", value: "140", audience: "both" },
+        { label: "pub points", value: "160/160", audience: "both" },
         { label: "years active", value: "5", audience: "both" },
         { label: "current release", value: "v0.4.0", audience: "both" },
       ],
@@ -580,6 +618,25 @@ export const cases: Case[] = [
         "As steward of a widely used package, I should have treated maintainer experience as product surface too. The API was simple for users, but the project was too dependent on one maintainer.",
     },
     prose:
-      "On the eleventh of March, 2021, I published the first version of file_saver to pub.dev. It started as scratch for a project of my own. Flutter had no clean way to save a file that worked across web, iOS, Android, and desktop, and asking dev-users to add four packages for a single feature felt wrong.\n\nThe architectural call was to keep the abstraction monolithic. One package, one import — `FileSaver.saveAs(...)` — with platform-specific files inside, swapped at compile time via conditional imports: `dart:html` for web, `dart:io` for mobile, native channels for desktop. The alternative was the path_provider convention: a platform interface package and per-platform implementation packages. Architecturally cleaner, perhaps, but it would have asked every dev-user to add multiple packages for a single feature. I picked the dev ergonomic over the architectural purity.\n\nFive years on, the architecture has held. The package gets roughly 185,000 downloads a month, sits at 491 likes and 140 pub points, and is still under active maintenance. v0.4.0 shipped this May with Swift Package Manager support for iOS and macOS, streaming writes for both local files and authenticated URL downloads, Wasm-friendly conditional imports, native file-path copying that keeps large inputs out of Dart memory, and Android path-traversal hardening. Every one of those additions slotted into the existing package model. The `FileSaver.saveAs(...)` call signature is unchanged from the very first release.\n\nWhat I would do differently isn't the package — it's the scaffolding around it. Contribution guidelines and a maintainer policy should have been in place from day one; 185k monthly downloads is too much usage for a single bus factor to carry. Tests and CI should have shipped with the first commit, so updates land with confidence rather than caution. And when desktop platforms arrived, I should have explicitly revisited whether the monolithic structure still made sense, rather than letting it absorb them by default.\n\nThe architectural call was right. The discipline around it was the part that needed more from me.",
+      "On the eleventh of March, 2021, I published the first version of file_saver to pub.dev. It started as scratch for a project of my own. Flutter had no clean way to save a file that worked across web, iOS, Android, and desktop, and asking dev-users to add four packages for a single feature felt wrong.\n\nThe architectural call was to keep the abstraction monolithic. One package, one import — `FileSaver.saveAs(...)` — with platform-specific files inside, swapped at compile time via conditional imports: `dart:html` for web, `dart:io` for mobile, native channels for desktop. The alternative was the path_provider convention: a platform interface package and per-platform implementation packages. Architecturally cleaner, perhaps, but it would have asked every dev-user to add multiple packages for a single feature. I picked the dev ergonomic over the architectural purity.\n\nFive years on, the architecture has held. The package gets roughly 190,000 downloads a month, sits at 491 likes and a perfect 160/160 pub points, and is still under active maintenance. v0.4.0 shipped this May with Swift Package Manager support for iOS and macOS, streaming writes for both local files and authenticated URL downloads, Wasm-friendly conditional imports, native file-path copying that keeps large inputs out of Dart memory, and Android path-traversal hardening. Every one of those additions slotted into the existing package model. The `FileSaver.saveAs(...)` call signature is unchanged from the very first release.\n\nWhat I would do differently isn't the package — it's the scaffolding around it. Contribution guidelines and a maintainer policy should have been in place from day one; 190k monthly downloads is too much usage for a single bus factor to carry. Tests and CI should have shipped with the first commit, so updates land with confidence rather than caution. And when desktop platforms arrived, I should have explicitly revisited whether the monolithic structure still made sense, rather than letting it absorb them by default.\n\nThe architectural call was right. The discipline around it was the part that needed more from me.",
+    brand: {
+      // file_saver — gradient (#035AFF → #008FFE) is the author-provided brand.
+      // Scale derived in HSL space from #035AFF (no designer-provided scale).
+      primary: "#035AFF",
+      gradient: {
+        direction: 165,
+        stops: [
+          { color: "#035AFF", offset: 0 },
+          { color: "#008FFE", offset: 100 },
+        ],
+      },
+      scale: {
+        100: "#B8D4FF",
+        200: "#80B5FF",
+        300: "#4D95FF",
+        400: "#2D7BFF",
+        500: "#035AFF",
+      },
+    },
   },
 ];

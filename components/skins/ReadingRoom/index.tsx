@@ -102,8 +102,11 @@ function Chapter({
   number,
 }: Readonly<{ caseStudy: Case; number: number }>) {
   const paragraphs = readChapterProse(c);
+  const brandAccentStyle = c.brand
+    ? ({ "--case-accent": c.brand.primary } as React.CSSProperties)
+    : undefined;
   return (
-    <article className={styles.chapter}>
+    <article className={styles.chapter} style={brandAccentStyle}>
       <header className={styles.chapterHeader}>
         <p className={styles.chapterNumber}>
           Chapter {number.toString().padStart(2, "0")}

@@ -373,7 +373,8 @@
 }
 
 .caseId {
-  color: var(--term-fg-faint);
+  color: var(--case-accent, var(--term-fg-faint));
+  font-weight: 500;
 }
 
 .caseTitle {

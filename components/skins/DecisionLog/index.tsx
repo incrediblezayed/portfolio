@@ -111,8 +111,11 @@ function Cases() {
 }
 
 function CaseStudy({ caseStudy: c }: Readonly<{ caseStudy: Case }>) {
+  const brandAccentStyle = c.brand
+    ? ({ "--case-accent": c.brand.primary } as React.CSSProperties)
+    : undefined;
   return (
-    <article className={styles.case} id={c.id}>
+    <article className={styles.case} id={c.id} style={brandAccentStyle}>
       <header className={styles.caseHeader}>
         <p className={styles.caseNumber}>
           Case {String(c.number).padStart(2, "0")}

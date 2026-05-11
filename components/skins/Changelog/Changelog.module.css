@@ -131,7 +131,15 @@
 .entry {
   display: grid;
   gap: 12px;
-  padding: 32px 0;
+  padding: 32px 0 32px 16px;
+  position: relative;
+  border-left: 2px solid transparent;
+  margin-left: -16px;
+}
+
+/* Per-entry brand stripe — only visible when --entry-accent is set inline */
+.entry[style*="--entry-accent"] {
+  border-left-color: var(--entry-accent);
 }
 
 .entryMeta {
@@ -149,9 +157,10 @@
 }
 
 .entryHash {
-  color: var(--cl-fg-subtle);
+  color: var(--entry-accent, var(--cl-fg-subtle));
   font-feature-settings: "tnum";
   letter-spacing: 0.02em;
+  font-weight: 600;
 }
 
 .entrySource {

@@ -1,0 +1,791 @@
+/* ─────────────────────────────────────────────
+   Horizontal Reel — vertical scroll → camera pan.
+   Outer wrapper is tall (500vh, 5 panels). Inner is
+   pinned (sticky 100vh). Strip translates on the
+   X axis driven by scroll-timeline. Filmstrip vibe.
+   Display: Fraunces · Body: Geist · Mono: Geist Mono
+   ───────────────────────────────────────────── */
+
+.root {
+  --hr-bg: #0a0a0a;
+  --hr-fg: #fafafa;
+  --hr-fg-soft: #b5b0a8;
+  --hr-fg-faint: #6e6a64;
+  --hr-rule: rgba(250, 250, 250, 0.1);
+  --hr-accent: #ff8c42;
+
+  background: var(--hr-bg);
+  color: var(--hr-fg);
+  font-family: var(--font-sans), -apple-system, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  overflow-x: clip; /* clip horizontal overflow without making .root a scroll container (preserves sticky) */
+}
+
+/* ─────────── Pin scaffold ─────────── */
+
+.outer {
+  height: 700vh; /* 7 in-strip panels × 100vh of vertical scroll-distance each */
+  position: relative;
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--hr-bg);
+}
+
+.strip {
+  display: flex;
+  width: 700vw; /* 7 panels × 100vw */
+  height: 100%;
+  /* transform: translateX(...) — set inline by JS based on scroll progress */
+  will-change: transform;
+  transition: transform 80ms linear; /* tiny smoothing between rAF updates */
+}
+
+/* ─────────── Pin counter (bottom-left during pin) ─────────── */
+
+.pinCounter {
+  position: absolute;
+  bottom: 32px;
+  left: 32px;
+  z-index: 5;
+  display: grid;
+  gap: 8px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  pointer-events: none;
+}
+
+.pinCounterIndex {
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--hr-accent);
+  font-weight: 600;
+}
+
+.pinCounterTrack {
+  width: 160px;
+  height: 2px;
+  background: var(--hr-rule);
+  position: relative;
+  overflow: hidden;
+}
+
+.pinCounterTrack::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: var(--p, 0%);
+  background: var(--hr-accent);
+  transition: width 80ms linear;
+}
+
+/* ─────────── Panels (each 100vw) ─────────── */
+
+.panel {
+  width: 100vw;
+  height: 100vh;
+  flex-shrink: 0;
+  padding: 64px 80px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--hr-rule);
+  position: relative;
+}
+
+/* Tiny "frame ticks" on top/bottom edges = filmstrip ornament */
+.panel::before,
+.panel::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 12px;
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--hr-rule) 0,
+    var(--hr-rule) 8px,
+    transparent 8px,
+    transparent 24px
+  );
+  opacity: 0.5;
+  pointer-events: none;
+}
+.panel::before { top: 0; }
+.panel::after  { bottom: 0; }
+
+/* ─────────── Page hero (full-page section before .outer) ─────────── */
+
+.pageHero {
+  min-height: 100vh;
+  padding: 96px 80px 48px;
+  display: grid;
+  align-content: center;
+  gap: 20px;
+  background: var(--hr-bg);
+  border-bottom: 1px solid var(--hr-rule);
+  position: relative;
+}
+
+.pageFooter {
+  min-height: 60vh;
+  padding: 96px 80px;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+  gap: 20px;
+  background: var(--hr-bg);
+  border-top: 1px solid var(--hr-rule);
+}
+
+@media (max-width: 720px) {
+  .pageHero {
+    padding: 64px 24px 48px;
+  }
+  .pageFooter {
+    padding: 64px 24px;
+  }
+}
+
+/* ─────────── Hero panel (legacy — used inside strip in fallback only) ─────────── */
+
+.heroPanel {
+  justify-content: center;
+  gap: 20px;
+  max-width: none;
+}
+
+.panelEyebrow {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--hr-fg-soft);
+  margin: 0;
+}
+
+.heroName {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(72px, 9vw, 160px);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  margin: 0;
+  color: var(--hr-fg);
+}
+
+.heroTagline {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(20px, 2.4vw, 30px);
+  line-height: 1.3;
+  color: var(--hr-accent);
+  margin: 0;
+  max-width: 760px;
+}
+
+.heroIntro {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--hr-fg-soft);
+  margin: 0;
+  max-width: 640px;
+}
+
+.heroAvailability {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--hr-accent);
+  margin: 0;
+}
+
+.socials {
+  list-style: none;
+  display: flex;
+  gap: 24px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  margin: 8px 0 0;
+  padding: 0;
+}
+
+.socials a {
+  text-decoration: none;
+  color: var(--hr-fg-soft);
+  border-bottom: 1px solid transparent;
+  transition: color 160ms ease, border-color 160ms ease;
+}
+
+.socials a:hover {
+  color: var(--hr-fg);
+  border-bottom-color: var(--hr-accent);
+}
+
+.scrollHint {
+  position: absolute;
+  bottom: 32px;
+  left: 80px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--hr-fg-faint);
+  margin: 0;
+  animation: hr-breathe 2.4s ease-in-out infinite;
+}
+
+@keyframes hr-breathe {
+  0%, 100% { opacity: 0.4; transform: translateX(0); }
+  50%      { opacity: 1;   transform: translateX(6px); }
+}
+
+/* ─────────── Case panel ─────────── */
+
+.casePanel {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 40px;
+  padding: 64px 80px;
+}
+
+.caseHead {
+  display: grid;
+  gap: 12px;
+}
+
+.caseNumber {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--case-accent, var(--hr-accent));
+  margin: 0;
+}
+
+.caseTitle {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(48px, 7vw, 96px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--hr-fg);
+}
+
+.caseStatus {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--hr-fg-soft);
+  margin: 0;
+  padding: 4px 12px;
+  border: 1px dashed var(--hr-rule);
+  border-radius: 999px;
+  align-self: start;
+  justify-self: start;
+}
+
+.caseGrid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 64px;
+  min-height: 0;
+}
+
+.caseLeft,
+.caseRight {
+  display: grid;
+  gap: 24px;
+  align-content: start;
+  min-height: 0;
+}
+
+.caseSummary {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(18px, 1.8vw, 22px);
+  line-height: 1.5;
+  color: var(--hr-fg);
+  margin: 0;
+  opacity: 0.92;
+}
+
+.caseStack {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--hr-fg-faint);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.metaTag {
+  display: inline-block;
+  margin-right: 8px;
+  padding: 1px 6px;
+  border: 1px solid var(--hr-rule);
+  border-radius: 3px;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--case-accent, var(--hr-accent));
+}
+
+.betBlock {
+  display: grid;
+  gap: 12px;
+}
+
+.betEyebrow,
+.outcomeEyebrow {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--case-accent, var(--hr-accent));
+  margin: 0;
+}
+
+.betLabel {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(22px, 2.6vw, 32px);
+  line-height: 1.25;
+  color: var(--hr-fg);
+  margin: 0;
+}
+
+.betIntro {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--hr-fg-soft);
+  margin: 0;
+}
+
+.outcomeBlock {
+  display: grid;
+  gap: 16px;
+  padding-top: 24px;
+  border-top: 1px solid var(--hr-rule);
+}
+
+.outcomeLede {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(18px, 2vw, 24px);
+  line-height: 1.4;
+  color: var(--hr-fg);
+  margin: 0;
+}
+
+.metricsRow {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin: 8px 0 0;
+  padding: 0;
+}
+
+.metricsRow li {
+  display: grid;
+  gap: 4px;
+}
+
+.metricValue {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: clamp(28px, 3.4vw, 44px);
+  line-height: 1;
+  color: var(--case-accent, var(--hr-accent));
+  font-weight: 400;
+}
+
+.metricLabel {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--hr-fg-faint);
+}
+
+/* ─────────── Philosophy panel ─────────── */
+
+.philosophyPanel {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: 24px;
+  max-width: 1100px;
+}
+
+.philosophyLines {
+  display: grid;
+  gap: 4px;
+}
+
+.philosophyLine,
+.philosophyLineAccent {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(36px, 6vw, 84px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--hr-fg);
+  text-wrap: balance;
+}
+
+.philosophyLineAccent {
+  color: var(--hr-accent);
+}
+
+.philosophyAttribution {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--hr-accent);
+  margin: 12px 0 0;
+}
+
+/* ─────────── Toolkit / Experience / Projects panel headers ─────────── */
+
+.panelHead {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+.panelTitle {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(40px, 5vw, 60px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--hr-fg);
+}
+
+/* Toolkit panel */
+
+.toolkitPanel {
+  overflow-y: auto;
+}
+
+.toolkitGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-content: start;
+  min-height: 0;
+}
+
+.toolkitColHead {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--hr-accent);
+  margin: 0 0 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--hr-rule);
+}
+
+.engineeringList,
+.productList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.engineeringGroup {
+  display: grid;
+  gap: 4px;
+}
+
+.engineeringCategory {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--hr-fg-faint);
+  margin: 0;
+}
+
+.engineeringItems {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--hr-fg);
+  margin: 0;
+}
+
+.productEntry {
+  padding-bottom: 12px;
+  border-bottom: 1px dashed var(--hr-rule);
+}
+
+.productEntry:last-child {
+  border-bottom: none;
+}
+
+.productHead {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.35;
+  margin: 0;
+  color: var(--hr-fg);
+}
+
+.productCategory {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-style: normal;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--hr-accent);
+  margin-right: 6px;
+}
+
+/* Experience panel */
+
+.experiencePanel {
+  overflow-y: auto;
+}
+
+.experienceList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--hr-rule);
+}
+
+.experienceRow {
+  display: grid;
+  grid-template-columns: 180px 1fr 1fr;
+  gap: 24px;
+  align-items: baseline;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--hr-rule);
+}
+
+.experiencePeriod {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--hr-accent);
+  margin: 0;
+}
+
+.experienceTitle {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 400;
+  font-size: 17px;
+  color: var(--hr-fg);
+  margin: 0;
+}
+
+.experienceCompany {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--hr-fg-soft);
+  margin: 0;
+}
+
+/* Projects panel */
+
+.projectsPanel {
+  overflow-y: auto;
+}
+
+.projectGroups {
+  display: grid;
+  gap: 24px;
+}
+
+.projectGroup {
+  display: grid;
+  gap: 10px;
+}
+
+.projectGroupHead {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--hr-accent);
+  margin: 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--hr-rule);
+}
+
+.projectList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.projectChip {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  border: 1px solid var(--hr-rule);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.projectName {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--hr-fg);
+}
+
+.projectTagline {
+  font-style: italic;
+  font-size: 12px;
+  color: var(--hr-fg-soft);
+}
+
+/* ─────────── Footer panel ─────────── */
+
+.footerPanel {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 20px;
+}
+
+.footerEyebrow {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--hr-accent);
+  margin: 0;
+}
+
+.footerTitle {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(64px, 9vw, 144px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  margin: 0;
+  color: var(--hr-fg);
+}
+
+.footerEmail {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-style: italic;
+  font-size: clamp(20px, 2.4vw, 28px);
+  margin: 0;
+}
+
+.footerEmail a {
+  text-decoration: none;
+  color: var(--hr-accent);
+  border-bottom: 1px dashed currentColor;
+  padding-bottom: 2px;
+}
+
+/* ─────────── Mobile (<900px) — drop horizontal pan; JS sets translateX(0) ─────────── */
+
+@media (max-width: 900px) {
+  .outer {
+    height: auto;
+  }
+  .sticky {
+    position: static;
+    height: auto;
+    overflow: visible;
+  }
+  .strip {
+    display: block;
+    width: 100%;
+    height: auto;
+    transform: none !important; /* override JS inline */
+    will-change: auto;
+    transition: none;
+  }
+  .panel {
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+    padding: 56px 24px;
+    border-right: none;
+    border-bottom: 1px solid var(--hr-rule);
+  }
+  .panel::before,
+  .panel::after {
+    display: none;
+  }
+  .caseGrid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .toolkitGrid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .experienceRow {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .scrollHint,
+  .pinCounter {
+    display: none;
+  }
+  .toolkitPanel,
+  .experiencePanel,
+  .projectsPanel {
+    overflow-y: visible;
+  }
+}
+
+/* ─────────── Reduced motion ─────────── */
+/* Disable the strip transition smoothing; JS still drives the transform. */
+
+@media (prefers-reduced-motion: reduce) {
+  .strip {
+    transition: none;
+  }
+  .scrollHint,
+  .pinCounterTrack::after {
+    transition: none;
+    animation: none;
+  }
+  .scrollHint {
+    opacity: 0.6;
+  }
+}
+
+/* ─────────── Color modes ─────────── */
+/* Canonical = dark (cinema). Light = paper-light flip. */
+
+[data-color-mode="light"] .root {
+  --hr-bg: #fafaf6;
+  --hr-fg: #1a1a1a;
+  --hr-fg-soft: #555;
+  --hr-fg-faint: #999;
+  --hr-rule: rgba(0, 0, 0, 0.12);
+  --hr-accent: #c4541a;
+}

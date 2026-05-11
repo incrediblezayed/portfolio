@@ -469,8 +469,9 @@ function WhoamiOutput() {
         node, nestjs. currently shipping infophone and infotodo at enso webworks.
       </p>
       <p className={styles.outputDim}>
-        author of file_saver on pub.dev — 4 years live, 185k+ monthly downloads. still
-        learning when not to write the next layer.
+        author of file_saver on pub.dev — 5 years live, 190k+ monthly downloads,
+        160/160 pub points, v0.4.0 just shipped (may 2026). still learning when
+        not to write the next layer.
       </p>
     </div>
   );
@@ -674,9 +675,12 @@ function WorkSection() {
 function CaseBlock({ caseStudy: c }: Readonly<{ caseStudy: Case }>) {
   const summaryShort = c.summary.split(/\.\s+/).slice(0, 2).join(". ") + ".";
   const isWip = /testing|in development|in-flight/i.test(c.meta.status);
+  const brandAccentStyle = c.brand
+    ? ({ "--case-accent": c.brand.primary } as React.CSSProperties)
+    : undefined;
 
   return (
-    <article className={styles.caseBlock}>
+    <article className={styles.caseBlock} style={brandAccentStyle}>
       <header className={styles.caseHead}>
         <span className={styles.caseId} aria-hidden="true">
           [case_{String(c.number).padStart(2, "0")}]

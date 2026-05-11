@@ -85,6 +85,10 @@ export function ThemeProvider({
     const url = new URL(globalThis.location.href);
     url.searchParams.set(URL_PARAM, next);
     globalThis.history.replaceState({}, "", url.toString());
+    // Reset scroll to top so the new skin opens at its hero/start — different
+    // skins have different scroll lengths and pin points; stale scroll position
+    // lands you mid-content with no context.
+    globalThis.scrollTo({ top: 0, left: 0, behavior: "instant" });
     notifyAll();
   }, []);
 
