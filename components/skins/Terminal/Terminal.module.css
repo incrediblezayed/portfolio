@@ -58,6 +58,132 @@
   }
 }
 
+/* ─────────── Mobile responsive (≤640px) ─────────── */
+/* Stack key-value rows, shrink fonts, tighten paddings, drop fixed columns. */
+
+@media (max-width: 640px) {
+  .root {
+    font-size: 12px;
+  }
+  .main {
+    padding: 24px 14px 56px;
+    gap: 32px;
+  }
+  /* Key-value rows — stack dt above dd, drop fixed 100px label column */
+  .row {
+    grid-template-columns: 1fr;
+    gap: 2px;
+    font-size: 12px;
+  }
+  .row dt {
+    font-size: 10px;
+    letter-spacing: 0.04em;
+  }
+  /* Section rule (ASCII separator) — let it overflow scroll if needed */
+  .sectionRule {
+    font-size: 11px;
+  }
+  /* Prompt block */
+  .commandLine {
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+  .historyCommand,
+  .historyOutput,
+  .historyOutputError {
+    font-size: 12px;
+  }
+  .hint {
+    font-size: 10px;
+  }
+  /* Case blocks — wrap title + status more tightly */
+  .caseHead {
+    gap: 8px;
+    font-size: 13px;
+  }
+  .caseTitle {
+    font-size: 15px;
+  }
+  /* Drop fixed 100px label column for summary lines */
+  .summaryLine {
+    font-size: 11px;
+  }
+  /* Experience items */
+  .experienceItem {
+    font-size: 12px;
+  }
+  .experienceTitle {
+    font-size: 13px;
+  }
+  /* Project list */
+  .projectItem {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+  .projectName {
+    font-size: 13px;
+  }
+  /* Slash-command outputs */
+  .outputGrid p,
+  .helpList,
+  .lsList,
+  .bulletList {
+    font-size: 12px;
+  }
+  /* ls output — drop the 90px trailing column on narrow */
+  .lsList li {
+    grid-template-columns: 60px 1fr;
+    grid-template-rows: auto auto;
+  }
+  .lsList li > *:last-child {
+    grid-column: 2;
+    color: var(--term-fg-faint);
+    font-size: 10px;
+  }
+  /* dimKey (in /whoami etc) — collapse fixed-width */
+  .dimKey {
+    width: auto;
+    display: inline;
+    margin-right: 8px;
+  }
+  /* Section gap inside section blocks */
+  .section {
+    gap: 12px;
+  }
+  .blockBody {
+    padding-left: 10px;
+  }
+  /* Caret slightly smaller */
+  .blockCaret {
+    width: 0.5em;
+    height: 1em;
+  }
+  /* Tagline + intro spacing */
+  .intro,
+  .tagline {
+    font-size: 12px;
+  }
+  /* Footer */
+  .footerLine {
+    font-size: 10px;
+  }
+}
+
+/* ─────────── Tiny screens (≤375px iPhone SE) ─────────── */
+@media (max-width: 375px) {
+  .main {
+    padding: 20px 12px 48px;
+    gap: 28px;
+  }
+  .commandLine {
+    padding: 8px 10px;
+  }
+  .asciiBanner,
+  .asciiFooter {
+    font-size: 8px;
+  }
+}
+
 .section {
   display: grid;
   gap: 16px;
