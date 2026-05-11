@@ -161,9 +161,11 @@
 @media (max-width: 720px) {
   .pageHero {
     padding: 64px 24px 48px;
+    min-height: auto;
   }
   .pageFooter {
     padding: 64px 24px;
+    min-height: auto;
   }
 }
 
@@ -729,57 +731,221 @@
   padding-bottom: 2px;
 }
 
-/* ─────────── Mobile (<900px) — drop horizontal pan; JS sets translateX(0) ─────────── */
+/* ─────────── Mobile (<720px) — keep horizontal pan, shrink typography/padding ─────────── */
+/* The pinned filmstrip works the same way: outer wrapper provides scroll
+   distance, sticky stage stays in viewport, JS pans the strip on X. We just
+   adjust panel internals so the content fits a 360×800 viewport. */
 
-@media (max-width: 900px) {
-  .outer {
-    height: auto;
-  }
+@media (max-width: 720px) {
+  /* NOTE: do NOT add `overflow-x: hidden` to .root here — it creates a
+     scroll container which breaks position: sticky on descendants. The
+     desktop rule `.root { overflow-x: clip }` already prevents horizontal
+     bleed without breaking sticky, and `clip` is preserved on mobile too. */
+
+  /* Use dvh so the sticky stage tracks the dynamic viewport (URL bar
+     transitions). Falls back to 100vh in older browsers. Keeping .outer in
+     vh keeps the scroll budget aligned with sticky pin range. */
   .sticky {
-    position: static;
-    height: auto;
-    overflow: visible;
-  }
-  .strip {
-    display: block;
-    width: 100%;
-    height: auto;
-    transform: none !important; /* override JS inline */
-    will-change: auto;
-    transition: none;
+    height: 100vh;
+    height: 100dvh;
   }
   .panel {
-    width: 100%;
-    height: auto;
-    min-height: 100vh;
-    padding: 56px 24px;
-    border-right: none;
-    border-bottom: 1px solid var(--hr-rule);
+    height: 100vh;
+    height: 100dvh;
+    max-height: none;
+    padding: 36px 20px;
+    /* Allow vertical pan on panels: short panels (case / philosophy) have
+       overflow: hidden so the touch passes through to the page (horizontal
+       pan). Tall panels (toolkit / experience / projects) set overflow-y:
+       auto so the user can scroll internally; default scroll-chaining
+       continues the page scroll once they reach the panel boundary. */
+    touch-action: pan-y;
   }
   .panel::before,
   .panel::after {
-    display: none;
+    height: 6px; /* shorter filmstrip ticks so they don't dominate */
+  }
+  .casePanel {
+    padding: 36px 20px;
+    gap: 18px;
+    grid-template-rows: auto 1fr;
+  }
+  .caseHead {
+    gap: 6px;
+  }
+  .caseNumber {
+    font-size: 10px;
+  }
+  .caseTitle {
+    font-size: clamp(28px, 9vw, 44px);
+  }
+  .caseStatus {
+    font-size: 10px;
+    padding: 3px 10px;
   }
   .caseGrid {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 16px;
+    align-content: start;
+    overflow: hidden; /* clip rather than scroll — touch must drive page pan */
+  }
+  .caseLeft,
+  .caseRight {
+    gap: 14px;
+  }
+  .caseSummary {
+    font-size: 14px;
+  }
+  .caseStack {
+    font-size: 10px;
+  }
+  .betBlock {
+    gap: 6px;
+  }
+  .betLabel {
+    font-size: clamp(18px, 5.5vw, 24px);
+  }
+  .betIntro {
+    font-size: 12px;
+  }
+  .outcomeBlock {
+    padding-top: 14px;
+    gap: 10px;
+  }
+  .outcomeLede {
+    font-size: clamp(15px, 4.5vw, 19px);
+  }
+  .metricsRow {
+    gap: 16px;
+  }
+  .metricValue {
+    font-size: clamp(22px, 6vw, 30px);
+  }
+  .metricLabel {
+    font-size: 9px;
+  }
+  .panelHead {
+    margin-bottom: 16px;
+    gap: 4px;
+  }
+  .panelTitle {
+    font-size: clamp(26px, 8vw, 40px);
+  }
+  .panelEyebrow {
+    font-size: 10px;
   }
   .toolkitGrid {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 20px;
   }
-  .experienceRow {
-    grid-template-columns: 1fr;
-    gap: 6px;
+  .toolkitColHead {
+    font-size: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
   }
-  .scrollHint,
-  .pinCounter {
-    display: none;
+  .engineeringList,
+  .productList {
+    gap: 10px;
   }
+  .engineeringCategory {
+    font-size: 10px;
+  }
+  .engineeringItems {
+    font-size: 12px;
+  }
+  .productHead {
+    font-size: 13px;
+  }
+  /* Tall panels — internal vertical scroll so all content is reachable.
+     Browser scroll-chaining kicks in at the panel's scroll boundary so the
+     page-driven horizontal pan still progresses once the user reads through. */
   .toolkitPanel,
   .experiencePanel,
   .projectsPanel {
-    overflow-y: visible;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: auto;
+    scrollbar-width: none;
+  }
+  .toolkitPanel::-webkit-scrollbar,
+  .experiencePanel::-webkit-scrollbar,
+  .projectsPanel::-webkit-scrollbar {
+    display: none;
+  }
+  .experienceRow {
+    grid-template-columns: 70px 1fr;
+    gap: 10px;
+    padding: 8px 0;
+    align-items: start;
+  }
+  .experiencePeriod {
+    font-size: 9px;
+  }
+  .experienceTitle {
+    font-size: 13px;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+  .experienceCompany {
+    font-size: 11px;
+    grid-column: 2;
+  }
+  .projectList {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .projectChip {
+    padding: 10px 12px;
+  }
+  .projectName {
+    font-size: 14px;
+  }
+  .projectTagline {
+    font-size: 11px;
+  }
+  .philosophyPanel {
+    padding: 36px 20px;
+    align-content: center;
+  }
+  .philosophyLine,
+  .philosophyLineAccent {
+    font-size: clamp(22px, 7vw, 36px);
+  }
+  /* On mobile, dock the counter to the top-right so it doesn't overlap
+     bottom-anchored content like the projects panel chips. */
+  .pinCounter {
+    top: 14px;
+    right: 16px;
+    bottom: auto;
+    left: auto;
+    gap: 4px;
+    justify-items: end;
+  }
+  .pinCounterIndex {
+    font-size: 10px;
+  }
+  .pinCounterTrack {
+    width: 72px;
+    height: 1px;
+  }
+  .scrollHint {
+    left: 20px;
+    bottom: 20px;
+    font-size: 10px;
+  }
+  .heroName {
+    font-size: clamp(48px, 14vw, 80px);
+  }
+  .heroTagline {
+    font-size: clamp(16px, 4.5vw, 22px);
+  }
+  .heroIntro {
+    font-size: 14px;
+  }
+  .footerTitle {
+    font-size: clamp(48px, 14vw, 80px);
   }
 }
 

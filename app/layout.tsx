@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import {
   Fraunces,
   Geist,
@@ -45,6 +45,12 @@ const instrumentSerif = Instrument_Serif({
 
 const metadataDescription =
   "Hassan Ansari — full-stack developer becoming a product manager. Six radically different presentations of the same case studies. Pick the one you trust.";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://hassanansari.dev"),

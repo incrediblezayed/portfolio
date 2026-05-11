@@ -769,41 +769,125 @@
   max-width: 520px;
 }
 
-/* ─────────── Mobile fallback (<720px) ─────────── */
-/* On mobile, drop pinning; panels stack and read top-to-bottom. */
+/* ─────────── Mobile (<720px) — keep pin-scroll cross-fade, shrink typography ─────────── */
+/* The cinematic pin behavior works the same as desktop: chapters pin while
+   panels cross-fade Problem → Options → Bet → Outcome. We just adjust panel
+   internals so the content fits a 360×800 viewport. */
 
 @media (max-width: 720px) {
-  .chapter {
-    min-height: 0;
+  /* NOTE: do NOT add `overflow-x: hidden` here — it creates a scroll
+     container which breaks position: sticky on the chapter stages. Desktop
+     `.root { overflow-x: clip }` is preserved on mobile too. */
+  .root {
+    font-size: 15px;
   }
+  /* dvh keeps the pinned stage matching the dynamic viewport (URL bar
+     transitions) while parent .chapter scroll budget stays in vh so the
+     CSS sticky range and JS progress math agree. */
   .stage {
-    position: static;
-    height: auto;
-    padding: 56px 24px;
-    display: block;
+    height: 100vh;
+    height: 100dvh;
+    padding: 48px 20px;
   }
   .panel {
-    position: static;
-    inset: auto;
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none;
-    padding: 32px 0;
-    border-bottom: 1px solid var(--reel-rule);
-    max-width: none;
+    padding: 48px 20px;
+    max-width: 100%;
   }
-  .panel:last-child {
-    border-bottom: none;
+  .panelEyebrow {
+    margin-bottom: 18px;
+  }
+  .panelTitle {
+    font-size: clamp(28px, 8.5vw, 44px);
+    margin-bottom: 20px;
+  }
+  .panelBody {
+    font-size: 15px;
+  }
+  .problemList {
+    margin-top: 20px;
+    font-size: 12px;
+  }
+  .option {
+    grid-template-columns: 28px 1fr;
+    gap: 12px;
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+  .optionTag {
+    font-size: 9px;
+    padding: 1px 6px;
+  }
+  .betLede {
+    font-size: clamp(22px, 7vw, 36px);
+    margin-bottom: 22px;
+  }
+  .betReflection {
+    font-size: 13px;
+    padding-left: 12px;
+  }
+  .outcomeLede {
+    font-size: clamp(18px, 5.5vw, 28px);
+    margin-bottom: 20px;
+  }
+  .metricsRow {
+    gap: 20px;
+  }
+  .metricValue {
+    font-size: clamp(26px, 7vw, 38px);
+  }
+  .outcomeStatus {
+    font-size: 11px;
+    padding: 8px 12px;
+  }
+  /* Philosophy pinned chapter — same cross-fade, smaller type */
+  .panelPhilosophy0,
+  .panelPhilosophy1,
+  .panelPhilosophy2 {
+    padding: 48px 20px;
+    max-width: 100%;
+  }
+  .philosophyLine {
+    font-size: clamp(26px, 8vw, 48px);
   }
   .pinCounter {
-    display: none;
+    bottom: 18px;
+    left: 18px;
   }
+  .pinCounterIndex {
+    font-size: 10px;
+  }
+  .pinCounterLabel {
+    font-size: 9px;
+  }
+  /* Hero & flat sections — these are regular vertical scroll, just tighten */
   .hero {
-    padding: 64px 24px 96px;
-    min-height: 88vh;
+    padding: 64px 20px 80px;
+    min-height: auto;
+    gap: 18px;
+  }
+  .heroName {
+    font-size: clamp(48px, 13vw, 88px);
+  }
+  .heroTagline {
+    font-size: clamp(17px, 5vw, 22px);
+  }
+  .heroIntro {
+    font-size: 15px;
   }
   .footer {
-    padding: 64px 24px;
+    padding: 64px 20px;
+  }
+  .flatSection {
+    padding: 64px 20px;
+  }
+  .flatTitle {
+    font-size: clamp(28px, 8vw, 44px);
+  }
+  .flatHeader {
+    margin-bottom: 32px;
+  }
+  .projectList {
+    grid-template-columns: 1fr;
   }
 }
 

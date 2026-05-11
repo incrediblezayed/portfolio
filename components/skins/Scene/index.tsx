@@ -3,7 +3,7 @@
 import { cases, philosophy, profile, toolkit } from "@/content";
 import { readCanonical, readOptionCanonical } from "@/lib/caseVoice";
 import type { Case } from "@/lib/types";
-import { useScrollProgress } from "@/lib/useScrollProgress";
+import { useMediaQuery, useScrollProgress } from "@/lib/useScrollProgress";
 import { Float, Html, Stars } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import type { RefObject } from "react";
@@ -101,6 +101,7 @@ const SPACER_HEIGHT_VH = PANELS.length * 100; // each panel = 1 viewport of scro
 export function Scene() {
   const [scrollRef, progress] = useScrollProgress<HTMLDivElement>("pin");
   const progressRef = useRef(0);
+  const isMobile = useMediaQuery("(max-width: 720px)");
   useLayoutEffect(() => {
     progressRef.current = progress;
   }, [progress]);
@@ -111,14 +112,22 @@ export function Scene() {
     Math.round(progress * (PANELS.length - 1)),
   );
 
+  // Mobile: narrower FOV panels, lower DPR cap for performance.
+  // Height is generous (~520) so longer cards (case studies w/ metrics) don't
+  // clip from the bottom inside the Html transform clip-rect.
+  const panelWidth = isMobile ? 340 : 560;
+  const panelHeight = isMobile ? 520 : 360;
+  const distanceFactor = isMobile ? 2.8 : 5;
+  const fov = isMobile ? 68 : 55;
+
   return (
     <div className={styles.root}>
       <div className={styles.canvasWrap}>
         <Canvas
           className={styles.canvas}
-          dpr={[1, 2]}
+          dpr={isMobile ? [1, 1.5] : [1, 2]}
           gl={{ antialias: true, alpha: false }}
-          camera={{ position: viewpoint(0), fov: 55, near: 0.1, far: 100 }}
+          camera={{ position: viewpoint(0), fov, near: 0.1, far: 100 }}
         >
           <color attach="background" args={["#06061a"]} />
           <fog attach="fog" args={["#06061a", 12, 50]} />
@@ -141,7 +150,12 @@ export function Scene() {
             />
 
             <Camera progressRef={progressRef} />
-            <Panels progressRef={progressRef} />
+            <Panels
+              progressRef={progressRef}
+              panelWidth={panelWidth}
+              panelHeight={panelHeight}
+              distanceFactor={distanceFactor}
+            />
           </Suspense>
         </Canvas>
       </div>
@@ -195,11 +209,29 @@ function Camera({ progressRef }: Readonly<{ progressRef: RefObject<number> }>) {
 
 /* ─────────── Panels ─────────── */
 
-function Panels({ progressRef }: Readonly<{ progressRef: RefObject<number> }>) {
+function Panels({
+  progressRef,
+  panelWidth,
+  panelHeight,
+  distanceFactor,
+}: Readonly<{
+  progressRef: RefObject<number>;
+  panelWidth: number;
+  panelHeight: number;
+  distanceFactor: number;
+}>) {
   return (
     <group>
       {PANELS.map((p, i) => (
-        <PanelMesh key={p.key} panel={p} index={i} progressRef={progressRef} />
+        <PanelMesh
+          key={p.key}
+          panel={p}
+          index={i}
+          progressRef={progressRef}
+          panelWidth={panelWidth}
+          panelHeight={panelHeight}
+          distanceFactor={distanceFactor}
+        />
       ))}
     </group>
   );
@@ -209,10 +241,16 @@ function PanelMesh({
   panel,
   index,
   progressRef,
+  panelWidth,
+  panelHeight,
+  distanceFactor,
 }: Readonly<{
   panel: PanelDef;
   index: number;
   progressRef: RefObject<number>;
+  panelWidth: number;
+  panelHeight: number;
+  distanceFactor: number;
 }>) {
   const ref = useRef<THREE.Group>(null);
 
@@ -274,19 +312,24 @@ function PanelMesh({
         {/* HTML overlay */}
         <Html
           transform
-          distanceFactor={5}
+          distanceFactor={distanceFactor}
           position={[0, 0, 0.02]}
           style={
             {
-              width: "560px",
-              height: "360px",
+              width: `${panelWidth}px`,
+              height: `${panelHeight}px`,
               "--panel-accent": panel.glow,
               pointerEvents: "auto",
             } as React.CSSProperties
           }
           wrapperClass={styles.htmlWrapper}
         >
-          <div className={styles.panel}>{panel.body}</div>
+          <div
+            className={styles.panel}
+            style={{ width: `${panelWidth}px`, height: `${panelHeight}px` }}
+          >
+            {panel.body}
+          </div>
         </Html>
       </group>
     </Float>

@@ -282,31 +282,137 @@
 }
 
 @media (max-width: 620px) {
-  .interface {
-    position: relative;
-    min-height: 100vh;
-    padding: 56px 16px 24px;
+  .root {
+    overflow-x: hidden;
   }
 
+  /* Canvas stays fixed full-viewport so the 3D scene is visible behind
+     the interface as the user scrolls. */
   .canvasWrap {
-    position: absolute;
+    position: fixed;
+    inset: 0;
     height: 100vh;
   }
 
-  .brand h1 {
-    font-size: 54px;
+  /* Interface becomes a fixed bottom drawer — dossier + horizontal nav strip.
+     The scrollSpace keeps its full height (set inline by JS) so page-scroll
+     still drives the 3D scene; the drawer stays anchored at the bottom. */
+  .interface {
+    position: fixed;
+    inset: auto 0 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 16px 14px max(16px, env(safe-area-inset-bottom));
+    pointer-events: none;
+    background: linear-gradient(
+      to top,
+      rgba(8, 10, 16, 0.94) 0%,
+      rgba(8, 10, 16, 0.78) 60%,
+      rgba(8, 10, 16, 0) 100%
+    );
+  }
+
+  /* Brand block hidden on phone — saves vertical space, name is implicit */
+  .brand {
+    display: none;
+  }
+
+  .dossier {
+    grid-column: auto;
+    grid-row: auto;
+    min-height: auto;
+    max-height: 48vh;
+    padding: 16px 18px;
+    gap: 8px;
+    border-radius: 10px;
+    overflow-y: auto;
+    pointer-events: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .dossier h2 {
-    font-size: 38px;
+    font-size: clamp(26px, 8vw, 36px);
   }
 
   .body {
-    font-size: 15px;
+    font-size: 13px;
+    line-height: 1.5;
+    max-width: none;
   }
 
+  .caseReadout {
+    margin-top: 2px;
+    padding-top: 12px;
+    gap: 10px;
+  }
+
+  .caseReadout p {
+    font-size: 15px;
+    line-height: 1.35;
+  }
+
+  .caseReadout li span:first-child {
+    font-size: 20px;
+  }
+
+  .meta {
+    margin-top: 4px;
+    font-size: 9px;
+  }
+
+  /* Vertical nav becomes a horizontally scrollable pill strip */
+  .deckNav {
+    grid-column: auto;
+    grid-row: auto;
+    width: 100%;
+    grid-auto-flow: column;
+    grid-auto-columns: max-content;
+    grid-template-columns: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 6px;
+    pointer-events: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .deckNav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .navItem {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 32px;
+    padding: 4px 10px;
+    border: 1px solid color-mix(in srgb, var(--signal, var(--sd-accent)) 35%, var(--sd-rule));
+    border-left: 1px solid color-mix(in srgb, var(--signal, var(--sd-accent)) 35%, var(--sd-rule));
+    border-radius: 999px;
+    background: rgba(8, 10, 16, 0.6);
+    grid-template-columns: none;
+    flex-shrink: 0;
+  }
+
+  .navItemActive {
+    transform: none;
+    background: color-mix(in srgb, var(--signal, var(--sd-accent)) 14%, rgba(8, 10, 16, 0.7));
+  }
+
+  .navIndex {
+    font-size: 10px;
+  }
+
+  .navLabel {
+    font-size: 10px;
+  }
+
+  /* DO NOT zero scrollSpace — JS sets height inline so page-scroll drives the
+     3D scene. The fixed drawer floats above. */
   .scrollSpace {
-    height: 0 !important;
+    pointer-events: none;
   }
 }
 

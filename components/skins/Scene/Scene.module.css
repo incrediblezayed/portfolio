@@ -402,3 +402,124 @@
     opacity: 0.6;
   }
 }
+
+/* ─────────── Mobile (<720px) — shrink HUD overlays, simplify panel content ─────────── */
+
+@media (max-width: 720px) {
+  .root {
+    overflow-x: hidden;
+  }
+  .brandTag {
+    top: 14px;
+    left: 16px;
+    gap: 2px;
+  }
+  .brandName {
+    font-size: 12px;
+  }
+  .brandRole {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+  }
+  .counter {
+    bottom: 18px;
+    left: 16px;
+    gap: 2px;
+  }
+  .counterIndex {
+    font-size: 11px;
+  }
+  .counterLabel {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+  }
+  /* Hide redundant scroll prompt on mobile; the counter already cues progress */
+  .scrollPrompt {
+    display: none;
+  }
+  /* Panel content scales down — width/height set inline from JS to match <Html> */
+  .panel {
+    padding: 24px 22px;
+    gap: 10px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.45;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .panel::-webkit-scrollbar {
+    display: none;
+  }
+  .cardTitle {
+    font-size: 26px;
+    line-height: 1.05;
+  }
+  .caseCard .cardTitle {
+    font-size: 22px;
+  }
+  .cardTagline {
+    font-size: 13px;
+  }
+  .cardBody {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .cardSummary {
+    font-size: 12px;
+    line-height: 1.45;
+  }
+  .betBlock,
+  .outcomeBlock {
+    padding-top: 8px;
+    gap: 3px;
+  }
+  .betLabel {
+    font-size: 13px;
+    line-height: 1.25;
+  }
+  .outcomeLede {
+    font-size: 11px;
+    line-height: 1.45;
+  }
+  .metricValue {
+    font-size: 18px;
+  }
+  .metricLabel {
+    font-size: 9px;
+  }
+  .metricsRow {
+    gap: 12px;
+    margin-top: 4px;
+  }
+  .cardEmail,
+  .cardAttribution {
+    font-size: 10px;
+  }
+  .philosophyLine,
+  .philosophyLineAccent {
+    font-size: 17px;
+    line-height: 1.3;
+  }
+  .toolkitList {
+    gap: 8px;
+  }
+  .toolkitList li {
+    padding-bottom: 6px;
+  }
+  .toolkitItems {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+  .toolkitCategory {
+    font-size: 9px;
+  }
+  .contactEmail {
+    font-size: 16px;
+  }
+  .contactSocials {
+    gap: 14px;
+    font-size: 10px;
+  }
+}

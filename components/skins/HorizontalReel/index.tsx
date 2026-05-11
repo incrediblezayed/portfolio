@@ -13,25 +13,22 @@ import {
   readOptionCanonical,
 } from "@/lib/caseVoice";
 import type { Case } from "@/lib/types";
-import { useMediaQuery, useScrollProgress } from "@/lib/useScrollProgress";
+import { useScrollProgress } from "@/lib/useScrollProgress";
 import type { CSSProperties } from "react";
 import styles from "./HorizontalReel.module.css";
 
 const PANEL_COUNT = 7; // 3 cases + Philosophy + Toolkit + Experience + Projects
 
 export function HorizontalReel() {
-  const isMobile = useMediaQuery("(max-width: 900px)");
-  const [outerRef, progress] = useScrollProgress<HTMLDivElement>({
-    mode: "pin",
-    enabled: !isMobile,
-  });
+  const [outerRef, progress] = useScrollProgress<HTMLDivElement>("pin");
 
   const maxTranslateVw = (PANEL_COUNT - 1) * 100;
   // Clamp defensively — progress is already 0-1 from useScrollProgress but
   // this prevents any overshoot if floating-point drift sneaks in.
-  const translateX = isMobile
-    ? 0
-    : Math.max(-maxTranslateVw, Math.min(0, -progress * maxTranslateVw));
+  const translateX = Math.max(
+    -maxTranslateVw,
+    Math.min(0, -progress * maxTranslateVw),
+  );
 
   const activeIndex = Math.min(
     PANEL_COUNT - 1,
@@ -55,13 +52,11 @@ export function HorizontalReel() {
             <ExperiencePanel />
             <ProjectsPanel />
           </div>
-          {isMobile ? null : (
-            <PinCounter
-              current={activeIndex + 1}
-              total={PANEL_COUNT}
-              progress={progress}
-            />
-          )}
+          <PinCounter
+            current={activeIndex + 1}
+            total={PANEL_COUNT}
+            progress={progress}
+          />
         </div>
       </div>
       <PageFooter />
