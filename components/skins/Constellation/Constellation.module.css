@@ -1,0 +1,317 @@
+.root {
+  --sd-bg: #080a10;
+  --sd-fg: #f8f3e4;
+  --sd-soft: #c9c2ad;
+  --sd-faint: #77705f;
+  --sd-rule: rgba(248, 243, 228, 0.15);
+  --sd-accent: #f3d36b;
+
+  position: relative;
+  min-height: 100vh;
+  overflow-x: clip;
+  background:
+    linear-gradient(110deg, rgba(8, 10, 16, 0.98), rgba(12, 13, 18, 0.74)),
+    radial-gradient(circle at 70% 20%, rgba(243, 211, 107, 0.12), transparent 34%),
+    var(--sd-bg);
+  color: var(--sd-fg);
+  font-family: var(--font-sans), -apple-system, system-ui, sans-serif;
+}
+
+.canvasWrap {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.interface {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(240px, 0.72fr) minmax(420px, 620px);
+  grid-template-rows: auto 1fr auto;
+  gap: 32px;
+  padding: 32px;
+  pointer-events: none;
+}
+
+.brand {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+
+.brand p,
+.counter,
+.eyebrow,
+.meta,
+.navItem,
+.email {
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+}
+
+.brand p {
+  margin: 0;
+  color: var(--active, var(--sd-accent));
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.brand h1 {
+  margin: 0;
+  max-width: 420px;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: clamp(54px, 8vw, 124px);
+  font-weight: 300;
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+}
+
+.dossier {
+  grid-column: 2;
+  grid-row: 1 / 4;
+  align-self: center;
+  display: grid;
+  gap: 14px;
+  min-height: 480px;
+  padding: 30px;
+  border: 1px solid color-mix(in srgb, var(--active, var(--sd-accent)) 40%, var(--sd-rule));
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(22, 24, 30, 0.86), rgba(9, 10, 14, 0.78)),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.03) 0,
+      rgba(255, 255, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 44px
+    );
+  box-shadow:
+    0 26px 90px rgba(0, 0, 0, 0.5),
+    0 0 70px color-mix(in srgb, var(--active, var(--sd-accent)) 18%, transparent);
+  backdrop-filter: blur(16px);
+  pointer-events: auto;
+}
+
+.counter {
+  margin: 0;
+  color: var(--active, var(--sd-accent));
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--sd-faint);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.dossier h2 {
+  margin: 0;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: clamp(40px, 5vw, 70px);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--sd-fg);
+  text-wrap: balance;
+}
+
+.body {
+  margin: 0;
+  max-width: 560px;
+  color: var(--sd-soft);
+  font-size: 17px;
+  line-height: 1.62;
+}
+
+.caseReadout {
+  display: grid;
+  gap: 18px;
+  margin-top: 4px;
+  padding-top: 18px;
+  border-top: 1px solid var(--sd-rule);
+}
+
+.caseReadout p {
+  margin: 0;
+  color: var(--sd-fg);
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 21px;
+  font-weight: 300;
+  line-height: 1.38;
+}
+
+.caseReadout ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.caseReadout li {
+  display: grid;
+  gap: 4px;
+  min-width: 92px;
+}
+
+.caseReadout li span:first-child {
+  color: var(--active, var(--sd-accent));
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 32px;
+  line-height: 1;
+}
+
+.caseReadout li span:last-child {
+  color: var(--sd-faint);
+  font-family: var(--font-mono-jb), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.email {
+  justify-self: start;
+  margin-top: 4px;
+  color: var(--active, var(--sd-accent));
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  border-bottom: 1px dashed currentColor;
+}
+
+.meta {
+  align-self: end;
+  margin: 12px 0 0;
+  color: var(--sd-faint);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.deckNav {
+  grid-column: 1;
+  grid-row: 3;
+  align-self: end;
+  display: grid;
+  gap: 8px;
+  width: min(420px, 100%);
+  pointer-events: auto;
+}
+
+.navItem {
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  align-items: center;
+  min-height: 38px;
+  padding: 0 0 0 12px;
+  border: 1px solid transparent;
+  border-left-color: color-mix(in srgb, var(--signal, var(--sd-accent)) 40%, transparent);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--sd-faint);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 160ms ease, background 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.navItem:hover,
+.navItemActive {
+  border-color: color-mix(in srgb, var(--signal, var(--sd-accent)) 68%, var(--sd-rule));
+  background: color-mix(in srgb, var(--signal, var(--sd-accent)) 9%, transparent);
+  color: var(--sd-fg);
+}
+
+.navItemActive {
+  transform: translateX(8px);
+}
+
+.navIndex {
+  color: var(--signal, var(--sd-accent));
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.navLabel {
+  overflow: hidden;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.scrollSpace {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@media (max-width: 980px) {
+  .interface {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 22px;
+    padding: 64px 20px 28px;
+  }
+
+  .dossier {
+    grid-column: 1;
+    grid-row: 2;
+    min-height: auto;
+    padding: 24px;
+  }
+
+  .deckNav {
+    grid-column: 1;
+    grid-row: 3;
+  }
+}
+
+@media (max-width: 620px) {
+  .interface {
+    position: relative;
+    min-height: 100vh;
+    padding: 56px 16px 24px;
+  }
+
+  .canvasWrap {
+    position: absolute;
+    height: 100vh;
+  }
+
+  .brand h1 {
+    font-size: 54px;
+  }
+
+  .dossier h2 {
+    font-size: 38px;
+  }
+
+  .body {
+    font-size: 15px;
+  }
+
+  .scrollSpace {
+    height: 0 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navItem {
+    transition: none;
+  }
+}

@@ -79,7 +79,7 @@ export function ThemeSwitcher() {
           className={styles.panel}
           aria-label="Choose a skin"
         >
-          <p className={styles.panelHeader}>Nine skins, same content</p>
+          <p className={styles.panelHeader}>Ten skins, same content</p>
           <ul className={styles.themeList}>
             {THEME_ORDER.map((id) => {
               const t = THEMES[id];
@@ -138,11 +138,10 @@ export function ThemeSwitcher() {
             </div>
           </div>
           <p className={styles.panelHint}>
-            Press <kbd>1</kbd>–<kbd>9</kbd> to switch.
+            Press <kbd>1</kbd>–<kbd>9</kbd> or <kbd>0</kbd> to switch.
           </p>
         </div>
       ) : null}
     </div>
   );
 }
-

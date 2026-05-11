@@ -10,6 +10,7 @@ import { ReadingRoom } from "./skins/ReadingRoom";
 import { Reel } from "./skins/Reel";
 import { HorizontalReel } from "./skins/HorizontalReel";
 import { Scene } from "./skins/Scene";
+import { Constellation } from "./skins/Constellation";
 
 export function Portfolio() {
   const { theme } = useTheme();
@@ -32,6 +33,8 @@ export function Portfolio() {
       return <HorizontalReel />;
     case "scene":
       return <Scene />;
+    case "constellation":
+      return <Constellation />;
     default:
       return <DecisionLog />;
   }
