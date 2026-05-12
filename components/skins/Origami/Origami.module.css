@@ -1,0 +1,246 @@
+.root {
+  --og-bg: #f4ede0;
+  --og-paper: #fbf5e3;
+  --og-fg: #1e1a14;
+  --og-mute: #5e503a;
+  --og-faint: #a6957a;
+  --og-rule: rgba(30, 26, 20, 0.16);
+  --og-accent: #c1462a;
+  --accent: var(--og-accent);
+
+  position: relative;
+  min-height: 100vh;
+  overflow-x: clip;
+  background:
+    radial-gradient(circle at 18% 14%, rgba(193, 70, 42, 0.06), transparent 40%),
+    var(--og-bg);
+  color: var(--og-fg);
+  font-family: var(--font-sans), -apple-system, system-ui, sans-serif;
+}
+
+.canvasWrap {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.canvasWrap canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.hud {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: 32px 6vw;
+  pointer-events: none;
+}
+
+.hudHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  pointer-events: auto;
+}
+
+.brandKicker,
+.brandRight,
+.eyebrow,
+.metricLabel,
+.cta,
+.hudFoot {
+  font-family: var(--font-mono-jb), monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.brandKicker {
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brandRight {
+  color: var(--og-mute);
+  font-variant-numeric: tabular-nums;
+}
+
+.brandDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent);
+}
+
+.readout {
+  align-self: end;
+  justify-self: end;
+  max-width: 520px;
+  display: grid;
+  gap: 14px;
+  padding: 28px 32px;
+  background: color-mix(in srgb, var(--og-paper) 86%, transparent);
+  border: 1px solid var(--og-rule);
+  border-radius: 4px;
+  box-shadow:
+    0 24px 60px rgba(30, 26, 20, 0.16),
+    0 0 0 4px rgba(255, 255, 255, 0.5) inset;
+  pointer-events: auto;
+}
+
+.readout::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px dashed var(--og-rule);
+  border-radius: 2px;
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.eyebrow {
+  color: var(--accent);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(34px, 4.6vw, 64px);
+  line-height: 1.02;
+  letter-spacing: -0.022em;
+  text-wrap: balance;
+  color: var(--og-fg);
+}
+
+.body {
+  margin: 0;
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-size: 18px;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--og-fg);
+  opacity: 0.92;
+}
+
+.caseExtra {
+  margin-top: 8px;
+  padding-top: 14px;
+  border-top: 1px solid var(--og-rule);
+  display: grid;
+  gap: 14px;
+}
+
+.outcomeLead {
+  margin: 0;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--og-fg);
+}
+
+.metricList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+}
+
+.metricList li {
+  display: grid;
+  gap: 2px;
+}
+
+.metricValue {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 26px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.metricLabel {
+  color: var(--og-mute);
+}
+
+.cta {
+  justify-self: start;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed currentColor;
+  padding-bottom: 2px;
+}
+
+.hudFoot {
+  align-self: end;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--og-mute);
+  pointer-events: auto;
+}
+
+.scrollHint {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  border: 1px solid var(--og-rule);
+  font-size: 12px;
+  animation: bob 2s ease-in-out infinite;
+}
+
+@keyframes bob {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+.scrollSpace {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@media (max-width: 760px) {
+  .hud {
+    padding: 16px 18px;
+  }
+
+  .readout {
+    justify-self: stretch;
+    max-width: 100%;
+    padding: 22px 22px;
+  }
+
+  .title {
+    font-size: clamp(28px, 8vw, 40px);
+  }
+
+  .body {
+    font-size: 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrollHint {
+    animation: none;
+  }
+}

@@ -1,0 +1,229 @@
+.root {
+  --if-bg: #f6f3eb;
+  --if-paper: #fdfaf2;
+  --if-fg: #161412;
+  --if-mute: #5b554e;
+  --if-faint: #a59f95;
+  --if-rule: #cfc8b8;
+  --if-accent: #1a1a1a;
+  --accent: var(--if-accent);
+
+  position: relative;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(0, 0, 0, 0.04), transparent 36%),
+    var(--if-bg);
+  color: var(--if-fg);
+  font-family: var(--font-sans), -apple-system, system-ui, sans-serif;
+  overflow: hidden;
+}
+
+.canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.stage {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  align-items: center;
+  gap: 48px;
+  padding: 8vh 6vw;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.blob {
+  width: 100%;
+  height: auto;
+  max-height: 78vh;
+  align-self: center;
+  justify-self: start;
+  filter: drop-shadow(0 32px 60px rgba(20, 18, 14, 0.18));
+}
+
+.copy {
+  position: relative;
+  display: grid;
+  gap: 20px;
+  max-width: 540px;
+}
+
+.eyebrow,
+.metricLabel,
+.cta {
+  font-family: var(--font-mono-jb), monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.eyebrow {
+  color: var(--if-mute);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(44px, 6.5vw, 96px);
+  line-height: 0.96;
+  letter-spacing: -0.028em;
+  text-wrap: balance;
+  color: var(--if-fg);
+}
+
+.body {
+  margin: 0;
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-style: italic;
+  font-size: clamp(18px, 1.6vw, 22px);
+  line-height: 1.5;
+  color: var(--if-fg);
+  opacity: 0.86;
+}
+
+.metrics {
+  display: grid;
+  gap: 14px;
+  margin-top: 8px;
+  padding-top: 18px;
+  border-top: 1px solid var(--if-rule);
+}
+
+.outcomeLead {
+  margin: 0;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--if-fg);
+}
+
+.metrics ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.metrics li {
+  display: grid;
+  gap: 2px;
+}
+
+.metricValue {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 28px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--if-fg);
+}
+
+.metricLabel {
+  color: var(--if-mute);
+}
+
+.cta {
+  justify-self: start;
+  margin-top: 6px;
+  color: var(--if-fg);
+  text-decoration: none;
+  padding: 12px 22px;
+  border: 1px solid var(--if-fg);
+  background: var(--if-paper);
+  transition: background 200ms ease, color 200ms ease;
+}
+
+.cta:hover {
+  background: var(--if-fg);
+  color: var(--if-paper);
+}
+
+/* ─────────── nav ─────────── */
+
+.nav {
+  position: absolute;
+  left: 6vw;
+  bottom: 5vh;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 6px;
+}
+
+.navDot,
+.navArrow {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid var(--if-rule);
+  background: var(--if-paper);
+  color: var(--if-mute);
+  font-family: var(--font-mono-jb), monospace;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.navDot:hover,
+.navArrow:not(:disabled):hover {
+  background: var(--if-fg);
+  color: var(--if-paper);
+  transform: translateY(-2px);
+}
+
+.navDotActive {
+  background: var(--if-fg);
+  color: var(--if-paper);
+  border-color: var(--if-fg);
+}
+
+.navArrow:disabled {
+  opacity: 0.32;
+  cursor: not-allowed;
+}
+
+@media (max-width: 880px) {
+  .stage {
+    grid-template-columns: 1fr;
+    grid-template-rows: 40vh auto;
+    gap: 24px;
+    padding: 6vh 22px 18vh;
+  }
+
+  .blob {
+    max-height: 36vh;
+  }
+
+  .nav {
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 3vh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navDot,
+  .navArrow,
+  .cta {
+    transition: none;
+  }
+}

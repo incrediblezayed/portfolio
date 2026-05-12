@@ -1,0 +1,236 @@
+.root {
+  --pr-bg: #fcfaf5;
+  --pr-fg: #1c1a16;
+  --pr-mute: #5e564a;
+  --pr-faint: #aaa192;
+  --pr-rule: #d8d2c4;
+  --pr-accent: #2848d4;
+  --pr-highlight: #fff2a8;
+
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 88% 10%, rgba(40, 72, 212, 0.04), transparent 36%),
+    var(--pr-bg);
+  color: var(--pr-fg);
+  font-family: var(--font-fraunces), Georgia, serif;
+  padding: 0;
+}
+
+.letter {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 14vh 32px 14vh;
+  display: grid;
+  gap: 28px;
+}
+
+.greeting {
+  margin-bottom: 18px;
+}
+
+.hello {
+  margin: 0;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-style: italic;
+  font-size: clamp(40px, 6vw, 80px);
+  font-weight: 300;
+  line-height: 0.96;
+  letter-spacing: -0.022em;
+  color: var(--pr-fg);
+}
+
+.paragraph {
+  margin: 0;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: clamp(20px, 2vw, 26px);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: -0.008em;
+  color: var(--pr-fg);
+  text-wrap: pretty;
+}
+
+.emphasis {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--pr-fg);
+  background: linear-gradient(180deg, transparent 70%, var(--pr-highlight) 70%);
+  padding: 0 2px;
+}
+
+.link {
+  color: var(--pr-accent);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 1px;
+  transition: color 160ms ease, background 160ms ease;
+}
+
+.link:hover {
+  background: color-mix(in srgb, var(--pr-accent) 10%, transparent);
+}
+
+/* ─────────── inline note tooltip ─────────── */
+
+.note {
+  position: relative;
+  display: inline;
+  color: var(--pr-accent);
+  cursor: help;
+  border-bottom: 1px dashed currentColor;
+  padding-bottom: 1px;
+  transition: background 160ms ease;
+}
+
+.note:hover,
+.note:focus-visible {
+  background: color-mix(in srgb, var(--pr-accent) 8%, transparent);
+  outline: none;
+}
+
+.note em {
+  font-style: italic;
+  color: inherit;
+}
+
+.noteBubble {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  width: max-content;
+  max-width: 320px;
+  padding: 10px 14px;
+  background: var(--pr-fg);
+  color: var(--pr-bg);
+  font-family: var(--font-sans), sans-serif;
+  font-style: normal;
+  font-size: 13px;
+  line-height: 1.42;
+  letter-spacing: 0.01em;
+  border-radius: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease, transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: 5;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+}
+
+.noteBubble::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--pr-fg);
+}
+
+.note:hover .noteBubble,
+.note:focus-visible .noteBubble {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ─────────── philosophy block ─────────── */
+
+.philosophy {
+  display: grid;
+  gap: 4px;
+  padding-top: 4px;
+}
+
+.philosophyLead {
+  margin: 0 0 8px;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-style: italic;
+  font-size: clamp(18px, 1.7vw, 22px);
+  color: var(--pr-mute);
+}
+
+.philosophyLine {
+  margin: 0;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.32;
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+}
+
+.philosophyLine[data-index="1"] {
+  color: var(--pr-accent);
+}
+
+.philosophyLine[data-index="2"] {
+  color: var(--pr-mute);
+}
+
+/* ─────────── sign off ─────────── */
+
+.signOff {
+  margin-top: 16px;
+}
+
+.signLine {
+  margin: 0 0 4px;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-style: italic;
+  font-size: clamp(24px, 2.8vw, 32px);
+  font-weight: 400;
+  color: var(--pr-fg);
+}
+
+.signMeta {
+  margin: 0;
+  font-family: var(--font-mono-jb), monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--pr-mute);
+}
+
+.links {
+  margin-top: 18px;
+  padding-top: 24px;
+  border-top: 1px solid var(--pr-rule);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  font-family: var(--font-mono-jb), monospace;
+}
+
+.links a {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--pr-mute);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--pr-faint);
+  padding-bottom: 2px;
+  transition: color 160ms ease, border-color 160ms ease;
+}
+
+.links a:hover {
+  color: var(--pr-accent);
+  border-bottom-color: var(--pr-accent);
+}
+
+@media (max-width: 560px) {
+  .letter {
+    padding: 9vh 22px 9vh;
+    gap: 22px;
+  }
+
+  .noteBubble {
+    font-size: 12px;
+    max-width: 240px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .noteBubble,
+  .note,
+  .links a {
+    transition: none;
+  }
+}

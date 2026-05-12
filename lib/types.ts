@@ -7,7 +7,25 @@ export type ThemeId =
   | "readingroom"
   | "reel"
   | "horizontalreel"
-  | "scene";
+  | "scene"
+  | "constellation"
+  | "orbitlab"
+  | "atelier"
+  | "peachstudio"
+  | "threltedocs"
+  | "starmap"
+  | "issueboard"
+  | "bookshelf"
+  | "keynote"
+  | "interactlab"
+  | "liquidchrome"
+  | "origami"
+  | "magnetictype"
+  | "glitchreel"
+  | "fieldreport"
+  | "prose"
+  | "gates"
+  | "inkflow";
 
 export type AvailabilitySignal = "open" | "selective" | "closed";
 

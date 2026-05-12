@@ -1,36 +1,41 @@
 /* ─────────────────────────────────────────────
-   Brutalist Terminal skin — basic version (no easter eggs).
-   Near-black bg, bone-white text, single amber accent.
-   Everything monospace: JetBrains Mono throughout.
-   ASCII chrome (aria-hidden), 1px borders only where structural.
+   Brutalist Terminal skin — proper shell.
+   Fixed header (system metadata) → scrollable history →
+   pinned-bottom command prompt. Real terminal feels.
    ───────────────────────────────────────────── */
 
 .root {
   --term-bg: #0a0a0a;
+  --term-bg-soft: #111111;
   --term-fg: #e4e4e4;
   --term-fg-dim: #888;
   --term-fg-faint: #555;
-  --term-rule: #2a2a2a;
+  --term-rule: #1f1f1f;
+  --term-rule-strong: #2a2a2a;
   --term-amber: #ffaa33;
   --term-error: #ef5350;
   --term-success: #6ce29b;
 
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
   background: var(--term-bg);
   color: var(--term-fg);
   font-family: var(--font-mono-jb), ui-monospace, SFMono-Regular, monospace;
   font-size: 13px;
   line-height: 1.6;
-  min-height: 100vh;
   caret-color: var(--term-amber);
+  overflow: hidden;
 }
 
-/* Subtle CRT scanline overlay (faint, structural — no decoration excess) */
+/* Subtle CRT scanline overlay — faint, no decoration excess */
 .scanlines {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 1;
+  z-index: 5;
   background: repeating-linear-gradient(
     to bottom,
     transparent 0px,
@@ -41,273 +46,540 @@
   mix-blend-mode: overlay;
 }
 
-.main {
-  position: relative;
-  z-index: 2;
-  max-width: 920px;
-  margin: 0 auto;
-  padding: 56px 32px 96px;
+/* ─────────── HEADER (system metadata) ─────────── */
+
+.terminalHeader {
+  flex: 0 0 auto;
+  padding: 14px 22px 0;
+  border-bottom: 1px solid var(--term-rule);
+  background:
+    linear-gradient(180deg, rgba(255, 170, 51, 0.02), transparent),
+    var(--term-bg);
+}
+
+.headerMeta {
   display: grid;
-  gap: 56px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 6px 28px;
+  padding-bottom: 10px;
 }
 
-@media (max-width: 720px) {
-  .main {
-    padding: 32px 16px 64px;
-    gap: 40px;
-  }
+.headerField {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
 }
 
-/* ─────────── Mobile responsive (≤640px) ─────────── */
-/* Stack key-value rows, shrink fonts, tighten paddings, drop fixed columns. */
+.headerLabel {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--term-fg-faint);
+  white-space: nowrap;
+}
 
-@media (max-width: 640px) {
-  .root {
-    font-size: 12px;
-  }
-  .main {
-    padding: 24px 14px 56px;
-    gap: 32px;
-  }
-  /* Key-value rows — stack dt above dd, drop fixed 100px label column */
-  .row {
-    grid-template-columns: 1fr;
-    gap: 2px;
-    font-size: 12px;
-  }
-  .row dt {
-    font-size: 10px;
-    letter-spacing: 0.04em;
-  }
-  /* Section rule (ASCII separator) — let it overflow scroll if needed */
-  .sectionRule {
-    font-size: 11px;
-  }
-  /* Prompt block */
-  .commandLine {
-    font-size: 13px;
-    padding: 10px 12px;
-  }
-  .historyCommand,
-  .historyOutput,
-  .historyOutputError {
-    font-size: 12px;
-  }
-  .hint {
-    font-size: 10px;
-  }
-  /* Case blocks — wrap title + status more tightly */
-  .caseHead {
-    gap: 8px;
-    font-size: 13px;
-  }
-  .caseTitle {
-    font-size: 15px;
-  }
-  /* Drop fixed 100px label column for summary lines */
-  .summaryLine {
-    font-size: 11px;
-  }
-  /* Experience items */
-  .experienceItem {
-    font-size: 12px;
-  }
-  .experienceTitle {
-    font-size: 13px;
-  }
-  /* Project list */
-  .projectItem {
-    font-size: 12px;
-    padding: 8px 10px;
-  }
-  .projectName {
-    font-size: 13px;
-  }
-  /* Slash-command outputs */
-  .outputGrid p,
-  .helpList,
-  .lsList,
-  .bulletList {
-    font-size: 12px;
-  }
-  /* ls output — drop the 90px trailing column on narrow */
-  .lsList li {
-    grid-template-columns: 60px 1fr;
-    grid-template-rows: auto auto;
-  }
-  .lsList li > *:last-child {
-    grid-column: 2;
-    color: var(--term-fg-faint);
-    font-size: 10px;
-  }
-  /* dimKey (in /whoami etc) — collapse fixed-width */
-  .dimKey {
-    width: auto;
-    display: inline;
-    margin-right: 8px;
-  }
-  /* Section gap inside section blocks */
-  .section {
-    gap: 12px;
-  }
-  .blockBody {
-    padding-left: 10px;
-  }
-  /* Caret slightly smaller */
-  .blockCaret {
-    width: 0.5em;
-    height: 1em;
-  }
-  /* Tagline + intro spacing */
-  .intro,
-  .tagline {
-    font-size: 12px;
-  }
-  /* Footer */
-  .footerLine {
-    font-size: 10px;
+.headerValue {
+  font-size: 12px;
+  color: var(--term-fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.headerOk {
+  color: var(--term-success);
+}
+
+.headerMono {
+  font-variant-numeric: tabular-nums;
+}
+
+.statusBlink {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--term-success);
+  box-shadow: 0 0 8px var(--term-success);
+  animation: blink 1.6s ease-in-out infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.35;
   }
 }
 
-/* ─────────── Tiny screens (≤375px iPhone SE) ─────────── */
-@media (max-width: 375px) {
-  .main {
-    padding: 20px 12px 48px;
-    gap: 28px;
-  }
-  .commandLine {
-    padding: 8px 10px;
-  }
-  .asciiBanner,
-  .asciiFooter {
-    font-size: 8px;
-  }
+.headerAscii {
+  margin: 0;
+  padding: 4px 0 10px;
+  font-size: 11px;
+  line-height: 1.2;
+  color: var(--term-amber);
+  border-top: 1px dashed var(--term-rule);
+  overflow-x: auto;
+  white-space: pre;
+  scrollbar-width: none;
 }
 
-.section {
+.headerAscii::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─────────── HISTORY (scrollable middle) ─────────── */
+
+.historyView {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 16px 22px 24px;
+  scroll-behavior: smooth;
+}
+
+.historyView::-webkit-scrollbar {
+  width: 6px;
+}
+
+.historyView::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.historyView::-webkit-scrollbar-thumb {
+  background: var(--term-rule-strong);
+  border-radius: 3px;
+}
+
+.history {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: grid;
-  gap: 16px;
+  gap: 14px;
+}
+
+.historyEntry {
+  display: grid;
+  gap: 6px;
+}
+
+.historyCommand {
+  margin: 0;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  color: var(--term-fg);
+  font-size: 13px;
+}
+
+.promptMark {
+  color: var(--term-amber);
+  user-select: none;
+}
+
+.historyOutput,
+.historyOutputError,
+.historyOutputSystem {
+  margin-left: 18px;
+}
+
+.historyOutputError {
+  color: var(--term-error);
+}
+
+.historyOutputSystem {
+  margin-left: 0;
+}
+
+/* ─────────── BOOT BANNER ─────────── */
+
+.banner {
+  margin: 0;
+  padding: 4px 0 10px;
+  font-size: 11px;
+  line-height: 1.1;
+  color: var(--term-amber);
+  white-space: pre;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.banner::-webkit-scrollbar {
+  display: none;
+}
+
+.bootLines {
+  display: grid;
+  gap: 2px;
+  margin: 6px 0 0;
+  font-size: 12px;
+}
+
+.bootLines p {
+  margin: 0;
+  color: var(--term-fg-dim);
+}
+
+.bootWelcome {
+  margin: 12px 0 4px;
+  font-size: 13px;
+  color: var(--term-fg);
+  max-width: 70ch;
+  line-height: 1.55;
+}
+
+/* ─────────── OUTPUT PRIMITIVES ─────────── */
+
+.outputGrid {
+  display: grid;
+  gap: 8px;
+}
+
+.outputSection {
+  margin: 8px 0 0;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.outputProse {
+  margin: 4px 0 0;
+  max-width: 78ch;
+  color: var(--term-fg);
+  line-height: 1.6;
+}
+
+.outputDim {
+  margin: 0;
+  color: var(--term-fg-dim);
+  max-width: 78ch;
+  line-height: 1.6;
+}
+
+.outputPre {
+  margin: 0;
+  padding: 10px 14px;
+  background: var(--term-bg-soft);
+  border: 1px solid var(--term-rule);
+  border-left: 2px solid var(--term-amber);
+  color: var(--term-fg);
+  font-size: 12px;
+  line-height: 1.55;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.asciiInline {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.3;
+  color: var(--term-amber);
+  white-space: pre;
 }
 
 .amber {
   color: var(--term-amber);
 }
 
-/* ─────────── BANNER ─────────── */
-
-.banner {
-  display: grid;
-  gap: 8px;
+.dimKey {
+  color: var(--term-fg-faint);
 }
 
-.asciiBanner {
+.link {
+  color: var(--term-amber);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--term-amber);
+}
+
+.link:hover {
+  background: rgba(255, 170, 51, 0.1);
+}
+
+/* ─── key-value rows ─── */
+
+.kvList {
+  display: grid;
+  gap: 2px;
   margin: 0;
-  font-family: inherit;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 12px;
+  margin: 0;
+  font-size: 13px;
+  align-items: baseline;
+}
+
+.row dt {
+  margin: 0;
+  color: var(--term-fg-faint);
   font-size: 11px;
-  line-height: 1.2;
-  color: var(--term-fg-dim);
-  white-space: pre;
-  overflow-x: auto;
+  letter-spacing: 0.04em;
 }
 
-@media (max-width: 720px) {
-  .asciiBanner {
-    font-size: 9px;
-  }
-}
-
-.bannerSub {
+.row dd {
   margin: 0;
-  font-size: 12px;
-  color: var(--term-fg-dim);
+  color: var(--term-fg);
+  word-break: break-word;
 }
 
-/* ─────────── PROMPT ─────────── */
+/* ─── help / work / experience lists ─── */
 
-.promptShell {
-  border: 1px solid var(--term-amber);
-  background: rgba(255, 170, 51, 0.03);
-  display: grid;
-  gap: 0;
-}
-
-.history {
+.helpList,
+.bulletList,
+.workList,
+.expList,
+.projList,
+.lsList,
+.catMetrics {
   list-style: none;
   margin: 0;
-  padding: 12px 14px 0;
-  display: grid;
-  gap: 14px;
-  border-bottom: 1px dashed var(--term-rule);
-  padding-bottom: 12px;
-}
-
-.historyEntry {
+  padding: 0;
   display: grid;
   gap: 4px;
 }
 
-.historyCommand {
-  margin: 0;
-  font-size: 13px;
+.helpList li {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 16px;
+  align-items: baseline;
+}
+
+.helpList li code {
+  color: var(--term-amber);
+  font-size: 12px;
+}
+
+.helpList li kbd {
+  font: inherit;
+  font-size: 10px;
+  padding: 1px 4px;
+  border-radius: 2px;
+  border: 1px solid var(--term-rule-strong);
+  background: var(--term-bg-soft);
   color: var(--term-fg);
 }
 
-.historyOutput {
-  margin: 0;
+.bulletList li {
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  gap: 6px;
   font-size: 13px;
+  align-items: baseline;
+}
+
+.bulletMark {
+  color: var(--term-amber);
+}
+
+.workList li {
+  display: grid;
+  grid-template-columns: 90px 110px 1fr auto;
+  gap: 14px;
+  align-items: baseline;
+  padding: 4px 0;
+  border-bottom: 1px dashed var(--term-rule);
+}
+
+.workCode {
+  color: var(--term-fg-faint);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+.workId {
+  color: var(--term-amber);
+}
+
+.workTitle {
   color: var(--term-fg);
-  padding-left: 12px;
-  border-left: 1px solid var(--term-rule);
+  font-size: 13px;
 }
 
-.historyOutputError {
+.expList {
+  gap: 14px;
+}
+
+.expHead {
+  margin: 0;
+  display: inline-flex;
+  gap: 12px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.expPeriod {
+  color: var(--term-fg-faint);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  min-width: 130px;
+}
+
+.expCompany {
+  color: var(--term-amber);
+}
+
+.projGroup {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.projList {
+  gap: 10px;
+}
+
+.projName {
   margin: 0;
   font-size: 13px;
-  color: var(--term-error);
-  padding-left: 12px;
-  border-left: 1px solid var(--term-error);
 }
 
-.promptForm {
+.lsList {
+  gap: 4px;
+}
+
+.lsList li {
+  display: grid;
+  grid-template-columns: 90px 1fr auto;
+  gap: 12px;
+  align-items: baseline;
+}
+
+.lsId {
+  color: var(--term-fg-faint);
+  font-size: 11px;
+}
+
+.lsName {
+  color: var(--term-amber);
+}
+
+.statusShipped {
+  color: var(--term-success);
+  font-size: 11px;
+}
+
+.statusWip {
+  color: var(--term-amber);
+  font-size: 11px;
+}
+
+.catTitle {
   margin: 0;
+  font-size: 14px;
+}
+
+.catMetrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin: 6px 0 0;
+}
+
+.catMetrics li {
+  font-size: 12px;
+}
+
+.principleLine {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.principleLine[data-index="1"] {
+  color: var(--term-amber);
+}
+
+.principleLine[data-index="2"] {
+  color: var(--term-fg-dim);
+}
+
+/* ─────────── INPUT BAR (pinned bottom) ─────────── */
+
+.inputBar {
+  flex: 0 0 auto;
+  position: relative;
+  padding: 12px 22px 10px;
+  border-top: 1px solid var(--term-rule-strong);
+  background:
+    linear-gradient(0deg, rgba(255, 170, 51, 0.04), transparent),
+    var(--term-bg);
+  display: grid;
+  gap: 8px;
+}
+
+.inputBar::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -8px;
+  height: 8px;
+  background: linear-gradient(0deg, var(--term-bg), transparent);
+  pointer-events: none;
 }
 
 .commandLine {
-  display: flex;
+  display: inline-flex;
   align-items: baseline;
-  gap: 0;
-  padding: 12px 14px;
+  gap: 8px;
   cursor: text;
-  font-family: inherit;
   font-size: 14px;
-  line-height: 1.4;
   position: relative;
+  min-height: 24px;
+  flex-wrap: nowrap;
+  overflow: hidden;
 }
 
-.promptPrefix {
-  color: var(--term-amber);
-  font-weight: 700;
-  margin-right: 8px;
+.promptPath {
+  color: var(--term-success);
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.promptSeparator {
+  color: var(--term-fg-dim);
+  user-select: none;
+}
+
+.promptCwd {
+  color: #62a8ff;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.typedWrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .typed {
   color: var(--term-fg);
   white-space: pre;
+  word-break: break-all;
 }
 
 .suggestionGhost {
   color: var(--term-fg-faint);
   white-space: pre;
+  pointer-events: none;
 }
 
 .blockCaret {
   display: inline-block;
-  width: 0.55em;
-  height: 1.05em;
+  width: 9px;
+  height: 18px;
+  margin-left: 2px;
   background: var(--term-amber);
-  margin-left: 1px;
-  vertical-align: text-bottom;
-  animation: terminalCaretBlink 1.05s steps(2) infinite;
+  vertical-align: text-top;
+  animation: caretBlink 1s steps(2, start) infinite;
 }
 
 .caretSolid {
@@ -315,493 +587,117 @@
   opacity: 1;
 }
 
-@keyframes terminalCaretBlink {
-  50% { opacity: 0; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .blockCaret { animation: none; }
+@keyframes caretBlink {
+  to {
+    opacity: 0;
+  }
 }
 
 .invisibleInput {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
   opacity: 0;
-  background: transparent;
-  border: 0;
-  outline: 0;
-  font: inherit;
-  color: transparent;
-  caret-color: transparent;
-  cursor: text;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
 }
 
-.invisibleInput:disabled {
-  cursor: default;
-}
-
-.hint {
-  margin: 8px 0 0;
-  font-size: 11px;
-  color: var(--term-fg-dim);
-}
-
-.hintLabel {
-  color: var(--term-fg-faint);
-}
-
-.hint code {
-  font: inherit;
-  color: var(--term-amber);
-  background: transparent;
-}
-
-.feedbackError {
-  margin: 8px 0 0;
-  font-size: 12px;
-  color: var(--term-error);
-}
-
-.feedbackOk {
-  margin: 8px 0 0;
-  font-size: 12px;
-  color: var(--term-success);
-}
-
-/* ─────────── SECTION HEADER (ASCII RULE) ─────────── */
-
-.sectionHeader {
+.hintBar {
   margin: 0;
-}
-
-.sectionRule {
-  display: block;
-  font-family: inherit;
-  color: var(--term-fg-dim);
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-/* ─────────── KV LIST + BLOCKS ─────────── */
-
-.kvList {
-  margin: 0;
-  display: grid;
-  gap: 4px;
-}
-
-.row {
-  display: grid;
-  grid-template-columns: 100px 1fr;
-  gap: 12px;
-  font-size: 13px;
-}
-
-.row dt {
-  color: var(--term-fg-dim);
-}
-
-.row dd {
-  margin: 0;
-  word-break: break-word;
-}
-
-.link {
-  color: var(--term-fg);
-  text-decoration: none;
-  border-bottom: 1px dotted var(--term-fg-dim);
-}
-
-.link:hover {
-  color: var(--term-amber);
-  border-bottom-color: var(--term-amber);
-}
-
-.block {
-  display: grid;
-  gap: 6px;
-}
-
-.blockLabel {
-  margin: 0;
-  font-size: 12px;
-  color: var(--term-fg-dim);
-}
-
-.blockBody {
-  display: grid;
-  gap: 8px;
-  padding-left: 14px;
-  border-left: 1px solid var(--term-rule);
-}
-
-.proseLine {
-  margin: 0;
-  font-size: 13px;
-  line-height: 1.65;
-  color: var(--term-fg);
-}
-
-.bulletList {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 4px;
-  font-size: 13px;
-}
-
-.bulletList li {
-  line-height: 1.6;
-}
-
-.bulletMark {
-  color: var(--term-amber);
-  display: inline-block;
-  width: 14px;
-}
-
-.intro {
-  margin: 0;
-  font-size: 13px;
-  color: var(--term-fg-dim);
-}
-
-/* ─────────── CASES ─────────── */
-
-.caseList {
-  display: grid;
-  gap: 32px;
-}
-
-.caseBlock {
-  display: grid;
-  gap: 12px;
-  padding-top: 16px;
-  border-top: 1px dashed var(--term-rule);
-}
-
-.caseBlock:first-child {
-  border-top: 0;
-  padding-top: 0;
-}
-
-.caseHead {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: baseline;
-  font-size: 14px;
-}
-
-.caseId {
-  color: var(--case-accent, var(--term-fg-faint));
-  font-weight: 500;
-}
-
-.caseTitle {
-  font-weight: 600;
-  color: var(--term-fg);
-  font-size: 16px;
-}
-
-.statusShipped {
-  color: var(--term-success);
-  font-size: 11px;
-  letter-spacing: 0.1em;
-}
-
-.statusWip {
-  color: var(--term-amber);
-  font-size: 11px;
-  letter-spacing: 0.1em;
-}
-
-.metricList {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 6px;
-  font-size: 13px;
-}
-
-.metricList li {
-  display: flex;
-  gap: 8px;
-  align-items: baseline;
-}
-
-.metricLabel {
-  color: var(--term-fg-dim);
-}
-
-.summaryLine {
-  margin: 4px 0 0;
-  font-size: 12px;
-  color: var(--term-fg-dim);
-  line-height: 1.6;
-}
-
-.summaryKey {
-  color: var(--term-fg-faint);
-}
-
-/* ─────────── EXPERIENCE ─────────── */
-
-.experienceList {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
   gap: 18px;
-}
-
-.experienceItem {
-  display: grid;
-  gap: 4px;
-  padding-top: 12px;
-  border-top: 1px dashed var(--term-rule);
-}
-
-.experienceItem:first-child {
-  border-top: 0;
-  padding-top: 0;
-}
-
-.experiencePeriod {
-  margin: 0;
-  font-size: 11px;
+  flex-wrap: wrap;
+  font-size: 10px;
+  letter-spacing: 0.06em;
   color: var(--term-fg-faint);
 }
 
-.experienceTitle {
-  margin: 0;
-  font-size: 14px;
+.hintBar kbd {
+  font: inherit;
+  font-size: 10px;
+  padding: 1px 5px;
+  margin-right: 4px;
+  border-radius: 2px;
+  border: 1px solid var(--term-rule-strong);
+  background: var(--term-bg-soft);
   color: var(--term-fg);
 }
 
-/* ─────────── TOOLKIT ─────────── */
-
-.tagline {
-  margin: 0;
+.hintBar code {
+  color: var(--term-amber);
   font-size: 11px;
-  color: var(--term-fg-dim);
-  word-break: break-word;
-  line-height: 1.8;
 }
 
-/* ─────────── PROJECTS ─────────── */
-
-.projectGroup {
-  display: grid;
-  gap: 8px;
-  margin-top: 16px;
-}
-
-.projectGroup:first-of-type {
-  margin-top: 0;
-}
-
-.projectGroupHeading {
-  margin: 0;
-  font-size: 12px;
-  color: var(--term-fg-dim);
-}
-
-.projectList {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 12px;
-}
-
-.projectItem {
-  display: grid;
-  gap: 2px;
-  padding: 8px 12px;
-  border-left: 1px solid var(--term-rule);
-  font-size: 13px;
-}
-
-.projectName {
-  margin: 0;
-  font-size: 14px;
-  color: var(--term-fg);
-}
-
-.projectMeta {
-  margin: 0;
-  font-size: 12px;
-  color: var(--term-fg-dim);
-}
-
-/* ─────────── FOOTER ─────────── */
-
-.footer {
-  margin-top: 24px;
-}
-
-.asciiFooter {
-  margin: 0;
-  font-family: inherit;
-  font-size: 11px;
-  line-height: 1.2;
-  color: var(--term-fg-faint);
-  white-space: pre;
-  overflow-x: auto;
-}
+/* ─────────── responsive ─────────── */
 
 @media (max-width: 720px) {
-  .asciiFooter {
+  .root {
+    font-size: 12px;
+  }
+
+  .terminalHeader {
+    padding: 10px 14px 0;
+  }
+
+  .headerMeta {
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 16px;
+  }
+
+  .headerAscii {
+    font-size: 9px;
+  }
+
+  .historyView {
+    padding: 12px 14px 16px;
+  }
+
+  .inputBar {
+    padding: 10px 14px 10px;
+  }
+
+  .commandLine {
+    font-size: 13px;
+  }
+
+  .hintBar {
+    gap: 10px;
+    font-size: 9px;
+  }
+
+  .helpList li {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .row {
+    grid-template-columns: 90px 1fr;
+    gap: 8px;
+    font-size: 12px;
+  }
+
+  .workList li {
+    grid-template-columns: 80px 1fr auto;
+    gap: 8px;
+  }
+
+  .workList li .workTitle {
+    grid-column: 1 / -1;
+    color: var(--term-fg-dim);
+    font-size: 12px;
+  }
+
+  .banner {
     font-size: 9px;
   }
 }
 
-.footerLine {
-  margin: 8px 0 0;
-  font-size: 11px;
-  color: var(--term-fg-faint);
-}
-
-/* ─────────── EASTER-EGG OUTPUTS ─────────── */
-
-.outputGrid {
-  display: grid;
-  gap: 4px;
-}
-
-.outputGrid p {
-  margin: 0;
-  font-size: 13px;
-  line-height: 1.6;
-}
-
-.outputDim {
-  color: var(--term-fg-dim);
-}
-
-.dimKey {
-  color: var(--term-fg-faint);
-  display: inline-block;
-  width: 80px;
-}
-
-.helpList {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 4px;
-  font-size: 13px;
-  color: var(--term-fg);
-}
-
-.helpList code {
-  font: inherit;
-  color: var(--term-amber);
-}
-
-.lsList {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 6px;
-  font-size: 13px;
-}
-
-.lsList li {
-  display: grid;
-  grid-template-columns: 80px 1fr 90px;
-  gap: 12px;
-  align-items: baseline;
-}
-
-.lsId {
-  color: var(--term-fg-faint);
-}
-
-.lsName {
-  color: var(--term-fg);
-}
-
-.asciiInline {
-  margin: 0;
-  font-family: inherit;
-  font-size: 12px;
-  line-height: 1.3;
-  color: var(--term-fg-dim);
-  white-space: pre;
-  overflow-x: auto;
-}
-
-/* ─────────── BOOT-UP ANIMATION ─────────── */
-
-@keyframes bootIn {
-  from {
-    opacity: 0;
-    transform: translateY(-3px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.bootLine0 { animation: bootIn 240ms ease-out 0ms backwards; }
-.bootLine1 { animation: bootIn 240ms ease-out 80ms backwards; }
-.bootLine2 { animation: bootIn 240ms ease-out 160ms backwards; }
-.bootLine3 { animation: bootIn 240ms ease-out 240ms backwards; }
-.bootLine4 { animation: bootIn 240ms ease-out 320ms backwards; }
-.bootLine5 { animation: bootIn 240ms ease-out 400ms backwards; }
-.bootLine6 { animation: bootIn 240ms ease-out 480ms backwards; }
-.bootLine7 { animation: bootIn 240ms ease-out 560ms backwards; }
-.bootLine8 { animation: bootIn 240ms ease-out 640ms backwards; }
-
 @media (prefers-reduced-motion: reduce) {
-  .bootLine0,
-  .bootLine1,
-  .bootLine2,
-  .bootLine3,
-  .bootLine4,
-  .bootLine5,
-  .bootLine6,
-  .bootLine7,
-  .bootLine8 {
+  .historyView {
+    scroll-behavior: auto;
+  }
+
+  .blockCaret,
+  .statusBlink {
     animation: none;
   }
-}
-
-/* ─────────── LIGHT MODE (Terminal canonical = dark) ─────────── */
-
-[data-color-mode="light"] .root {
-  --term-bg: #fbfaf7;
-  --term-fg: #0a0a0a;
-  --term-fg-dim: #5a5a5a;
-  --term-fg-faint: #888888;
-  --term-rule: #d4d0c8;
-  --term-amber: #c0741a;
-  --term-error: #c62828;
-  --term-success: #2e7d32;
-}
-
-[data-color-mode="light"] .scanlines {
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent 0px,
-    transparent 2px,
-    rgba(0, 0, 0, 0.012) 2px,
-    rgba(0, 0, 0, 0.012) 3px
-  );
-  mix-blend-mode: multiply;
-}
-
-[data-color-mode="light"] .prompt {
-  background: rgba(192, 116, 26, 0.05);
 }
