@@ -1,36 +1,57 @@
 import type { ThemeId, ThemeRegistryEntry } from "./types";
 
-export const THEME_ORDER: ThemeId[] = [
-  "decisionlog",
-  "editorial",
-  "twocolumn",
-  "changelog",
-  "terminal",
-  "readingroom",
-  "reel",
-  "horizontalreel",
-  "scene",
-  "atelier",
-  "threltedocs",
-  "starmap",
-  "issueboard",
-  "bookshelf",
-  "keynote",
-  "interactlab",
-  "liquidchrome",
-  "origami",
-  "magnetictype",
-  "glitchreel",
-  "fieldreport",
-  "prose",
-  "gates",
-  "inkflow",
+export interface ThemeGroup {
+  id: string;
+  label: string;
+  blurb: string;
+  themes: ThemeId[];
+}
+
+export const THEME_GROUPS: ThemeGroup[] = [
+  {
+    id: "editorial",
+    label: "Editorial",
+    blurb: "Words-first. Quiet structure, deep typography.",
+    themes: ["decisionlog", "editorial", "readingroom", "prose", "atelier", "threltedocs"],
+  },
+  {
+    id: "system",
+    label: "System & data",
+    blurb: "Console and dashboard feels. Where the work shows.",
+    themes: ["twocolumn", "changelog", "terminal", "issueboard", "fieldreport"],
+  },
+  {
+    id: "cinematic",
+    label: "Cinematic",
+    blurb: "Pin-scroll narratives. One moment per section.",
+    themes: ["reel", "horizontalreel", "keynote", "origami"],
+  },
+  {
+    id: "interactive",
+    label: "Interactive & motion",
+    blurb: "Cursor- and scroll-driven. Designed to be played with.",
+    themes: ["interactlab", "magnetictype", "starmap", "glitchreel"],
+  },
+  {
+    id: "spatial",
+    label: "3D & shaders",
+    blurb: "Real WebGL. Heavy lifting.",
+    themes: ["scene", "aurora", "wormhole"],
+  },
+  {
+    id: "experimental",
+    label: "Experimental",
+    blurb: "Shaders, holograms, shockwaves. Hardware permitting.",
+    themes: ["holowire", "shockwave"],
+  },
 ];
+
+export const THEME_ORDER: ThemeId[] = THEME_GROUPS.flatMap((group) => group.themes);
 
 // Hidden skins — wired in <Portfolio> switch + THEMES registry, but absent from
 // THEME_ORDER so they don't appear in the picker or respond to shortcuts. Still
 // reachable via ?theme=<id> URL param for archival / easter-egg access.
-// Currently hidden: "constellation", "orbitlab", "peachstudio".
+// Currently hidden: constellation, orbitlab, peachstudio, gates, bookshelf, inkflow.
 
 export const THEMES: Record<ThemeId, ThemeRegistryEntry> = {
   decisionlog: {
@@ -166,13 +187,6 @@ export const THEMES: Record<ThemeId, ThemeRegistryEntry> = {
     swatch: { background: "#fafaf6", foreground: "#0f0f12", accent: "#ff5d3b" },
     shortcut: "o",
   },
-  liquidchrome: {
-    id: "liquidchrome",
-    name: "Liquid Chrome",
-    description: "Reflective shader sphere. Distorts on scroll. Case names melt onto the surface.",
-    swatch: { background: "#0a0a10", foreground: "#f5f5fa", accent: "#c0c0d4" },
-    shortcut: "p",
-  },
   origami: {
     id: "origami",
     name: "Origami Folio",
@@ -221,6 +235,34 @@ export const THEMES: Record<ThemeId, ThemeRegistryEntry> = {
     description: "SVG ink that pours and morphs between cases. Cursor leaves drops, scroll spills.",
     swatch: { background: "#f6f3eb", foreground: "#161412", accent: "#1a1a1a" },
     shortcut: "j",
+  },
+  aurora: {
+    id: "aurora",
+    name: "Aurora Drift",
+    description: "WebGL aurora curtains and drifting particle dust. Content fades through the lights.",
+    swatch: { background: "#04060f", foreground: "#eef5ff", accent: "#7df9ff" },
+    shortcut: "k",
+  },
+  wormhole: {
+    id: "wormhole",
+    name: "Wormhole",
+    description: "Camera flies through a neon ring tunnel. Each case is a portal you cross.",
+    swatch: { background: "#05050d", foreground: "#fafbff", accent: "#ff5dff" },
+    shortcut: "l",
+  },
+  holowire: {
+    id: "holowire",
+    name: "Holo Wireframe",
+    description: "Holographic blueprint UI. Wireframe models, scanlines, typewriter readouts.",
+    swatch: { background: "#03110d", foreground: "#d8ffe9", accent: "#42ffb4" },
+    shortcut: "z",
+  },
+  shockwave: {
+    id: "shockwave",
+    name: "Shockwave Type",
+    description: "Giant typography. Cursor magnetises letters, click sends a shockwave outward.",
+    swatch: { background: "#0a0a0d", foreground: "#fff7ec", accent: "#ff3d3d" },
+    shortcut: "x",
   },
 };
 

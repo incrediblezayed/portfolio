@@ -48,3 +48,5 @@ content-drafts/
 
 # local agent / IDE state
 .claude/
+.codex/
+

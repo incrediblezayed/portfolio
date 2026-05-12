@@ -412,11 +412,11 @@ function ToolkitCard() {
     <div className={styles.toolkitCard}>
       <p className={styles.cardEyebrow}>Toolkit · Engineering</p>
       <ul className={styles.toolkitList}>
-        {toolkit.engineering.slice(0, 5).map((g) => (
+        {toolkit.engineering.map((g) => (
           <li key={g.category}>
             <span className={styles.toolkitCategory}>{g.category}</span>
             <span className={styles.toolkitItems}>
-              {g.items.slice(0, 5).join(" · ")}
+              {g.items.join(" · ")}
             </span>
           </li>
         ))}

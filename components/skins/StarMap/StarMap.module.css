@@ -125,10 +125,30 @@
   inset: 0;
   cursor: grab;
   touch-action: none;
+  overscroll-behavior: contain;
 }
 
 .stageDragging {
   cursor: grabbing;
+}
+
+/* Slow-drifting nebula behind everything */
+.nebula {
+  position: absolute;
+  inset: -10%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 25% 30%, rgba(98, 209, 255, 0.16), transparent 45%),
+    radial-gradient(ellipse at 75% 70%, rgba(167, 139, 250, 0.14), transparent 45%),
+    radial-gradient(ellipse at 60% 18%, rgba(243, 211, 107, 0.06), transparent 40%);
+  filter: blur(40px);
+  animation: nebulaDrift 28s linear infinite alternate;
+}
+
+@keyframes nebulaDrift {
+  0%   { transform: translate(-2%, -1%) scale(1.05); }
+  100% { transform: translate(2%, 1.5%) scale(1.12); }
 }
 
 .starField {
@@ -136,6 +156,7 @@
   inset: -200px;
   pointer-events: none;
   will-change: transform;
+  z-index: 1;
 }
 
 .star {
@@ -145,6 +166,12 @@
   border-radius: 999px;
   background: var(--sm-fg);
   transform-origin: center;
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { filter: brightness(0.6); }
+  50%      { filter: brightness(1.6); }
 }
 
 .world {
@@ -154,6 +181,8 @@
   width: 0;
   height: 0;
   will-change: transform;
+  z-index: 2;
+  transform-origin: 0 0;
 }
 
 .edges {
@@ -168,15 +197,22 @@
 
 .edge {
   stroke-width: 1;
-  transition: stroke 280ms ease, stroke-width 280ms ease, opacity 280ms ease;
+  transition: stroke 280ms ease, stroke-width 280ms ease, opacity 280ms ease, stroke-dashoffset 12s linear;
   stroke-dasharray: 4 6;
-  opacity: 0.7;
+  opacity: 0.55;
 }
 
 .edgeActive {
-  stroke-width: 1.5;
-  stroke-dasharray: 0;
+  stroke-width: 1.6;
+  stroke-dasharray: 6 4;
   opacity: 1;
+  animation: edgeFlow 1.4s linear infinite;
+  filter: drop-shadow(0 0 6px currentColor);
+}
+
+@keyframes edgeFlow {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -20; }
 }
 
 .node {
@@ -262,6 +298,41 @@
   outline: none;
 }
 
+/* Pulse ring — expands outward continuously */
+.nodePulse {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  border: 1px solid var(--accent);
+  opacity: 0;
+  animation: nodePulse 2.6s ease-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes nodePulse {
+  0%   { transform: scale(0.4); opacity: 0.55; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+.nodeActive .nodePulse,
+.node:hover .nodePulse {
+  animation-duration: 1.4s;
+}
+
+/* Connected neighbors of the active node */
+.nodeNeighbor .nodeCore {
+  transform: scale(1.1);
+  box-shadow:
+    0 0 14px color-mix(in srgb, var(--accent) 60%, transparent),
+    0 0 36px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.nodeNeighbor .nodeLabel {
+  color: var(--accent);
+  opacity: 0.85;
+}
+
 .node_profile .nodeCore {
   box-shadow:
     0 0 22px color-mix(in srgb, var(--accent) 70%, transparent),
@@ -270,27 +341,45 @@
 
 .card {
   position: absolute;
-  width: clamp(280px, 28vw, 360px);
-  padding: 20px 22px;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: clamp(320px, 36vw, 460px);
+  max-height: calc(100vh - 96px);
   border-radius: 14px;
-  background: linear-gradient(180deg, rgba(20, 22, 38, 0.92), rgba(10, 12, 22, 0.92));
+  background: linear-gradient(180deg, rgba(20, 22, 38, 0.94), rgba(10, 12, 22, 0.94));
   border: 1px solid color-mix(in srgb, var(--accent) 32%, var(--sm-rule));
   box-shadow:
     0 18px 60px rgba(0, 0, 0, 0.55),
     0 0 80px color-mix(in srgb, var(--accent) 22%, transparent);
   backdrop-filter: blur(12px);
-  display: grid;
-  gap: 10px;
   pointer-events: auto;
-  z-index: 10;
-  animation: cardIn 220ms ease both;
+  z-index: 15;
+  overflow: hidden;
 }
 
-@keyframes cardIn {
-  from {
-    opacity: 0;
-    transform: translate(0, -50%) scale(0.96);
-  }
+.cardScroll {
+  display: grid;
+  gap: 12px;
+  padding: 22px 24px;
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--sm-rule) transparent;
+}
+
+.cardScroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.cardScroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.cardScroll::-webkit-scrollbar-thumb {
+  background: var(--sm-rule);
+  border-radius: 999px;
 }
 
 .cardEyebrow {
@@ -352,6 +441,291 @@
   padding-bottom: 2px;
 }
 
+/* ─── case detail (full parity) ─── */
+.cardCase {
+  display: grid;
+  gap: 14px;
+  margin-top: 4px;
+}
+
+.cardSummary {
+  margin: 0;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 14px;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--sm-fg);
+  opacity: 0.92;
+}
+
+.metaStrip {
+  list-style: none;
+  margin: 0;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--sm-rule);
+  border-radius: 8px;
+  display: grid;
+  gap: 5px;
+  font-family: var(--font-mono-jb), monospace;
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: var(--sm-fg);
+  opacity: 0.9;
+}
+
+.metaStrip li {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.metaKey {
+  color: var(--sm-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 10px;
+}
+
+.metaLink {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed currentColor;
+}
+
+.cardSection {
+  display: grid;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--sm-rule);
+}
+
+.cardSectionLabel {
+  margin: 0;
+  font-family: var(--font-mono-jb), monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.cardPara {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--sm-fg);
+  opacity: 0.88;
+}
+
+.problemList {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--sm-fg);
+  opacity: 0.86;
+}
+
+.problemList strong {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.optionList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.optionList li {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--sm-rule);
+  color: var(--sm-fg);
+  opacity: 0.82;
+}
+
+.optionChosen {
+  background: color-mix(in srgb, var(--accent) 14%, transparent) !important;
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--sm-rule)) !important;
+  opacity: 1 !important;
+}
+
+.optionLetter {
+  font-family: var(--font-mono-jb), monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+}
+
+.optionBody {
+  display: grid;
+  gap: 3px;
+}
+
+.optionLabel {
+  font-weight: 500;
+  color: var(--sm-fg);
+}
+
+.optionRejection {
+  color: var(--sm-mute);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.betIntro {
+  margin: 0;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 15px;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--sm-fg);
+}
+
+.betSection {
+  display: grid;
+  gap: 4px;
+}
+
+.betSectionHeading {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+
+.betList {
+  margin: 0;
+  padding-left: 16px;
+  display: grid;
+  gap: 4px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--sm-fg);
+  opacity: 0.86;
+}
+
+.reflectionPrimary,
+.reflectionSecondary {
+  margin: 0;
+  padding: 10px 12px;
+  border-left: 2px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  border-radius: 0 6px 6px 0;
+  display: grid;
+  gap: 4px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--sm-fg);
+}
+
+.reflectionSecondary {
+  border-left-color: var(--sm-faint);
+  background: rgba(255, 255, 255, 0.02);
+  opacity: 0.85;
+}
+
+.reflectionPrimary p,
+.reflectionSecondary p {
+  margin: 0;
+}
+
+.reflectionLabel {
+  font-family: var(--font-mono-jb), monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--sm-mute);
+}
+
+.philosophyQuote {
+  margin: 0;
+  padding: 12px 14px;
+  border-left: 2px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  border-radius: 0 8px 8px 0;
+  display: grid;
+  gap: 8px;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--sm-fg);
+}
+
+.philosophyQuote p {
+  margin: 0;
+}
+
+.toolkitList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.toolkitList li {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 10px;
+  align-items: baseline;
+  line-height: 1.5;
+}
+
+.toolkitCategory {
+  font-family: var(--font-mono-jb), monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.toolkitItems {
+  color: var(--sm-fg);
+  opacity: 0.88;
+}
+
+.toolkitProductList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.toolkitProductHeadline {
+  margin: 0 0 2px;
+  font-weight: 500;
+  color: var(--sm-fg);
+}
+
+.toolkitProductBody {
+  margin: 0;
+  color: var(--sm-fg);
+  opacity: 0.78;
+}
+
 .compass {
   position: absolute;
   bottom: 28px;
@@ -390,6 +764,41 @@
   text-decoration: underline;
 }
 
+.compassSep {
+  color: var(--sm-faint);
+  margin: 0 4px;
+}
+
+/* Zoom +/- floating chips */
+.zoomChips {
+  position: absolute;
+  bottom: 130px;
+  right: 28px;
+  display: grid;
+  gap: 6px;
+  z-index: 20;
+}
+
+.zoomChip {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  border: 1px solid var(--sm-rule);
+  background: rgba(10, 12, 22, 0.7);
+  backdrop-filter: blur(10px);
+  color: var(--sm-fg);
+  font-size: 18px;
+  font-family: var(--font-mono-jb), monospace;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.zoomChip:hover {
+  background: color-mix(in srgb, var(--sm-accent) 18%, transparent);
+  border-color: var(--sm-accent);
+  color: var(--sm-accent);
+}
+
 @media (max-width: 760px) {
   .hud {
     inset: 14px;
@@ -406,18 +815,39 @@
   }
 
   .card {
-    width: min(86vw, 340px);
-    position: fixed;
-    left: 50% !important;
-    bottom: 84px;
-    top: auto !important;
-    transform: translateX(-50%) !important;
+    width: min(92vw, 400px);
+    max-height: min(60vh, 480px);
+    position: absolute;
+    left: 50%;
+    right: auto;
+    bottom: 96px;
+    top: auto;
+    transform: translateX(-50%);
+  }
+
+  .cardScroll {
+    max-height: min(60vh, 480px);
+    padding: 18px 18px;
+  }
+
+  .metaStrip li {
+    grid-template-columns: 56px 1fr;
+    gap: 8px;
+  }
+
+  .toolkitList li {
+    grid-template-columns: 80px 1fr;
   }
 
   .compass {
     bottom: 14px;
     right: 14px;
     padding: 10px 14px;
+  }
+
+  .zoomChips {
+    bottom: 100px;
+    right: 14px;
   }
 }
 
@@ -428,7 +858,10 @@
   .edge {
     transition: none;
   }
-  .card {
+  .nebula,
+  .star,
+  .nodePulse,
+  .edgeActive {
     animation: none;
   }
 }

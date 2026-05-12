@@ -1,0 +1,256 @@
+.root {
+  --wh-bg: #05050d;
+  --wh-fg: #fafbff;
+  --wh-mute: #8b8db5;
+  --wh-faint: #2a2d52;
+  --wh-rule: rgba(250, 251, 255, 0.1);
+  --accent: #ff5dff;
+
+  position: relative;
+  min-height: 100vh;
+  overflow-x: clip;
+  background: var(--wh-bg);
+  color: var(--wh-fg);
+  font-family: var(--font-sans), -apple-system, system-ui, sans-serif;
+}
+
+.canvasWrap {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.canvasWrap canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* radial vignette that picks up the active accent */
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      transparent 40%,
+      color-mix(in srgb, var(--accent) 18%, transparent) 70%,
+      var(--wh-bg) 100%
+    );
+  mix-blend-mode: screen;
+  opacity: 0.85;
+  transition: background 400ms ease;
+}
+
+.hud {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: 32px 6vw;
+  pointer-events: none;
+}
+
+.hudHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  pointer-events: auto;
+}
+
+.brandKicker,
+.brandRight,
+.eyebrow,
+.metricLabel,
+.cta,
+.hudFoot {
+  font-family: var(--font-mono-jb), monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.brandKicker {
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-shadow: 0 0 14px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.brandRight {
+  color: var(--wh-mute);
+  font-variant-numeric: tabular-nums;
+}
+
+.brandDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 16px var(--accent);
+}
+
+.readout {
+  align-self: center;
+  justify-self: center;
+  max-width: 620px;
+  display: grid;
+  padding: 26px 32px;
+  border-radius: 14px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--wh-bg) 28%, transparent),
+    color-mix(in srgb, var(--wh-bg) 75%, transparent)
+  );
+  border: 1px solid var(--wh-rule);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  pointer-events: auto;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.readout::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 14px;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--accent) 50%, transparent),
+    transparent 70%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.readoutInner {
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+}
+
+.eyebrow {
+  color: var(--accent);
+  text-shadow: 0 0 14px color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(36px, 5.6vw, 80px);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+  color: var(--wh-fg);
+}
+
+.body {
+  margin: 0;
+  max-width: 52ch;
+  font-size: clamp(15px, 1.15vw, 17px);
+  line-height: 1.6;
+  color: var(--wh-fg);
+  opacity: 0.86;
+}
+
+.caseExtra {
+  margin-top: 8px;
+  padding-top: 14px;
+  border-top: 1px solid var(--wh-rule);
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+  width: 100%;
+}
+
+.outcomeLead {
+  margin: 0;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 19px;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.42;
+  color: var(--wh-fg);
+}
+
+.metricList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  justify-content: center;
+}
+
+.metricList li {
+  display: grid;
+  gap: 2px;
+  justify-items: center;
+}
+
+.metricValue {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 28px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.metricLabel {
+  color: var(--wh-mute);
+}
+
+.cta {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed currentColor;
+  padding-bottom: 3px;
+}
+
+.hudFoot {
+  justify-self: center;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: rgba(5, 5, 13, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--wh-rule);
+  color: var(--wh-mute);
+  pointer-events: auto;
+}
+
+.scrollSpace {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@media (max-width: 760px) {
+  .hud {
+    padding: 18px 16px;
+  }
+  .readout {
+    max-width: 100%;
+    padding: 20px 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vignette {
+    transition: none;
+  }
+}

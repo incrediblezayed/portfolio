@@ -1,7 +1,11 @@
 "use client";
 
 import { cases, philosophy, profile } from "@/content";
-import { readCanonical, readOptionCanonical } from "@/lib/caseVoice";
+import {
+  readCanonical,
+  readCanonicalParagraphs,
+  readOptionCanonical,
+} from "@/lib/caseVoice";
 import type { Case } from "@/lib/types";
 import { useScrollProgress } from "@/lib/useScrollProgress";
 import { Text } from "@react-three/drei";
@@ -116,7 +120,10 @@ export function MagneticType() {
           <p className={styles.eyebrow}>{activeSlide.eyebrow}</p>
           <p className={styles.body}>{activeSlide.body}</p>
           {activeSlide.caseStudy ? (
-            <CaseMetrics caseStudy={activeSlide.caseStudy} />
+            <CaseDetail caseStudy={activeSlide.caseStudy} />
+          ) : null}
+          {activeSlide.id === "philosophy" ? (
+            <PhilosophyDetail />
           ) : null}
           {activeSlide.id === "contact" ? (
             <a className={styles.cta} href={`mailto:${profile.email}`}>
@@ -328,24 +335,169 @@ function Backdrop() {
   );
 }
 
-function CaseMetrics({ caseStudy }: Readonly<{ caseStudy: Case }>) {
-  const firstOutcome = caseStudy.outcome.paragraphs[0];
-  const outcome = firstOutcome ? readCanonical(firstOutcome) : caseStudy.summary;
+function CaseDetail({ caseStudy }: Readonly<{ caseStudy: Case }>) {
+  const problemIntro = caseStudy.problem.intro
+    ? readCanonical(caseStudy.problem.intro)
+    : null;
+  const problemItems = caseStudy.problem.items ?? [];
+  const problemParagraphs =
+    caseStudy.problem.paragraphs?.flatMap((p) => readCanonicalParagraphs(p)) ??
+    [];
+  const betIntro = caseStudy.bet.intro
+    ? readCanonical(caseStudy.bet.intro)
+    : null;
+  const betSections = caseStudy.bet.sections ?? [];
+  const outcomeParagraphs = caseStudy.outcome.paragraphs.flatMap((p) =>
+    readCanonicalParagraphs(p),
+  );
   const metrics = caseStudy.outcome.metrics ?? [];
 
   return (
     <div className={styles.caseExtra}>
-      <p className={styles.outcomeLead}>{outcome}</p>
-      {metrics.length > 0 ? (
-        <ul className={styles.metricList}>
-          {metrics.slice(0, 3).map((metric) => (
-            <li key={metric.label}>
-              <span className={styles.metricValue}>{metric.value}</span>
-              <span className={styles.metricLabel}>{metric.label}</span>
-            </li>
-          ))}
-        </ul>
-      ) : null}
+      <p className={styles.outcomeLead}>{caseStudy.summary}</p>
+
+      <ul className={styles.metaStrip}>
+        <li>
+          <span className={styles.metaKey}>year</span> {caseStudy.meta.year}
+        </li>
+        <li>
+          <span className={styles.metaKey}>duration</span>{" "}
+          {caseStudy.meta.duration}
+        </li>
+        <li>
+          <span className={styles.metaKey}>role</span> {caseStudy.meta.role}
+        </li>
+        <li>
+          <span className={styles.metaKey}>stack</span> {caseStudy.meta.stack}
+        </li>
+        <li>
+          <span className={styles.metaKey}>status</span> {caseStudy.meta.status}
+        </li>
+        {caseStudy.meta.repoUrl ? (
+          <li>
+            <span className={styles.metaKey}>repo</span>{" "}
+            <a
+              className={styles.metaLink}
+              href={caseStudy.meta.repoUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {caseStudy.meta.repoUrl.replace("https://", "")}
+            </a>
+          </li>
+        ) : null}
+      </ul>
+
+      <section className={styles.section}>
+        <h4 className={styles.sectionLabel}>Problem</h4>
+        {problemIntro ? (
+          <p className={styles.sectionPara}>{problemIntro}</p>
+        ) : null}
+        {problemItems.length > 0 ? (
+          <ol className={styles.problemList}>
+            {problemItems.map((item) => (
+              <li key={item.label}>
+                <strong>{item.label}.</strong> {readCanonical(item)}
+              </li>
+            ))}
+          </ol>
+        ) : null}
+        {problemParagraphs.map((p) => (
+          <p key={p} className={styles.sectionPara}>
+            {p}
+          </p>
+        ))}
+      </section>
+
+      <section className={styles.section}>
+        <h4 className={styles.sectionLabel}>Options</h4>
+        <ol className={styles.optionList}>
+          {caseStudy.options.map((opt) => {
+            const option = readOptionCanonical(opt);
+            return (
+              <li
+                key={opt.letter}
+                className={opt.selected ? styles.optionChosen : undefined}
+              >
+                <span className={styles.optionLetter}>{opt.letter}</span>
+                <div className={styles.optionBody}>
+                  <strong className={styles.optionLabel}>{option.label}</strong>
+                  <span className={styles.optionRejection}>
+                    {option.rejection}
+                  </span>
+                </div>
+              </li>
+            );
+          })}
+        </ol>
+      </section>
+
+      <section className={styles.section}>
+        <h4 className={styles.sectionLabel}>Bet</h4>
+        {betIntro ? (
+          <p className={styles.betIntro}>{betIntro}</p>
+        ) : null}
+        {betSections.map((sec) => {
+          const paras = readCanonicalParagraphs(sec);
+          return (
+            <div key={sec.heading} className={styles.betSection}>
+              <h5 className={styles.betSectionHeading}>{sec.heading}</h5>
+              {paras.length > 1 ? (
+                <ul className={styles.betList}>
+                  {paras.map((p) => (
+                    <li key={p}>{p}</li>
+                  ))}
+                </ul>
+              ) : paras[0] ? (
+                <p className={styles.sectionPara}>{paras[0]}</p>
+              ) : null}
+            </div>
+          );
+        })}
+      </section>
+
+      <section className={styles.section}>
+        <h4 className={styles.sectionLabel}>Outcome</h4>
+        {metrics.length > 0 ? (
+          <ul className={styles.metricList}>
+            {metrics.map((m) => (
+              <li key={m.label}>
+                <span className={styles.metricValue}>{m.value}</span>
+                <span className={styles.metricLabel}>{m.label}</span>
+              </li>
+            ))}
+          </ul>
+        ) : null}
+        {outcomeParagraphs.map((p) => (
+          <p key={p} className={styles.sectionPara}>
+            {p}
+          </p>
+        ))}
+      </section>
+
+      <section className={styles.section}>
+        <h4 className={styles.sectionLabel}>Reflection</h4>
+        <blockquote className={styles.reflectionPrimary}>
+          <p className={styles.reflectionLabel}>product · ownership</p>
+          <p>{caseStudy.reflection.product}</p>
+        </blockquote>
+        <blockquote className={styles.reflectionSecondary}>
+          <p className={styles.reflectionLabel}>engineering · process</p>
+          <p>{caseStudy.reflection.engineering}</p>
+        </blockquote>
+      </section>
+    </div>
+  );
+}
+
+function PhilosophyDetail() {
+  return (
+    <div className={styles.caseExtra}>
+      <blockquote className={styles.philosophyQuote}>
+        {philosophy.quote.map((line) => (
+          <p key={line}>{line}</p>
+        ))}
+      </blockquote>
     </div>
   );
 }

@@ -1,0 +1,313 @@
+.root {
+  --sw-bg: #0a0a0d;
+  --sw-fg: #fff7ec;
+  --sw-mute: #8a8a92;
+  --sw-faint: #2a2a35;
+  --sw-rule: rgba(255, 247, 236, 0.1);
+  --accent: #ff3d3d;
+  --glow: #ff8a3d;
+
+  position: relative;
+  min-height: 100vh;
+  overflow-x: clip;
+  background: var(--sw-bg);
+  color: var(--sw-fg);
+  font-family: var(--font-sans), -apple-system, system-ui, sans-serif;
+}
+
+/* faint film grain */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: radial-gradient(
+    rgba(255, 247, 236, 0.05) 1px,
+    transparent 1px
+  );
+  background-size: 3px 3px;
+  mix-blend-mode: overlay;
+  opacity: 0.55;
+}
+
+/* accent gradient wash that follows the active slide */
+.gradient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at 80% 20%,
+      color-mix(in srgb, var(--glow) 22%, transparent),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 10% 90%,
+      color-mix(in srgb, var(--accent) 18%, transparent),
+      transparent 55%
+    );
+  transition: background 600ms ease;
+}
+
+.hudHead {
+  position: fixed;
+  top: 28px;
+  left: 6vw;
+  right: 6vw;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+  font-family: var(--font-mono-jb), monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.brandKicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--accent);
+  text-shadow: 0 0 14px color-mix(in srgb, var(--accent) 50%, transparent);
+  pointer-events: auto;
+}
+
+.brandRight {
+  color: var(--sw-mute);
+  font-variant-numeric: tabular-nums;
+  pointer-events: auto;
+}
+
+.brandDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 14px var(--accent);
+}
+
+.stage {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  padding: 14vh 6vw 18vh;
+  pointer-events: none;
+}
+
+.stageInner {
+  display: grid;
+  gap: 24px;
+  justify-items: center;
+  text-align: center;
+  max-width: 1100px;
+  width: 100%;
+  pointer-events: auto;
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-mono-jb), monospace;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-shadow: 0 0 14px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 200;
+  font-size: clamp(64px, 14vw, 220px);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  color: var(--sw-fg);
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0;
+  text-shadow: 0 0 60px color-mix(in srgb, var(--glow) 22%, transparent);
+  outline: none;
+}
+
+.title:focus-visible {
+  text-shadow:
+    0 0 60px color-mix(in srgb, var(--glow) 35%, transparent),
+    0 0 0 2px color-mix(in srgb, var(--accent) 60%, transparent);
+}
+
+.letter {
+  display: inline-block;
+  transform:
+    translate(var(--mx, 0px), var(--my, 0px))
+    rotate(var(--rot, 0deg));
+  opacity: var(--o, 1);
+  transition: transform 180ms cubic-bezier(0.2, 0.6, 0.2, 1);
+  will-change: transform, opacity;
+}
+
+/* During cursor drag we want the magnetic to feel instant (no transition),
+   so override only when we're actively moving — handled via inline writes.
+   Click-shock uses animejs which animates the CSS vars; the transition can
+   stay because animejs runs at frame-rate. */
+
+.letter[data-space="true"] {
+  width: 0.32em;
+}
+
+.body {
+  margin: 0;
+  font-family: var(--font-sans), -apple-system, system-ui, sans-serif;
+  max-width: 50ch;
+  font-size: clamp(15px, 1.2vw, 18px);
+  line-height: 1.55;
+  color: var(--sw-fg);
+  opacity: 0.86;
+}
+
+.caseExtra {
+  margin-top: 4px;
+  padding-top: 16px;
+  border-top: 1px solid var(--sw-rule);
+  display: grid;
+  gap: 16px;
+  justify-items: center;
+}
+
+.outcomeLead {
+  margin: 0;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 18px;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.42;
+  color: var(--sw-fg);
+  max-width: 56ch;
+}
+
+.metricList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: center;
+}
+
+.metricList li {
+  display: grid;
+  gap: 2px;
+  justify-items: center;
+}
+
+.metricValue {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 30px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--accent);
+  text-shadow: 0 0 16px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+.metricLabel {
+  font-family: var(--font-mono-jb), monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--sw-mute);
+}
+
+.cta {
+  font-family: var(--font-mono-jb), monospace;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed currentColor;
+  padding-bottom: 3px;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.hudFoot {
+  position: fixed;
+  bottom: 22px;
+  left: 6vw;
+  right: 6vw;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono-jb), monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--sw-mute);
+  pointer-events: none;
+}
+
+.hudFoot p {
+  margin: 0;
+  pointer-events: auto;
+}
+
+.dots {
+  display: flex;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(10, 10, 13, 0.6);
+  border: 1px solid var(--sw-rule);
+  backdrop-filter: blur(10px);
+  pointer-events: auto;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--signal, var(--sw-faint));
+  opacity: 0.35;
+  transition: opacity 220ms ease, transform 220ms ease, box-shadow 220ms ease;
+}
+
+.dotActive {
+  opacity: 1;
+  transform: scale(1.7);
+  box-shadow: 0 0 14px var(--signal, var(--accent));
+}
+
+/* one snap section per slide — drives scroll-based slide index */
+.snap {
+  height: 100vh;
+  pointer-events: none;
+}
+
+@media (max-width: 760px) {
+  .hudHead, .hudFoot {
+    left: 16px;
+    right: 16px;
+  }
+  .stage {
+    padding: 12vh 16px 16vh;
+  }
+  .title {
+    font-size: clamp(56px, 18vw, 130px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .letter {
+    transition: none;
+  }
+  .gradient {
+    transition: none;
+  }
+}

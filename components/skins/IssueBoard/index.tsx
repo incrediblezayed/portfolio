@@ -4,8 +4,24 @@ import { cases, philosophy, profile, toolkit } from "@/content";
 import { readCanonical, readOptionCanonical, readReflection } from "@/lib/caseVoice";
 import type { Case } from "@/lib/types";
 import type { CSSProperties } from "react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./IssueBoard.module.css";
+
+type SideAction =
+  | { kind: "focus-search" }
+  | { kind: "scroll-group"; group: "active" | "shipped" | "ongoing" }
+  | { kind: "expand"; issueId: string }
+  | { kind: "clear" };
+
+type SideKey =
+  | "inbox"
+  | "my-issues"
+  | "cases"
+  | "backlog"
+  | "roadmap"
+  | "toolkit"
+  | "philosophy"
+  | "talk";
 
 type IssueStatus = "in-progress" | "shipped" | "maintained" | "open";
 type IssuePriority = "P0" | "P1" | "P2";
@@ -109,6 +125,44 @@ export function IssueBoard() {
   const [expanded, setExpanded] = useState<string | null>(null);
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [filter, setFilter] = useState("");
+  const [activeSide, setActiveSide] = useState<SideKey>("cases");
+  const searchRef = useRef<HTMLInputElement | null>(null);
+
+  const scrollToGroup = useCallback((group: "active" | "shipped" | "ongoing") => {
+    globalThis.document
+      .getElementById(`group-${group}`)
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
+
+  const expandAndScroll = useCallback((issueId: string) => {
+    setExpanded(issueId);
+    globalThis.requestAnimationFrame(() => {
+      globalThis.document
+        .getElementById(`issue-${issueId}`)
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  }, []);
+
+  const handleSide = useCallback(
+    (key: SideKey, action: SideAction) => {
+      setActiveSide(key);
+      if (action.kind === "focus-search") {
+        searchRef.current?.focus();
+        globalThis.scrollTo({ top: 0, behavior: "smooth" });
+      } else if (action.kind === "clear") {
+        setFilter("");
+        setExpanded(null);
+        globalThis.scrollTo({ top: 0, behavior: "smooth" });
+      } else if (action.kind === "scroll-group") {
+        setFilter("");
+        scrollToGroup(action.group);
+      } else if (action.kind === "expand") {
+        setFilter("");
+        expandAndScroll(action.issueId);
+      }
+    },
+    [scrollToGroup, expandAndScroll],
+  );
 
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {
@@ -166,9 +220,10 @@ export function IssueBoard() {
         onPaletteOpen={() => setPaletteOpen(true)}
         filter={filter}
         setFilter={setFilter}
+        searchRef={searchRef}
       />
       <div className={styles.shell}>
-        <Sidebar />
+        <Sidebar activeKey={activeSide} onAction={handleSide} />
         <main className={styles.main}>
           <header className={styles.mainHead}>
             <div>
@@ -181,7 +236,7 @@ export function IssueBoard() {
             </div>
           </header>
           {visibleGroups.map((group) => (
-            <section key={group.id} className={styles.group}>
+            <section key={group.id} id={`group-${group.id}`} className={styles.group}>
               <header className={styles.groupHead}>
                 <span
                   className={styles.groupCaret}
@@ -235,10 +290,12 @@ function TopBar({
   onPaletteOpen,
   filter,
   setFilter,
+  searchRef,
 }: Readonly<{
   onPaletteOpen: () => void;
   filter: string;
   setFilter: (value: string) => void;
+  searchRef: React.RefObject<HTMLInputElement | null>;
 }>) {
   return (
     <header className={styles.topbar}>
@@ -251,6 +308,7 @@ function TopBar({
       </div>
       <div className={styles.topbarSearch}>
         <input
+          ref={searchRef}
           type="search"
           placeholder="Filter by title, key, or body…"
           value={filter}
@@ -270,26 +328,62 @@ function TopBar({
   );
 }
 
-function Sidebar() {
+function Sidebar({
+  activeKey,
+  onAction,
+}: Readonly<{
+  activeKey: SideKey;
+  onAction: (key: SideKey, action: SideAction) => void;
+}>) {
+  const workspace: { key: SideKey; label: string; action: SideAction }[] = [
+    { key: "inbox", label: "Inbox", action: { kind: "focus-search" } },
+    { key: "my-issues", label: "My issues", action: { kind: "clear" } },
+    { key: "cases", label: "Cases", action: { kind: "scroll-group", group: "active" } },
+    { key: "backlog", label: "Backlog", action: { kind: "scroll-group", group: "ongoing" } },
+    { key: "roadmap", label: "Roadmap", action: { kind: "scroll-group", group: "shipped" } },
+  ];
+
+  const reference: { key: SideKey; label: string; action: SideAction }[] = [
+    { key: "toolkit", label: "Toolkit", action: { kind: "expand", issueId: "toolkit" } },
+    { key: "philosophy", label: "Philosophy", action: { kind: "expand", issueId: "philosophy" } },
+    { key: "talk", label: "Talk", action: { kind: "expand", issueId: "talk" } },
+  ];
+
   return (
     <aside className={styles.sidebar}>
       <nav>
         <SideGroup heading="Workspace">
-          <SideLink>Inbox</SideLink>
-          <SideLink>My issues</SideLink>
-          <SideLink active>Cases</SideLink>
-          <SideLink>Backlog</SideLink>
-          <SideLink>Roadmap</SideLink>
+          {workspace.map((item) => (
+            <SideLink
+              key={item.key}
+              active={activeKey === item.key}
+              onClick={() => onAction(item.key, item.action)}
+            >
+              {item.label}
+            </SideLink>
+          ))}
         </SideGroup>
         <SideGroup heading="Reference">
-          <SideLink>Toolkit</SideLink>
-          <SideLink>Philosophy</SideLink>
-          <SideLink>Talk</SideLink>
+          {reference.map((item) => (
+            <SideLink
+              key={item.key}
+              active={activeKey === item.key}
+              onClick={() => onAction(item.key, item.action)}
+            >
+              {item.label}
+            </SideLink>
+          ))}
         </SideGroup>
         <SideGroup heading="Teams">
-          <SideTeam color="#5e6ad2">Engineering</SideTeam>
-          <SideTeam color="#f5b800">Product</SideTeam>
-          <SideTeam color="#26d07c">Open Source</SideTeam>
+          <SideTeam color="#5e6ad2" href={profile.socials.github} label="Engineering · GitHub">
+            Engineering
+          </SideTeam>
+          <SideTeam color="#f5b800" href={profile.socials.linkedin} label="Product · LinkedIn">
+            Product
+          </SideTeam>
+          <SideTeam color="#26d07c" href={profile.socials.pubdev} label="Open Source · pub.dev">
+            Open Source
+          </SideTeam>
         </SideGroup>
       </nav>
       <div className={styles.sideFoot}>
@@ -314,12 +408,18 @@ function SideGroup({
 
 function SideLink({
   active,
+  onClick,
   children,
-}: Readonly<{ active?: boolean; children: React.ReactNode }>) {
+}: Readonly<{
+  active?: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}>) {
   return (
     <li>
       <button
         type="button"
+        onClick={onClick}
         className={`${styles.sideLink} ${active ? styles.sideLinkActive : ""}`}
       >
         {children}
@@ -330,17 +430,30 @@ function SideLink({
 
 function SideTeam({
   color,
+  href,
+  label,
   children,
-}: Readonly<{ color: string; children: React.ReactNode }>) {
+}: Readonly<{
+  color: string;
+  href: string;
+  label: string;
+  children: React.ReactNode;
+}>) {
   return (
     <li>
-      <button type="button" className={styles.sideTeam}>
+      <a
+        href={href}
+        target="_blank"
+        rel="noreferrer"
+        aria-label={label}
+        className={styles.sideTeam}
+      >
         <span
           className={styles.sideTeamDot}
           style={{ background: color } as CSSProperties}
         />
         {children}
-      </button>
+      </a>
     </li>
   );
 }

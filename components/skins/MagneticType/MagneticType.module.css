@@ -88,15 +88,33 @@
 .readout {
   align-self: end;
   justify-self: start;
-  max-width: 520px;
+  width: min(580px, 100%);
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   display: grid;
   gap: 14px;
   padding: 22px 26px;
-  background: color-mix(in srgb, var(--mt-bg) 64%, transparent);
+  background: color-mix(in srgb, var(--mt-bg) 72%, transparent);
   border: 1px solid var(--mt-rule);
   border-radius: 8px;
   backdrop-filter: blur(10px);
   pointer-events: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--mt-rule) transparent;
+}
+
+.readout::-webkit-scrollbar {
+  width: 6px;
+}
+
+.readout::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.readout::-webkit-scrollbar-thumb {
+  background: var(--mt-rule);
+  border-radius: 999px;
 }
 
 .eyebrow {
@@ -155,6 +173,222 @@
   color: var(--mt-mute);
 }
 
+/* ─── meta strip ─── */
+.metaStrip {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+  font-family: var(--font-mono-jb), monospace;
+  font-size: 11px;
+  line-height: 1.55;
+  color: var(--mt-fg);
+  opacity: 0.86;
+}
+
+.metaStrip li {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 12px;
+  align-items: baseline;
+}
+
+.metaKey {
+  color: var(--mt-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 10px;
+}
+
+.metaLink {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed currentColor;
+}
+
+/* ─── section blocks ─── */
+.section {
+  display: grid;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--mt-rule);
+}
+
+.sectionLabel {
+  margin: 0;
+  font-family: var(--font-mono-jb), monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.sectionPara {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--mt-fg);
+  opacity: 0.86;
+}
+
+.problemList {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--mt-fg);
+  opacity: 0.86;
+}
+
+.problemList strong {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* ─── options table ─── */
+.optionList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.optionList li {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: rgba(250, 250, 242, 0.02);
+  border: 1px solid var(--mt-rule);
+  color: var(--mt-fg);
+  opacity: 0.82;
+}
+
+.optionChosen {
+  background: color-mix(in srgb, var(--accent) 12%, transparent) !important;
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--mt-rule)) !important;
+  opacity: 1 !important;
+}
+
+.optionLetter {
+  font-family: var(--font-mono-jb), monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+}
+
+.optionBody {
+  display: grid;
+  gap: 3px;
+}
+
+.optionLabel {
+  font-weight: 500;
+  color: var(--mt-fg);
+}
+
+.optionRejection {
+  color: var(--mt-mute);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* ─── bet sections ─── */
+.betIntro {
+  margin: 0;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 15px;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--mt-fg);
+}
+
+.betSection {
+  display: grid;
+  gap: 4px;
+}
+
+.betSectionHeading {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+
+.betList {
+  margin: 0;
+  padding-left: 16px;
+  display: grid;
+  gap: 4px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--mt-fg);
+  opacity: 0.86;
+}
+
+/* ─── reflection ─── */
+.reflectionPrimary,
+.reflectionSecondary {
+  margin: 0;
+  padding: 10px 12px;
+  border-left: 2px solid var(--accent);
+  background: rgba(255, 216, 74, 0.04);
+  border-radius: 0 6px 6px 0;
+  display: grid;
+  gap: 4px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--mt-fg);
+}
+
+.reflectionSecondary {
+  border-left-color: var(--mt-faint);
+  background: rgba(250, 250, 242, 0.02);
+  opacity: 0.85;
+}
+
+.reflectionPrimary p,
+.reflectionSecondary p {
+  margin: 0;
+}
+
+.reflectionLabel {
+  font-family: var(--font-mono-jb), monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mt-mute);
+}
+
+/* ─── philosophy quote ─── */
+.philosophyQuote {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-style: italic;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--mt-fg);
+}
+
+.philosophyQuote p {
+  margin: 0;
+}
+
 .cta {
   justify-self: start;
   color: var(--accent);
@@ -187,7 +421,13 @@
   }
 
   .readout {
-    max-width: 100%;
+    width: 100%;
+    max-height: calc(100vh - 160px);
     padding: 18px 20px;
+  }
+
+  .metaStrip li {
+    grid-template-columns: 56px 1fr;
+    gap: 10px;
   }
 }

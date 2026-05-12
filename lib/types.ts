@@ -18,14 +18,17 @@ export type ThemeId =
   | "bookshelf"
   | "keynote"
   | "interactlab"
-  | "liquidchrome"
   | "origami"
   | "magnetictype"
   | "glitchreel"
   | "fieldreport"
   | "prose"
   | "gates"
-  | "inkflow";
+  | "inkflow"
+  | "aurora"
+  | "wormhole"
+  | "holowire"
+  | "shockwave";
 
 export type AvailabilitySignal = "open" | "selective" | "closed";
 

@@ -20,7 +20,6 @@ import { IssueBoard } from "./skins/IssueBoard";
 import { Bookshelf } from "./skins/Bookshelf";
 import { Keynote } from "./skins/Keynote";
 import { InteractLab } from "./skins/InteractLab";
-import { LiquidChrome } from "./skins/LiquidChrome";
 import { Origami } from "./skins/Origami";
 import { MagneticType } from "./skins/MagneticType";
 import { GlitchReel } from "./skins/GlitchReel";
@@ -28,6 +27,10 @@ import { FieldReport } from "./skins/FieldReport";
 import { Prose } from "./skins/Prose";
 import { Gates } from "./skins/Gates";
 import { InkFlow } from "./skins/InkFlow";
+import { Aurora } from "./skins/Aurora";
+import { Wormhole } from "./skins/Wormhole";
+import { HoloWire } from "./skins/HoloWire";
+import { Shockwave } from "./skins/Shockwave";
 
 export function Portfolio() {
   const { theme } = useTheme();
@@ -70,8 +73,6 @@ export function Portfolio() {
       return <Keynote />;
     case "interactlab":
       return <InteractLab />;
-    case "liquidchrome":
-      return <LiquidChrome />;
     case "origami":
       return <Origami />;
     case "magnetictype":
@@ -86,6 +87,14 @@ export function Portfolio() {
       return <Gates />;
     case "inkflow":
       return <InkFlow />;
+    case "aurora":
+      return <Aurora />;
+    case "wormhole":
+      return <Wormhole />;
+    case "holowire":
+      return <HoloWire />;
+    case "shockwave":
+      return <Shockwave />;
     default:
       return <DecisionLog />;
   }
