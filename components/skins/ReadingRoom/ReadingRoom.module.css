@@ -41,11 +41,23 @@
 
 @media (max-width: 480px) {
   .book {
-    padding: 48px 20px 72px;
+    padding: 44px 18px 72px;
     gap: 56px;
   }
   .root {
-    font-size: 17px;
+    font-size: 16px;
+  }
+
+  .titlePage {
+    padding-bottom: 48px;
+  }
+
+  .titleName {
+    font-size: clamp(46px, 16vw, 64px);
+  }
+
+  .firstPara::first-letter {
+    font-size: 4em;
   }
 }
 

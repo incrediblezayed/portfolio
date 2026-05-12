@@ -44,7 +44,7 @@
 
 @media (max-width: 720px) {
   .main {
-    padding: 40px 20px 80px;
+    padding: 36px 16px 76px;
   }
 }
 
@@ -201,6 +201,7 @@
   display: grid;
   gap: 4px;
   font-size: 13px;
+  overflow-x: auto;
 }
 
 .diffAdded {
@@ -314,4 +315,36 @@
 
 [data-color-mode="dark"] .footer kbd {
   background: #141414;
+}
+
+@media (max-width: 560px) {
+  .header {
+    padding-bottom: 24px;
+  }
+
+  .headerMeta {
+    gap: 10px 14px;
+  }
+
+  .entry {
+    gap: 10px;
+    margin-left: 0;
+    padding: 28px 0;
+    border-left: 0;
+  }
+
+  .entrySource {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .entryTitle {
+    font-size: 15px;
+  }
+
+  .entryDiff {
+    margin-inline: -4px;
+    padding: 10px;
+    font-size: 12px;
+  }
 }

@@ -10,7 +10,6 @@ export const THEME_ORDER: ThemeId[] = [
   "reel",
   "horizontalreel",
   "scene",
-  "constellation",
 ];
 
 export const THEMES: Record<ThemeId, ThemeRegistryEntry> = {
@@ -76,13 +75,6 @@ export const THEMES: Record<ThemeId, ThemeRegistryEntry> = {
     description: "Real WebGL 3D. Camera glides through floating panels in space.",
     swatch: { background: "#06061a", foreground: "#f5f5fa", accent: "#a78bfa" },
     shortcut: "9",
-  },
-  constellation: {
-    id: "constellation",
-    name: "Signal Deck",
-    description: "Three.js command deck. Scroll through glowing case prisms.",
-    swatch: { background: "#080a10", foreground: "#f8f3e4", accent: "#f3d36b" },
-    shortcut: "0",
   },
 };
 

@@ -792,6 +792,8 @@
   .panel {
     padding: 48px 20px;
     max-width: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .panelEyebrow {
     margin-bottom: 18px;
@@ -812,6 +814,12 @@
     gap: 12px;
     padding: 10px 14px;
     font-size: 14px;
+  }
+
+  .optionsList {
+    max-height: 62dvh;
+    overflow-y: auto;
+    padding-right: 2px;
   }
   .optionTag {
     font-size: 9px;
@@ -888,6 +896,11 @@
   }
   .projectList {
     grid-template-columns: 1fr;
+  }
+
+  .socials {
+    justify-content: center;
+    gap: 14px;
   }
 }
 

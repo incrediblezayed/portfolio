@@ -7,8 +7,7 @@ export type ThemeId =
   | "readingroom"
   | "reel"
   | "horizontalreel"
-  | "scene"
-  | "constellation";
+  | "scene";
 
 export type AvailabilitySignal = "open" | "selective" | "closed";
 

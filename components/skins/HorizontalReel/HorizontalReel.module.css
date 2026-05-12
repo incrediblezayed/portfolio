@@ -966,6 +966,80 @@
   }
 }
 
+@media (max-width: 900px) {
+  .outer {
+    height: auto;
+  }
+
+  .sticky {
+    position: static;
+    height: auto;
+    width: 100%;
+    overflow: visible;
+    contain: none;
+  }
+
+  .strip {
+    display: block;
+    width: 100%;
+    height: auto;
+    transform: none !important;
+    transition: none;
+    will-change: auto;
+  }
+
+  .panel {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    height: auto;
+    min-height: auto;
+    max-height: none;
+    padding: 56px 24px;
+    border-right: 0;
+    border-bottom: 1px solid var(--hr-rule);
+    overflow: visible;
+  }
+
+  .panel::before,
+  .panel::after {
+    display: none;
+  }
+
+  .caseGrid,
+  .toolkitGrid,
+  .experienceRow {
+    grid-template-columns: 1fr;
+  }
+
+  .experienceCompany {
+    grid-column: auto;
+  }
+
+  .toolkitPanel,
+  .experiencePanel,
+  .projectsPanel {
+    overflow: visible;
+  }
+
+  .pinCounter {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .panel,
+  .casePanel,
+  .philosophyPanel {
+    padding: 40px 20px;
+  }
+
+  .pageHero,
+  .pageFooter {
+    padding-inline: 20px;
+  }
+}
+
 /* ─────────── Color modes ─────────── */
 /* Canonical = dark (cinema). Light = paper-light flip. */
 

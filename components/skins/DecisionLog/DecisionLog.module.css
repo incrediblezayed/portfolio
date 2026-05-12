@@ -317,6 +317,11 @@
     grid-template-columns: 1fr;
     gap: 8px;
   }
+
+  .caseSectionLabel {
+    position: static;
+    padding-top: 0;
+  }
 }
 
 .caseSectionLabel {
@@ -366,6 +371,7 @@
 
 .optionsTable {
   width: 100%;
+  min-width: 620px;
   border-collapse: collapse;
   font-size: 14px;
 }
@@ -535,6 +541,40 @@
   letter-spacing: 0.14em;
   color: var(--dl-fg-subtle);
   font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .hero {
+    margin-bottom: 56px;
+  }
+
+  .section,
+  .cases {
+    margin: 72px 0;
+  }
+
+  .casesList {
+    gap: 72px;
+  }
+
+  .case {
+    gap: 24px;
+  }
+
+  .caseTitle {
+    font-size: clamp(30px, 10vw, 42px);
+  }
+
+  .metaKey {
+    display: block;
+    width: auto;
+    margin-bottom: 2px;
+  }
+
+  .optionsWrap {
+    margin-inline: -20px;
+    padding-inline: 20px;
+  }
 }
 
 /* ─────────── EXPERIENCE ─────────── */

@@ -55,6 +55,7 @@
     padding: 48px 24px;
     border-right: 0;
     border-bottom: 1px solid var(--tc-builder-rule);
+    gap: 48px;
   }
 }
 
@@ -251,6 +252,45 @@
   width: 100%;
   border-collapse: collapse;
   font-size: 13px;
+}
+
+@media (max-width: 640px) {
+  .builderColumn,
+  .strategistColumn {
+    padding: 40px 18px;
+    gap: 44px;
+  }
+
+  .builderOptionsTable {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .builderOptionsTable tbody,
+  .builderOptionsTable tr {
+    width: 100%;
+  }
+
+  .builderOptionsTable th,
+  .builderOptionsTable td {
+    min-width: 170px;
+  }
+
+  .builderOptionsTable th {
+    min-width: 32px;
+  }
+
+  .builderMeta div,
+  .builderToolkitRow {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .builderMetrics li {
+    display: grid;
+    gap: 2px;
+  }
 }
 
 .builderOptionsTable th,
@@ -462,6 +502,7 @@
 @media (max-width: 900px) {
   .strategistColumn {
     padding: 48px 24px;
+    gap: 48px;
   }
 }
 
@@ -831,6 +872,12 @@
   border-radius: 3px;
   border: 1px solid var(--tc-builder-fg-subtle);
   font-size: 10px;
+}
+
+@media (max-width: 640px) {
+  .footer {
+    padding: 20px 18px;
+  }
 }
 
 /* ─────────── COLOR MODES ───────────

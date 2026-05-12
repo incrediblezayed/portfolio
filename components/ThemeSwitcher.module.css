@@ -48,6 +48,9 @@
   bottom: 72px;
   width: 320px;
   max-width: calc(100vw - 48px);
+  max-height: min(720px, calc(100dvh - 120px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
   background: white;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 12px;
@@ -201,6 +204,39 @@
   font-size: 11px;
   color: rgba(0, 0, 0, 0.6);
   line-height: 1.4;
+}
+
+@media (max-width: 560px) {
+  .root {
+    right: 14px;
+    bottom: 14px;
+  }
+
+  .trigger {
+    width: 48px;
+    height: 48px;
+  }
+
+  .swatchDot {
+    width: 34px;
+    height: 34px;
+    font-size: 12px;
+  }
+
+  .panel {
+    position: fixed;
+    right: 12px;
+    left: 12px;
+    bottom: 72px;
+    width: auto;
+    max-width: none;
+    max-height: min(76dvh, 640px);
+    border-radius: 10px;
+  }
+
+  .colorModeButtons {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -58,6 +58,7 @@
   }
   .root {
     background-size: 40px 40px;
+    font-size: 16px;
   }
 }
 
@@ -126,6 +127,19 @@
   .heroBody {
     grid-template-columns: 1fr;
     gap: 28px;
+  }
+
+  .hero {
+    gap: 22px;
+    margin-bottom: 64px;
+  }
+
+  .heroName {
+    font-size: clamp(52px, 18vw, 86px);
+  }
+
+  .tagline {
+    font-size: clamp(21px, 7vw, 30px);
   }
 }
 
@@ -383,6 +397,25 @@
   .caseFlow {
     column-count: 1;
     column-rule: 0;
+  }
+
+  .cases,
+  .experience,
+  .toolkit,
+  .projects {
+    margin: 72px 0;
+  }
+
+  .caseList {
+    gap: 72px;
+  }
+
+  .caseTitle {
+    font-size: clamp(34px, 11vw, 48px);
+  }
+
+  .lede::first-letter {
+    font-size: 4em;
   }
 }
 
