@@ -1,5 +1,6 @@
 "use client";
 
+import { MaskLine, useMaskReveal } from "@/components/MaskReveal";
 import { cases, philosophy, profile, toolkit } from "@/content";
 import { readCanonical, readOptionCanonical } from "@/lib/caseVoice";
 import type { Case } from "@/lib/types";
@@ -367,14 +368,19 @@ function Contact() {
 }
 
 function Foot() {
+  const ref = useMaskReveal<HTMLElement>();
   return (
-    <footer className={styles.foot}>
+    <footer ref={ref} className={styles.foot}>
       <p>
-        {profile.name} <span className={styles.divider}>·</span> {profile.location}
-        <span className={styles.divider}>·</span>
-        Peach Studio
+        <MaskLine>
+          {profile.name} <span className={styles.divider}>·</span>{" "}
+          {profile.location} <span className={styles.divider}>·</span> Peach
+          Studio
+        </MaskLine>
       </p>
-      <p>© {new Date().getFullYear()} — All work shipped.</p>
+      <p>
+        <MaskLine>© {new Date().getFullYear()} — All work shipped.</MaskLine>
+      </p>
     </footer>
   );
 }

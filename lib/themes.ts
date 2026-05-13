@@ -42,7 +42,7 @@ export const THEME_GROUPS: ThemeGroup[] = [
     id: "experimental",
     label: "Experimental",
     blurb: "Shaders, holograms, shockwaves. Hardware permitting.",
-    themes: ["holowire", "shockwave"],
+    themes: ["holowire", "shockwave", "aipromptbox"],
   },
 ];
 
@@ -263,6 +263,13 @@ export const THEMES: Record<ThemeId, ThemeRegistryEntry> = {
     description: "Giant typography. Cursor magnetises letters, click sends a shockwave outward.",
     swatch: { background: "#0a0a0d", foreground: "#fff7ec", accent: "#ff3d3d" },
     shortcut: "x",
+  },
+  aipromptbox: {
+    id: "aipromptbox",
+    name: "AI Promptbox",
+    description: "Ask-the-portfolio composer. Toggles filter the case stack by lens — problem, bet, outcome.",
+    swatch: { background: "#0b0b10", foreground: "#f3f3f6", accent: "#9b87f5" },
+    shortcut: "c",
   },
 };
 

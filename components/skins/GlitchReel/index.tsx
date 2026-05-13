@@ -1,5 +1,6 @@
 "use client";
 
+import { MaskLine, useMaskReveal } from "@/components/MaskReveal";
 import { cases, philosophy, profile, toolkit } from "@/content";
 import { readCanonical, readOptionCanonical } from "@/lib/caseVoice";
 import type { Case } from "@/lib/types";
@@ -189,20 +190,29 @@ function ToolkitChannel() {
 }
 
 function SignOff() {
+  const ref = useMaskReveal<HTMLElement>();
   return (
-    <section className={styles.signOff} data-channel="OFF">
+    <section ref={ref} className={styles.signOff} data-channel="OFF">
       <div className={styles.switchFlash} aria-hidden="true" />
-      <p className={styles.channelTag}>END OF TRANSMISSION</p>
+      <p className={styles.channelTag}>
+        <MaskLine>END OF TRANSMISSION</MaskLine>
+      </p>
       <h2 className={styles.signOffTitle}>
-        <GlitchText>STILL ON AIR.</GlitchText>
+        <MaskLine>
+          <GlitchText>STILL ON AIR.</GlitchText>
+        </MaskLine>
       </h2>
-      <p className={styles.signOffBody}>{profile.availability.message}</p>
+      <p className={styles.signOffBody}>
+        <MaskLine>{profile.availability.message}</MaskLine>
+      </p>
       <a className={styles.signOffCta} href={`mailto:${profile.email}`}>
         <GlitchText>{profile.email}</GlitchText>
       </a>
       <p className={styles.signOffFoot}>
-        © {new Date().getFullYear()} {profile.name} · {profile.location} · Glitch
-        Showreel
+        <MaskLine>
+          © {new Date().getFullYear()} {profile.name} · {profile.location} ·
+          Glitch Showreel
+        </MaskLine>
       </p>
     </section>
   );

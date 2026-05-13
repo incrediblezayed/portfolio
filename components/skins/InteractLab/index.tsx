@@ -1,5 +1,6 @@
 "use client";
 
+import { MaskLine, useMaskReveal } from "@/components/MaskReveal";
 import { cases, philosophy, profile, toolkit } from "@/content";
 import { readCanonical, readOptionCanonical } from "@/lib/caseVoice";
 import type { Case } from "@/lib/types";
@@ -252,15 +253,18 @@ function Toolkit() {
 }
 
 function Outro() {
+  const titleRef = useMaskReveal<HTMLHeadingElement>();
+  const footRef = useMaskReveal<HTMLElement>();
   return (
     <section className={styles.outro} id="outro">
       <p className={styles.eyebrow}>
         <WiggleText>Let&apos;s talk</WiggleText>
       </p>
-      <h2 className={styles.outroTitle}>
-        Built things you&apos;d like to
-        <br />
-        <em>talk about</em>?
+      <h2 ref={titleRef} className={styles.outroTitle}>
+        <MaskLine>Built things you&apos;d like to</MaskLine>
+        <MaskLine>
+          <em>talk about</em>?
+        </MaskLine>
       </h2>
       <p className={styles.outroSub}>
         {profile.availability.message} Bring the constraint, the deadline, and the
@@ -291,11 +295,15 @@ function Outro() {
           </a>
         </li>
       </ul>
-      <footer className={styles.outroFoot}>
+      <footer ref={footRef} className={styles.outroFoot}>
         <p>
-          {profile.name} · {profile.location} · © {new Date().getFullYear()}
+          <MaskLine>
+            {profile.name} · {profile.location} · © {new Date().getFullYear()}
+          </MaskLine>
         </p>
-        <p>Interaction Lab · same content, micro-tuned</p>
+        <p>
+          <MaskLine>Interaction Lab · same content, micro-tuned</MaskLine>
+        </p>
       </footer>
     </section>
   );

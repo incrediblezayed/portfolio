@@ -1,5 +1,6 @@
 "use client";
 
+import { MaskLine, useMaskReveal } from "@/components/MaskReveal";
 import { cases, philosophy, profile, toolkit } from "@/content";
 import { readCanonical, readOptionCanonical } from "@/lib/caseVoice";
 import type { Case } from "@/lib/types";
@@ -250,14 +251,20 @@ function Contact() {
 }
 
 function Foot() {
+  const ref = useMaskReveal<HTMLElement>();
   return (
-    <footer className={styles.foot}>
+    <footer ref={ref} className={styles.foot}>
       <p>
-        {profile.name} <span className={styles.divider}>·</span> {new Date().getFullYear()}
+        <MaskLine>
+          {profile.name} <span className={styles.divider}>·</span>{" "}
+          {new Date().getFullYear()}
+        </MaskLine>
       </p>
       <p>
-        Atelier <span className={styles.divider}>/</span> Press <kbd>1</kbd> for the
-        canonical decision log
+        <MaskLine>
+          Atelier <span className={styles.divider}>/</span> Press <kbd>1</kbd>{" "}
+          for the canonical decision log
+        </MaskLine>
       </p>
     </footer>
   );

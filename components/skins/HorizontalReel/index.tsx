@@ -1,5 +1,6 @@
 "use client";
 
+import { MaskLine, useMaskReveal } from "@/components/MaskReveal";
 import {
   cases,
   experience,
@@ -124,12 +125,19 @@ function PageHero() {
 }
 
 function PageFooter() {
+  const ref = useMaskReveal<HTMLElement>();
   return (
-    <footer className={styles.pageFooter}>
-      <p className={styles.footerEyebrow}>End reel.</p>
-      <h2 className={styles.footerTitle}>Let&apos;s talk.</h2>
+    <footer ref={ref} className={styles.pageFooter}>
+      <p className={styles.footerEyebrow}>
+        <MaskLine>End reel.</MaskLine>
+      </p>
+      <h2 className={styles.footerTitle}>
+        <MaskLine>Let&apos;s talk.</MaskLine>
+      </h2>
       <p className={styles.footerEmail}>
-        <a href={`mailto:${profile.email}`}>{profile.email}</a>
+        <MaskLine>
+          <a href={`mailto:${profile.email}`}>{profile.email}</a>
+        </MaskLine>
       </p>
       <ul className={styles.socials}>
         <li>

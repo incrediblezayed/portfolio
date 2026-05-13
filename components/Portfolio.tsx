@@ -31,6 +31,7 @@ import { Aurora } from "./skins/Aurora";
 import { Wormhole } from "./skins/Wormhole";
 import { HoloWire } from "./skins/HoloWire";
 import { Shockwave } from "./skins/Shockwave";
+import { AIPromptbox } from "./skins/AIPromptbox";
 
 export function Portfolio() {
   const { theme } = useTheme();
@@ -95,6 +96,8 @@ export function Portfolio() {
       return <HoloWire />;
     case "shockwave":
       return <Shockwave />;
+    case "aipromptbox":
+      return <AIPromptbox />;
     default:
       return <DecisionLog />;
   }

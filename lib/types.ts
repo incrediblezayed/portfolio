@@ -28,7 +28,8 @@ export type ThemeId =
   | "aurora"
   | "wormhole"
   | "holowire"
-  | "shockwave";
+  | "shockwave"
+  | "aipromptbox";
 
 export type AvailabilitySignal = "open" | "selective" | "closed";
 
