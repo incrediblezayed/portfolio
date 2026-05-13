@@ -340,37 +340,35 @@ function CaseLaunch({
   });
 
   // Sticky pins between scrollProgress ≈ 0.33 → 0.67 (section 200vh + 100vh viewport).
-  // Stage opens (card → full), holds while text reveals, then closes back into a card on exit.
-  const stageWidth = useTransform(scrollYProgress, [0.1, 0.3, 0.6, 0.66], ["86%", "100%", "100%", "86%"]);
-  const stageHeight = useTransform(scrollYProgress, [0.1, 0.3, 0.6, 0.66], ["72vh", "100vh", "100vh", "72vh"]);
-  const stageRadius = useTransform(scrollYProgress, [0.1, 0.3, 0.6, 0.66], [28, 0, 0, 28]);
+  // Empty card enters → eyebrow + title reveal inside card → card opens into a full
+  // page on continued scroll → rest of content (sub/specs/metrics/foot) cascades in
+  // inside the full page → full page scrolls out.
+  const stageWidth = useTransform(scrollYProgress, [0.44, 0.5], ["86%", "100%"]);
+  const stageHeight = useTransform(scrollYProgress, [0.44, 0.5], ["72vh", "100vh"]);
+  const stageRadius = useTransform(scrollYProgress, [0.44, 0.5], [28, 0]);
   const stageShadow = useTransform(
     scrollYProgress,
-    [0.1, 0.3, 0.6, 0.66],
+    [0.44, 0.5],
     [
       "0 32px 90px rgba(29,29,31,0.22), 0 0 0 1px rgba(0,0,0,0.04)",
       "0 0 0 rgba(0,0,0,0)",
-      "0 0 0 rgba(0,0,0,0)",
-      "0 32px 90px rgba(29,29,31,0.22), 0 0 0 1px rgba(0,0,0,0.04)",
     ],
   );
 
-  // Content reveals piece by piece inside the pinned phase, then exits as one.
-  const eyebrowO = useTransform(scrollYProgress, [0.28, 0.34], [0, 1]);
-  const eyebrowY = useTransform(scrollYProgress, [0.28, 0.34], [16, 0]);
-  const titleO = useTransform(scrollYProgress, [0.3, 0.38], [0, 1]);
-  const titleY = useTransform(scrollYProgress, [0.3, 0.38], [40, 0]);
-  const subO = useTransform(scrollYProgress, [0.36, 0.42], [0, 1]);
-  const subY = useTransform(scrollYProgress, [0.36, 0.42], [22, 0]);
-  const specsO = useTransform(scrollYProgress, [0.4, 0.48], [0, 1]);
-  const specsY = useTransform(scrollYProgress, [0.4, 0.48], [28, 0]);
-  const metricsO = useTransform(scrollYProgress, [0.46, 0.54], [0, 1]);
-  const metricsY = useTransform(scrollYProgress, [0.46, 0.54], [24, 0]);
-  const footO = useTransform(scrollYProgress, [0.52, 0.58], [0, 1]);
-  const footY = useTransform(scrollYProgress, [0.52, 0.58], [20, 0]);
-
-  // Global exit fade — content as a block dissolves into the closing card.
-  const contentExitO = useTransform(scrollYProgress, [0.58, 0.64], [1, 0]);
+  // Eyebrow + title reveal inside the card, before it opens.
+  const eyebrowO = useTransform(scrollYProgress, [0.3, 0.36], [0, 1]);
+  const eyebrowY = useTransform(scrollYProgress, [0.3, 0.36], [16, 0]);
+  const titleO = useTransform(scrollYProgress, [0.34, 0.42], [0, 1]);
+  const titleY = useTransform(scrollYProgress, [0.34, 0.42], [40, 0]);
+  // Sub + specs + metrics + foot cascade in after the card opens to full page.
+  const subO = useTransform(scrollYProgress, [0.52, 0.57], [0, 1]);
+  const subY = useTransform(scrollYProgress, [0.52, 0.57], [22, 0]);
+  const specsO = useTransform(scrollYProgress, [0.56, 0.61], [0, 1]);
+  const specsY = useTransform(scrollYProgress, [0.56, 0.61], [28, 0]);
+  const metricsO = useTransform(scrollYProgress, [0.6, 0.65], [0, 1]);
+  const metricsY = useTransform(scrollYProgress, [0.6, 0.65], [24, 0]);
+  const footO = useTransform(scrollYProgress, [0.64, 0.69], [0, 1]);
+  const footY = useTransform(scrollYProgress, [0.64, 0.69], [20, 0]);
 
   return (
     <section
@@ -393,7 +391,7 @@ function CaseLaunch({
             Case 0{caseStudy.number} · {caseStudy.meta.year}
           </span>
 
-          <motion.div className={styles.launchContent} style={{ opacity: contentExitO }}>
+          <motion.div className={styles.launchContent}>
             <motion.p
               className={styles.launchEyebrow}
               style={{ opacity: eyebrowO, y: eyebrowY }}
