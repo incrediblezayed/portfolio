@@ -57,16 +57,16 @@ export const experience: Role[] = [
       "Helped turn a new product into repeatable team conventions, balancing solo ownership with a four-developer delivery model.",
   },
   {
-    company: "Independent / Freelance",
-    title: "Technical Lead",
+    company: "Exceptions",
+    title: "Founder & Technical Lead",
     period: "2019 – present",
-    location: "Mumbai, India (remote)",
+    location: "Mumbai, India",
     description:
-      "Parallel independent engagements run alongside my full-time roles, with end-to-end technical and product ownership on two live products.",
+      "My independent practice, run alongside my full-time roles — started as direct freelance in 2019 and formally established as a company, Exceptions, in 2022. Delivered Flutter + Firebase products end to end for multiple clients (Fin Moto Corp, ServYou 24, MyGo, GharTak, Gochi Meat) and led the product/tech calls on my own product bets. Where I learned to translate vague client asks into concrete development plans.",
     engineeringSummary:
-      "Owned architecture and delivery as sole/lead engineer across a Flutter EV marketplace (Riverpod, Ferry GraphQL, Razorpay) and a Flutter + NestJS dating/consultant marketplace on Supabase, Firebase, and GetStream.",
+      "Founded Exceptions and shipped multiple Flutter + Firebase apps end to end — marketplace, taxi, home-service, EV, and food-delivery workflows — plus a Flutter + NestJS dating/consultant marketplace on Supabase, Firebase, and GetStream.",
     productSummary:
-      "Made the product and technical calls on two live marketplaces as an independent lead — including Clickked's paywall-placement decision — while balancing them against full-time work.",
+      "Ran my own company across multiple client products and personal product bets — owning scoping, delivery, and the product/tech calls, including Clickked's paywall-placement decision.",
     subProducts: [
       {
         product: "Clickked",
@@ -93,18 +93,6 @@ export const experience: Role[] = [
       "Worked across Flutter, Vue 2/Vuetify, Firebase Cloud Functions, Firestore, auth, storage, payments, and messaging workflows.",
     productSummary:
       "Kept mobile and business portal behavior aligned for a production product with real-time data, payments, and operational workflow needs.",
-  },
-  {
-    company: "Exceptions (my own studio)",
-    title: "Founder & Technical Lead",
-    period: "Jan 2023 – Oct 2023",
-    location: "Mumbai, India",
-    description:
-      "Ran Exceptions, my own studio, delivering Flutter + Firebase client products end to end — Fin Moto Corp, ServYou 24, MyGo, GharTak, and Gochi Meat. Client-facing on requirements, team-facing on code review and delivery quality. Where I learned to translate vague client asks into concrete development plans.",
-    engineeringSummary:
-      "Delivered multiple Flutter + Firebase client apps end to end through my own studio, including marketplace, taxi, home-service, and food-delivery style workflows.",
-    productSummary:
-      "Ran my own studio: translated vague client asks into buildable scopes, handled delivery expectations, and maintained quality across several parallel client products.",
   },
   {
     company: "Pegasus InfoCorp",

@@ -1,0 +1,272 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Hassan Ansari//LinkedIn 90-day Plan//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:LinkedIn 90-day Plan
+X-WR-TIMEZONE:Asia/Kolkata
+X-WR-CALDESC:Hassan Ansari LinkedIn plan — May 17 to Aug 13 2026
+
+BEGIN:VTIMEZONE
+TZID:Asia/Kolkata
+BEGIN:STANDARD
+DTSTART:19700101T000000
+TZOFFSETFROM:+0530
+TZOFFSETTO:+0530
+TZNAME:IST
+END:STANDARD
+END:VTIMEZONE
+
+BEGIN:VEVENT
+UID:linkedin-plan-profile-surgery@hassanansari
+DTSTAMP:20260514T000000Z
+DTSTART;TZID=Asia/Kolkata:20260517T090000
+DTEND;TZID=Asia/Kolkata:20260517T101500
+SUMMARY:LinkedIn — Profile Surgery (75 min)
+DESCRIPTION:Replace headline\, About\, role descriptions. Fix Senior Software Developer end date to May 2025. Featured section (file_saver post\, pub.dev link\, GitHub repo). Top skills update. Email verify. Profile photo + banner.
+LOCATION:LinkedIn
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Profile surgery starts in 30 min
+TRIGGER:-PT30M
+END:VALARM
+END:VEVENT
+
+BEGIN:VEVENT
+UID:linkedin-plan-draft-post-1@hassanansari
+DTSTAMP:20260514T000000Z
+DTSTART;TZID=Asia/Kolkata:20260518T190000
+DTEND;TZID=Asia/Kolkata:20260518T194500
+SUMMARY:LinkedIn — Draft Post 1 (file_saver / boring reliability)
+DESCRIPTION:Pillar A. Hook: "A file-saving package taught me a product lesson: boring reliability is only boring until it breaks."\n\nStructure: 1) Outside view 2) What broke 3) Decision 4) Trade-off 5) Mobile product lesson.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Draft Post 1
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+
+BEGIN:VEVENT
+UID:linkedin-plan-post-1@hassanansari
+DTSTAMP:20260514T000000Z
+DTSTART;TZID=Asia/Kolkata:20260519T183000
+DTEND;TZID=Asia/Kolkata:20260519T190000
+SUMMARY:LinkedIn — Post 1 (Pillar A — file_saver boring reliability)
+DESCRIPTION:Publish 6:30 PM IST. Hook: "A file-saving package taught me a product lesson: boring reliability is only boring until it breaks."
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Publish Post 1
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+
+BEGIN:VEVENT
+UID:linkedin-plan-engage-1a@hassanansari
+DTSTAMP:20260514T000000Z
+DTSTART;TZID=Asia/Kolkata:20260519T190000
+DTEND;TZID=Asia/Kolkata:20260519T193000
+SUMMARY:LinkedIn — Reply + 4 creator comments
+DESCRIPTION:Reply to comments on Post 1 (1-hr SLA). Then 4 comments on creators from the Core 8 list. 2-sentence formula\, no "Great post!"\, no own-link drops.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:linkedin-plan-post-2@hassanansari
+DTSTAMP:20260514T000000Z
+DTSTART;TZID=Asia/Kolkata:20260521T183000
+DTEND;TZID=Asia/Kolkata:20260521T190000
+SUMMARY:LinkedIn — Post 2 (Pillar B — InfoPhone rebuild)
+DESCRIPTION:Hook: "We had a working chat + voice + video build for InfoPhone. We still tore it out. Here's why."
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Publish Post 2
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+
+BEGIN:VEVENT
+UID:linkedin-plan-post-3@hassanansari
+DTSTAMP:20260514T000000Z
+DTSTART;TZID=Asia/Kolkata:20260526T183000
+DTEND;TZID=Asia/Kolkata:20260526T190000
+SUMMARY:LinkedIn — Post 3 (Pillar A — 800 MB export memory bug)
+DESCRIPTION:Hook: "file_saver used to load the payload into Dart memory before saving. That's fine for small files. It is not fine for an 800 MB export."
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Publish Post 3
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+
+BEGIN:VEVENT
+UID:linkedin-plan-post-4@hassanansari
+DTSTAMP:20260514T000000Z
+DTSTART;TZID=Asia/Kolkata:20260528T183000
+DTEND;TZID=Asia/Kolkata:20260528T190000
+SUMMARY:LinkedIn — Post 4 (Pillar C — engineer-to-PM)
+DESCRIPTION:Hook: "I didn't move from engineering to PM because I wanted to stop building. I moved because the product decisions I cared about were already technical."
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Publish Post 4
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+
+BEGIN:VEVENT
+UID:linkedin-plan-post-5@hassanansari
+DTSTAMP:20260514T000000Z
+DTSTART;TZID=Asia/Kolkata:20260602T183000
+DTEND;TZID=Asia/Kolkata:20260602T190000
+SUMMARY:LinkedIn — Post 5 (Pillar A — scoped storage MediaStore)
+DESCRIPTION:Hook: "Android scoped storage almost made me drop API < 30 support in file_saver. Here's the MediaStore quirk that ate two evenings."
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Publish Post 5
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+
+BEGIN:VEVENT
+UID:linkedin-plan-post-6@hassanansari
+DTSTAMP:20260514T000000Z
+DTSTART;TZID=Asia/Kolkata:20260604T183000
+DTEND;TZID=Asia/Kolkata:20260604T190000
+SUMMARY:LinkedIn — Post 6 (Pillar B — vendor SDKs)
+DESCRIPTION:Hook: "Vendor SDKs are great until your roadmap starts asking permission."
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Publish Post 6
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+
+BEGIN:VEVENT
+UID:linkedin-plan-post-7@hassanansari
+DTSTAMP:20260514T000000Z
+DTSTART;TZID=Asia/Kolkata:20260609T183000
+DTEND;TZID=Asia/Kolkata:20260609T190000
+SUMMARY:LinkedIn — Post 7 (Pillar A — path traversal in 0.4.0)
+DESCRIPTION:Hook: "file_saver is a file IO library. Nobody thinks of it as a security surface. Here's the path traversal vector 0.4.0 closes."
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Publish Post 7
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+
+BEGIN:VEVENT
+UID:linkedin-plan-post-8@hassanansari
+DTSTAMP:20260514T000000Z
+DTSTART;TZID=Asia/Kolkata:20260611T183000
+DTEND;TZID=Asia/Kolkata:20260611T190000
+SUMMARY:LinkedIn — Post 8 (Pillar B — when patching would have been right)
+DESCRIPTION:Hook: "InfoPhone was a rebuild. It was the right call. Here's the version of the decision where patching would have been right instead."
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Publish Post 8
+TRIGGER:-PT15M
+END:VALARM
+END:VEVENT
+
+BEGIN:VEVENT
+UID:linkedin-plan-weekly-mon-draft@hassanansari
+DTSTAMP:20260514T000000Z
+DTSTART;TZID=Asia/Kolkata:20260615T190000
+DTEND;TZID=Asia/Kolkata:20260615T194500
+RRULE:FREQ=WEEKLY;BYDAY=MO;COUNT=8
+SUMMARY:LinkedIn — Draft Tuesday post (45 min)
+DESCRIPTION:Pick one hook. Outside view → break → decision → trade-off → lesson. No pure technical explainer.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:linkedin-plan-weekly-wed-draft@hassanansari
+DTSTAMP:20260514T000000Z
+DTSTART;TZID=Asia/Kolkata:20260617T190000
+DTEND;TZID=Asia/Kolkata:20260617T194500
+RRULE:FREQ=WEEKLY;BYDAY=WE;COUNT=8
+SUMMARY:LinkedIn — Draft Thursday post (45 min)
+DESCRIPTION:Pick one hook from menu. Same 5-beat structure.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:linkedin-plan-weekly-tue-publish@hassanansari
+DTSTAMP:20260514T000000Z
+DTSTART;TZID=Asia/Kolkata:20260616T183000
+DTEND;TZID=Asia/Kolkata:20260616T190000
+RRULE:FREQ=WEEKLY;BYDAY=TU;COUNT=8
+SUMMARY:LinkedIn — Edit + Publish Tuesday post
+DESCRIPTION:6:30 PM IST publish slot.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:linkedin-plan-weekly-tue-engage@hassanansari
+DTSTAMP:20260514T000000Z
+DTSTART;TZID=Asia/Kolkata:20260616T190000
+DTEND;TZID=Asia/Kolkata:20260616T193000
+RRULE:FREQ=WEEKLY;BYDAY=TU;COUNT=8
+SUMMARY:LinkedIn — Reply + 4 creator comments (Tue)
+DESCRIPTION:Reply to comments on today's post within 1 hr. Then 4 comments on Core 8 creators.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:linkedin-plan-weekly-thu-publish@hassanansari
+DTSTAMP:20260514T000000Z
+DTSTART;TZID=Asia/Kolkata:20260618T183000
+DTEND;TZID=Asia/Kolkata:20260618T190000
+RRULE:FREQ=WEEKLY;BYDAY=TH;COUNT=8
+SUMMARY:LinkedIn — Edit + Publish Thursday post
+DESCRIPTION:6:30 PM IST publish slot.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:linkedin-plan-weekly-thu-engage@hassanansari
+DTSTAMP:20260514T000000Z
+DTSTART;TZID=Asia/Kolkata:20260618T190000
+DTEND;TZID=Asia/Kolkata:20260618T193000
+RRULE:FREQ=WEEKLY;BYDAY=TH;COUNT=8
+SUMMARY:LinkedIn — Reply + 4 creator comments (Thu)
+DESCRIPTION:Reply to comments on today's post within 1 hr. Then 4 comments on Core 8 creators.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:linkedin-plan-review-day30@hassanansari
+DTSTAMP:20260514T000000Z
+DTSTART;TZID=Asia/Kolkata:20260618T200000
+DTEND;TZID=Asia/Kolkata:20260618T210000
+SUMMARY:LinkedIn — Day 30 Review Checkpoint
+DESCRIPTION:Three questions only:\n1. Did any senior engineer from the 8-account list comment/react?\n2. Any DMs from technical founders\, PMs\, hiring managers referencing a specific post?\n3. Did profile views from director-level+ titles measurably increase?\n\n2+ yes → continue. 0-1 yes → adjust hooks only\, do not redo strategy.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Day 30 review
+TRIGGER:-P1D
+END:VALARM
+END:VEVENT
+
+BEGIN:VEVENT
+UID:linkedin-plan-review-day60@hassanansari
+DTSTAMP:20260514T000000Z
+DTSTART;TZID=Asia/Kolkata:20260716T200000
+DTEND;TZID=Asia/Kolkata:20260716T210000
+SUMMARY:LinkedIn — Day 60 Review Checkpoint
+DESCRIPTION:Same three questions. Also reassess: face-forward content? Video? Polls?
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Day 60 review
+TRIGGER:-P1D
+END:VALARM
+END:VEVENT
+
+BEGIN:VEVENT
+UID:linkedin-plan-review-day90@hassanansari
+DTSTAMP:20260514T000000Z
+DTSTART;TZID=Asia/Kolkata:20260813T200000
+DTEND;TZID=Asia/Kolkata:20260813T210000
+SUMMARY:LinkedIn — Day 90 Review (Replan allowed)
+DESCRIPTION:Full review. First point where replanning is allowed.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Day 90 review
+TRIGGER:-P1D
+END:VALARM
+END:VEVENT
+
+END:VCALENDAR
