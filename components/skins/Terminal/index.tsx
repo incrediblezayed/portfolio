@@ -1131,8 +1131,8 @@ function WhoamiOutput() {
       </p>
       <p className={styles.outputDim}>
         full-stack mobile dev who became a product manager. flutter, native
-        swift/kotlin, node, nestjs. currently shipping InfoPhone and Clickked at
-        Enso Webworks.
+        swift/kotlin, node, nestjs. currently shipping InfoPhone at Enso
+        Webworks, plus Clickked as independent technical lead.
       </p>
       <p className={styles.outputDim}>
         author of file_saver on pub.dev — multi-year maintenance, real users,

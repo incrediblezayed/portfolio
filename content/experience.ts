@@ -57,6 +57,32 @@ export const experience: Role[] = [
       "Helped turn a new product into repeatable team conventions, balancing solo ownership with a four-developer delivery model.",
   },
   {
+    company: "Independent / Freelance",
+    title: "Technical Lead",
+    period: "2019 – present",
+    location: "Mumbai, India (remote)",
+    description:
+      "Parallel independent engagements run alongside my full-time roles, with end-to-end technical and product ownership on two live products.",
+    engineeringSummary:
+      "Owned architecture and delivery as sole/lead engineer across a Flutter EV marketplace (Riverpod, Ferry GraphQL, Razorpay) and a Flutter + NestJS dating/consultant marketplace on Supabase, Firebase, and GetStream.",
+    productSummary:
+      "Made the product and technical calls on two live marketplaces as an independent lead — including Clickked's paywall-placement decision — while balancing them against full-time work.",
+    subProducts: [
+      {
+        product: "Clickked",
+        period: "Mid-2023 – present",
+        description:
+          "Sole technical lead on a two-sided dating + consultant marketplace, owning every product/tech call since joining — paywall placement, consultant web app architecture, and NestJS backend design. The marketplace shape predated my involvement.",
+      },
+      {
+        product: "Bhasusa — BAV",
+        period: "2021 – 2025",
+        description:
+          "EV marketplace and booking flow across user and dealer Flutter apps: charging-station maps, Razorpay payments, dealer stock/test-ride management, and GraphQL-backed data access.",
+      },
+    ],
+  },
+  {
     company: "Trubary Technologies Pvt. Ltd.",
     title: "Full-Stack Developer",
     period: "Oct 2023 – Sep 2024",
@@ -69,16 +95,16 @@ export const experience: Role[] = [
       "Kept mobile and business portal behavior aligned for a production product with real-time data, payments, and operational workflow needs.",
   },
   {
-    company: "Exceptions",
-    title: "Senior Software Engineer",
+    company: "Exceptions (my own studio)",
+    title: "Founder & Technical Lead",
     period: "Jan 2023 – Oct 2023",
     location: "Mumbai, India",
     description:
-      "End-to-end ownership across Flutter + Firebase client projects including Fin Moto Corp, ServYou 24, and GharTak. Client-facing on requirements, team-facing on code review and delivery quality. Where I learned to translate vague client asks into concrete development plans.",
+      "Ran Exceptions, my own studio, delivering Flutter + Firebase client products end to end — Fin Moto Corp, ServYou 24, MyGo, GharTak, and Gochi Meat. Client-facing on requirements, team-facing on code review and delivery quality. Where I learned to translate vague client asks into concrete development plans.",
     engineeringSummary:
-      "Delivered multiple Flutter + Firebase client apps end to end, including marketplace, taxi, home-service, and food-delivery style workflows.",
+      "Delivered multiple Flutter + Firebase client apps end to end through my own studio, including marketplace, taxi, home-service, and food-delivery style workflows.",
     productSummary:
-      "Translated vague client asks into buildable scopes, handled delivery expectations, and maintained quality across several parallel client products.",
+      "Ran my own studio: translated vague client asks into buildable scopes, handled delivery expectations, and maintained quality across several parallel client products.",
   },
   {
     company: "Pegasus InfoCorp",
@@ -110,7 +136,7 @@ export const experience: Role[] = [
     period: "Jan 2020 – Mar 2021",
     location: "Mumbai, India",
     description:
-      "Service-based Flutter app work with a 3-developer team. Architected frontend/backend boundaries with the backend team. Led 2 junior developers through requirements interpretation and project planning — first taste of being responsible for someone else's output.",
+      "Service-based Flutter app work with a 3-developer team, run as a parallel consulting engagement alongside the early Frynds & Co build. Architected frontend/backend boundaries with the backend team. Led 2 junior developers through requirements interpretation and project planning — first taste of being responsible for someone else's output.",
     engineeringSummary:
       "Built Flutter app surfaces and coordinated frontend/backend boundaries with the backend team.",
     productSummary:
