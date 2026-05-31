@@ -45,7 +45,7 @@ function buildSlides(): AuroraSlide[] {
     const palette = PALETTES[(idx + 1) % PALETTES.length]!;
     return {
       id: c.id,
-      eyebrow: `Case 0${c.number} · ${c.meta.year}`,
+      eyebrow: `Case ${String(c.number).padStart(2, "0")} · ${c.meta.year}`,
       title: c.title,
       body: bet,
       accentA: c.brand?.primary ?? palette[0],
@@ -355,6 +355,14 @@ function AuroraField({
     [],
   );
 
+  // ShaderMaterials are created imperatively (not declarative JSX), so R3F
+  // won't reliably auto-dispose them — clean up on unmount since skin
+  // switching mounts/unmounts this repeatedly.
+  useLayoutEffect(
+    () => () => materials.forEach((m) => m.dispose()),
+    [materials],
+  );
+
   useFrame((state, delta) => {
     const p = smoothedRef.current;
     const continuous = p * (SLIDES.length - 1);
@@ -451,6 +459,15 @@ function DustField({ count }: Readonly<{ count: number }>) {
     });
     return { geometry: geo, material: mat };
   }, [count]);
+
+  // Dispose the imperatively-created geometry/material on unmount.
+  useLayoutEffect(
+    () => () => {
+      geometry.dispose();
+      material.dispose();
+    },
+    [geometry, material],
+  );
 
   useFrame((_, delta) => {
     const pts = pointsRef.current;

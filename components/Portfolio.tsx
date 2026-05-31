@@ -1,104 +1,53 @@
 "use client";
 
+import dynamic from "next/dynamic";
+import type { ComponentType } from "react";
 import { useTheme } from "./ThemeProvider";
-import { DecisionLog } from "./skins/DecisionLog";
-import { Editorial } from "./skins/Editorial";
-import { TwoColumns } from "./skins/TwoColumns";
-import { Changelog } from "./skins/Changelog";
-import { Terminal } from "./skins/Terminal";
-import { ReadingRoom } from "./skins/ReadingRoom";
-import { Reel } from "./skins/Reel";
-import { HorizontalReel } from "./skins/HorizontalReel";
-import { Scene } from "./skins/Scene";
-import { Constellation } from "./skins/Constellation";
-import { OrbitLab } from "./skins/OrbitLab";
-import { Atelier } from "./skins/Atelier";
-import { PeachStudio } from "./skins/PeachStudio";
-import { ThrelteDocs } from "./skins/ThrelteDocs";
-import { StarMap } from "./skins/StarMap";
-import { IssueBoard } from "./skins/IssueBoard";
-import { Bookshelf } from "./skins/Bookshelf";
-import { Keynote } from "./skins/Keynote";
-import { InteractLab } from "./skins/InteractLab";
-import { Origami } from "./skins/Origami";
-import { MagneticType } from "./skins/MagneticType";
-import { GlitchReel } from "./skins/GlitchReel";
-import { FieldReport } from "./skins/FieldReport";
-import { Prose } from "./skins/Prose";
-import { Gates } from "./skins/Gates";
-import { InkFlow } from "./skins/InkFlow";
-import { Aurora } from "./skins/Aurora";
-import { Wormhole } from "./skins/Wormhole";
-import { HoloWire } from "./skins/HoloWire";
-import { Shockwave } from "./skins/Shockwave";
-import { AIPromptbox } from "./skins/AIPromptbox";
+import type { ThemeId } from "@/lib/types";
+
+// Each skin is code-split into its own chunk via next/dynamic. Only the active
+// theme's chunk loads — the initial bundle no longer ships all 31 skins (and
+// their three.js / motion / animejs deps) up front. SSR stays on (default), so
+// the active skin is still server-rendered for SEO and first paint.
+//
+// The Record<ThemeId, …> shape makes a missing/renamed theme a compile error,
+// keeping this map in lockstep with the ThemeId union.
+const SKINS: Record<ThemeId, ComponentType> = {
+  decisionlog: dynamic(() => import("./skins/DecisionLog").then((m) => m.DecisionLog)),
+  editorial: dynamic(() => import("./skins/Editorial").then((m) => m.Editorial)),
+  twocolumn: dynamic(() => import("./skins/TwoColumns").then((m) => m.TwoColumns)),
+  changelog: dynamic(() => import("./skins/Changelog").then((m) => m.Changelog)),
+  terminal: dynamic(() => import("./skins/Terminal").then((m) => m.Terminal)),
+  readingroom: dynamic(() => import("./skins/ReadingRoom").then((m) => m.ReadingRoom)),
+  reel: dynamic(() => import("./skins/Reel").then((m) => m.Reel)),
+  horizontalreel: dynamic(() => import("./skins/HorizontalReel").then((m) => m.HorizontalReel)),
+  scene: dynamic(() => import("./skins/Scene").then((m) => m.Scene)),
+  constellation: dynamic(() => import("./skins/Constellation").then((m) => m.Constellation)),
+  orbitlab: dynamic(() => import("./skins/OrbitLab").then((m) => m.OrbitLab)),
+  atelier: dynamic(() => import("./skins/Atelier").then((m) => m.Atelier)),
+  peachstudio: dynamic(() => import("./skins/PeachStudio").then((m) => m.PeachStudio)),
+  threltedocs: dynamic(() => import("./skins/ThrelteDocs").then((m) => m.ThrelteDocs)),
+  starmap: dynamic(() => import("./skins/StarMap").then((m) => m.StarMap)),
+  issueboard: dynamic(() => import("./skins/IssueBoard").then((m) => m.IssueBoard)),
+  bookshelf: dynamic(() => import("./skins/Bookshelf").then((m) => m.Bookshelf)),
+  keynote: dynamic(() => import("./skins/Keynote").then((m) => m.Keynote)),
+  interactlab: dynamic(() => import("./skins/InteractLab").then((m) => m.InteractLab)),
+  origami: dynamic(() => import("./skins/Origami").then((m) => m.Origami)),
+  magnetictype: dynamic(() => import("./skins/MagneticType").then((m) => m.MagneticType)),
+  glitchreel: dynamic(() => import("./skins/GlitchReel").then((m) => m.GlitchReel)),
+  fieldreport: dynamic(() => import("./skins/FieldReport").then((m) => m.FieldReport)),
+  prose: dynamic(() => import("./skins/Prose").then((m) => m.Prose)),
+  gates: dynamic(() => import("./skins/Gates").then((m) => m.Gates)),
+  inkflow: dynamic(() => import("./skins/InkFlow").then((m) => m.InkFlow)),
+  aurora: dynamic(() => import("./skins/Aurora").then((m) => m.Aurora)),
+  wormhole: dynamic(() => import("./skins/Wormhole").then((m) => m.Wormhole)),
+  holowire: dynamic(() => import("./skins/HoloWire").then((m) => m.HoloWire)),
+  shockwave: dynamic(() => import("./skins/Shockwave").then((m) => m.Shockwave)),
+  aipromptbox: dynamic(() => import("./skins/AIPromptbox").then((m) => m.AIPromptbox)),
+};
 
 export function Portfolio() {
   const { theme } = useTheme();
-  switch (theme) {
-    case "decisionlog":
-      return <DecisionLog />;
-    case "editorial":
-      return <Editorial />;
-    case "twocolumn":
-      return <TwoColumns />;
-    case "changelog":
-      return <Changelog />;
-    case "terminal":
-      return <Terminal />;
-    case "readingroom":
-      return <ReadingRoom />;
-    case "reel":
-      return <Reel />;
-    case "horizontalreel":
-      return <HorizontalReel />;
-    case "scene":
-      return <Scene />;
-    case "constellation":
-      return <Constellation />;
-    case "orbitlab":
-      return <OrbitLab />;
-    case "atelier":
-      return <Atelier />;
-    case "peachstudio":
-      return <PeachStudio />;
-    case "threltedocs":
-      return <ThrelteDocs />;
-    case "starmap":
-      return <StarMap />;
-    case "issueboard":
-      return <IssueBoard />;
-    case "bookshelf":
-      return <Bookshelf />;
-    case "keynote":
-      return <Keynote />;
-    case "interactlab":
-      return <InteractLab />;
-    case "origami":
-      return <Origami />;
-    case "magnetictype":
-      return <MagneticType />;
-    case "glitchreel":
-      return <GlitchReel />;
-    case "fieldreport":
-      return <FieldReport />;
-    case "prose":
-      return <Prose />;
-    case "gates":
-      return <Gates />;
-    case "inkflow":
-      return <InkFlow />;
-    case "aurora":
-      return <Aurora />;
-    case "wormhole":
-      return <Wormhole />;
-    case "holowire":
-      return <HoloWire />;
-    case "shockwave":
-      return <Shockwave />;
-    case "aipromptbox":
-      return <AIPromptbox />;
-    default:
-      return <DecisionLog />;
-  }
+  const Skin = SKINS[theme] ?? SKINS.decisionlog;
+  return <Skin />;
 }

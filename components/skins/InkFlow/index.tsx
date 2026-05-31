@@ -42,7 +42,7 @@ function buildSlides(): InkSlide[] {
     const bet = chosen ? readOptionCanonical(chosen).label : c.summary;
     return {
       id: c.id,
-      eyebrow: `Case 0${c.number} · ${c.meta.year}`,
+      eyebrow: `Case ${String(c.number).padStart(2, "0")} · ${c.meta.year}`,
       title: c.title,
       body: bet,
       accent: c.brand?.primary ?? "#1a1a1a",

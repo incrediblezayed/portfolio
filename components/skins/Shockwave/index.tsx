@@ -41,7 +41,7 @@ function buildSlides(): SwSlide[] {
     const cleanTitle = c.title.toUpperCase().replace(/[^A-Z0-9 ]/g, "");
     return {
       id: c.id,
-      eyebrow: `CASE 0${c.number} · ${c.meta.year}`,
+      eyebrow: `CASE ${String(c.number).padStart(2, "0")} · ${c.meta.year}`,
       title: cleanTitle,
       body: bet,
       accent: c.brand?.primary ?? "#ff3d3d",

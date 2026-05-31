@@ -4,7 +4,7 @@ import { cases, philosophy, profile } from "@/content";
 import { readCanonical, readOptionCanonical } from "@/lib/caseVoice";
 import type { Case } from "@/lib/types";
 import { useMediaQuery, useScrollProgress } from "@/lib/useScrollProgress";
-import { ContactShadows, Html } from "@react-three/drei";
+import { ContactShadows } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { AnimatePresence, motion } from "motion/react";
 import type { CSSProperties, RefObject } from "react";

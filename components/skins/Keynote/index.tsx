@@ -287,7 +287,7 @@ function Hero() {
         viewport={{ once: true }}
         transition={{ duration: 0.6, ease: EASE_OUT_EXPO, delay: 1.1 }}
       >
-        <a href="#case-infophone" className={styles.ctaPrimary}>
+        <a href={`#case-${cases[0]?.id ?? ""}`} className={styles.ctaPrimary}>
           Watch the case studies →
         </a>
         <a href="#closer" className={styles.ctaQuiet}>

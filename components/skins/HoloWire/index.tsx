@@ -36,7 +36,7 @@ function buildSlides(): HoloSlide[] {
     const geoms: Array<HoloSlide["geometry"]> = ["torus", "knot", "dodec", "octa", "box"];
     return {
       id: c.id,
-      signal: `CASE_0${c.number} // ${c.meta.year}`,
+      signal: `CASE_${String(c.number).padStart(2, "0")} // ${c.meta.year}`,
       title: c.title,
       body: bet,
       geometry: geoms[idx % geoms.length]!,
@@ -256,6 +256,15 @@ function WireMesh({ geometry }: Readonly<{ geometry: HoloSlide["geometry"] }>) {
   }, [geometry]);
 
   const fillGeo = useMemo(() => makeGeometry(geometry), [geometry]);
+
+  // Imperatively-created geometries — dispose on unmount / geometry change.
+  useEffect(
+    () => () => {
+      wireGeo.dispose();
+      fillGeo.dispose();
+    },
+    [wireGeo, fillGeo],
+  );
 
   useFrame((state, delta) => {
     const t = state.clock.elapsedTime;

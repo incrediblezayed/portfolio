@@ -63,23 +63,25 @@ const PANELS: PanelDef[] = [
         body: <CaseCard caseStudy={c} />,
       }) satisfies PanelDef,
   ),
+  // Trailing panels sit after the cases — Z derived from cases.length so a 4th
+  // case can't collide with philosophy at a fixed -4*STEP.
   {
     key: "philosophy",
-    position: [SIDE_X, 0, -4 * STEP],
+    position: [SIDE_X, 0, -(cases.length + 1) * STEP],
     rotationY: -0.22,
     glow: ACCENTS[4],
     body: <PhilosophyCard />,
   },
   {
     key: "toolkit",
-    position: [-SIDE_X, 0, -5 * STEP],
+    position: [-SIDE_X, 0, -(cases.length + 2) * STEP],
     rotationY: 0.22,
     glow: ACCENTS[5],
     body: <ToolkitCard />,
   },
   {
     key: "contact",
-    position: [SIDE_X, 0, -6 * STEP],
+    position: [SIDE_X, 0, -(cases.length + 3) * STEP],
     rotationY: -0.22,
     glow: ACCENTS[6],
     body: <ContactCard />,

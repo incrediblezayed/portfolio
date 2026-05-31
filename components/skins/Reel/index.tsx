@@ -333,7 +333,14 @@ function OutcomePanel({ caseStudy, number, style }: PanelProps) {
 function PhilosophyChapter() {
   const [chapterRef, progress] = useScrollProgress<HTMLElement>("pin");
   const styles3 = THREE_PANEL_RANGES.map((r) => panelStyle(progress, r));
-  const activeIndex = Math.min(2, Math.floor(progress * 3));
+  // The philosophy stage has 3 fixed CSS panel slots (panelPhilosophy0-2);
+  // drive the counter from the actual line count (capped at 3) so it stays
+  // honest if philosophy.quote changes. Missing lines render as empty.
+  const philosophyLineCount = Math.min(3, philosophy.quote.length);
+  const activeIndex = Math.min(
+    philosophyLineCount - 1,
+    Math.floor(progress * philosophyLineCount),
+  );
   return (
     <section
       ref={chapterRef}
@@ -365,7 +372,7 @@ function PhilosophyChapter() {
         </article>
         <PinCounter
           step={activeIndex + 1}
-          total={3}
+          total={philosophyLineCount}
           label={`Philosophy · line ${activeIndex + 1}`}
         />
       </div>

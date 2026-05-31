@@ -24,11 +24,15 @@ export async function GET() {
         .filter(Boolean)
         .join(" ");
 
+      // entry.id can contain ":", spaces, and "&" (e.g. "role:8:Frynds & Co").
+      // Slugify to a URL-safe, XML-safe fragment before interpolating.
+      const slug = entry.id.replace(/[^a-zA-Z0-9]+/g, "-").replace(/^-|-$/g, "");
+
       return [
         "    <item>",
         `      <title>${escapeXml(entry.title)}</title>`,
-        `      <link>${SITE_URL}/?theme=changelog#${entry.id}</link>`,
-        `      <guid isPermaLink="false">${SITE_URL}/changelog/${entry.id}</guid>`,
+        `      <link>${SITE_URL}/?theme=changelog#${escapeXml(slug)}</link>`,
+        `      <guid isPermaLink="false">${SITE_URL}/changelog/${escapeXml(slug)}</guid>`,
         `      <pubDate>${pubDateFromYyyyMm(entry.date)}</pubDate>`,
         `      <description>${escapeXml(description)}</description>`,
         "    </item>",

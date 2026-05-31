@@ -39,7 +39,7 @@ function buildSlides(): TypeSlide[] {
     const title = c.title.toUpperCase().replace(/[^A-Z0-9_ ]/g, "");
     return {
       id: c.id,
-      eyebrow: `Case 0${c.number} · ${c.meta.year}`,
+      eyebrow: `Case ${String(c.number).padStart(2, "0")} · ${c.meta.year}`,
       title,
       body: bet,
       accent: c.brand?.primary ?? "#ffd84a",

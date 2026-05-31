@@ -9,9 +9,13 @@ import { useEffect, useState } from "react";
 import styles from "./GlitchReel.module.css";
 
 export function GlitchReel() {
-  const [time, setTime] = useState(() => formatTime(new Date()));
+  // Start empty so SSR and the first client render match — a live clock seeded
+  // with new Date() at render time hydrates with a different value than the
+  // server emitted, triggering a hydration mismatch.
+  const [time, setTime] = useState("");
 
   useEffect(() => {
+    setTime(formatTime(new Date()));
     const id = globalThis.setInterval(() => setTime(formatTime(new Date())), 1000);
     return () => globalThis.clearInterval(id);
   }, []);

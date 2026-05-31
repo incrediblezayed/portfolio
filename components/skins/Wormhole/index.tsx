@@ -43,7 +43,7 @@ function buildSlides(): PortalSlide[] {
     const bet = chosen ? readOptionCanonical(chosen).label : c.summary;
     return {
       id: c.id,
-      eyebrow: `Case 0${c.number} · portal ${String(idx + 1).padStart(2, "0")}`,
+      eyebrow: `Case ${String(c.number).padStart(2, "0")} · portal ${String(idx + 1).padStart(2, "0")}`,
       title: c.title,
       body: bet,
       accent: c.brand?.primary ?? ACCENTS[(idx + 1) % ACCENTS.length]!,
@@ -230,6 +230,9 @@ function Tunnel({
     () => new THREE.TorusGeometry(RING_RADIUS, 0.012, 8, 64),
     [],
   );
+
+  // Shared torus geometry is created imperatively — dispose on unmount.
+  useLayoutEffect(() => () => ringGeo.dispose(), [ringGeo]);
 
   // Tunnel length in world units. Rings live in z ∈ [-span, 0].
   const span = ringCount * RING_SPACING;

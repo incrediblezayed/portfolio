@@ -16,7 +16,6 @@ import type {
 import {
   useCallback,
   useEffect,
-  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -116,17 +115,24 @@ const NODES: MapNode[] = (() => {
   return list;
 })();
 
+// Derived from `cases` so edges never go stale when a case id changes or a
+// 4th case is added: profile→each case, a chain between consecutive cases,
+// last case→philosophy, and toolkit→first case.
+const CASE_NODE_IDS = cases.map((c) => `case-${c.id}`);
 const EDGES: [string, string][] = [
-  ["profile", "case-infophone"],
-  ["profile", "case-clickked"],
-  ["profile", "case-file_saver"],
+  ...CASE_NODE_IDS.map((id) => ["profile", id] as [string, string]),
   ["philosophy", "profile"],
-  ["case-infophone", "case-clickked"],
-  ["case-clickked", "case-file_saver"],
-  ["case-file_saver", "philosophy"],
+  ...CASE_NODE_IDS.slice(0, -1).map(
+    (id, i) => [id, CASE_NODE_IDS[i + 1]] as [string, string],
+  ),
+  ...(CASE_NODE_IDS.length
+    ? [[CASE_NODE_IDS.at(-1)!, "philosophy"] as [string, string]]
+    : []),
   ["profile", "toolkit"],
   ["profile", "contact"],
-  ["toolkit", "case-infophone"],
+  ...(CASE_NODE_IDS.length
+    ? [["toolkit", CASE_NODE_IDS[0]] as [string, string]]
+    : []),
 ];
 
 const STAR_FIELD = generateStars(260);

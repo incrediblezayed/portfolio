@@ -3,6 +3,18 @@ import type { BrandColor, Case, Role } from "./types";
 
 export type ChangelogStatus = "shipped" | "wip" | "draft";
 
+// The per-case maps below (title/added/removed/date) restate cases.ts data.
+// Guard against silent drift: if a case id is renamed or removed in cases.ts,
+// fail loudly at build/SSR instead of serving stale changelog/RSS content.
+const KNOWN_CASE_IDS = new Set(cases.map((c) => c.id));
+for (const id of ["infophone", "clickked", "file_saver"]) {
+  if (!KNOWN_CASE_IDS.has(id)) {
+    throw new Error(
+      `changelog.ts references unknown case id "${id}" — sync the per-case maps with content/cases.ts`,
+    );
+  }
+}
+
 export interface ChangelogEntry {
   id: string;
   source: "case" | "role";
@@ -68,6 +80,7 @@ function caseToEntry(c: Case): ChangelogEntry {
   // not the original launch date.
   const yearMatch = YEAR_PATTERN.exec(c.meta.year);
   const yearByCase: Record<string, string> = {
+    infophone: "2026", // native rebuild currently in testing (not the May-2025 PM start)
     file_saver: "2026", // v0.4.0 release
   };
   const year = yearByCase[c.id] ?? (yearMatch ? yearMatch[1] : "2025");

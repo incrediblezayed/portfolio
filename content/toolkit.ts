@@ -47,6 +47,7 @@ export const toolkit: Toolkit = {
         "ejabberd",
         "WebRTC",
         "LiveKit",
+        "GetStream",
         "Janus",
         "Method channels",
         "UIKitView / PlatformViewLink",

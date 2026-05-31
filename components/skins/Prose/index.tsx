@@ -2,7 +2,6 @@
 
 import { cases, philosophy, profile } from "@/content";
 import { readOptionCanonical } from "@/lib/caseVoice";
-import type { Case } from "@/lib/types";
 import { animate, stagger } from "animejs";
 import { useEffect, useRef } from "react";
 import styles from "./Prose.module.css";
@@ -40,7 +39,11 @@ export function Prose() {
     return () => observer.disconnect();
   }, []);
 
-  const [infophone, clickked, fileSaver] = cases as [Case | undefined, Case | undefined, Case | undefined];
+  // Look up by id (not array position) so reordering cases.ts can't attach the
+  // hardcoded prose below to the wrong case.
+  const infophone = cases.find((c) => c.id === "infophone");
+  const clickked = cases.find((c) => c.id === "clickked");
+  const fileSaver = cases.find((c) => c.id === "file_saver");
   const infophoneBet = infophone
     ? readOptionCanonical(infophone.options.find((o) => o.selected) ?? infophone.options[0]!).label
     : "";

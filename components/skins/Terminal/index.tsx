@@ -97,7 +97,9 @@ export function Terminal() {
   const [exiting, setExiting] = useState(false);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [draft, setDraft] = useState("");
-  const [now, setNow] = useState(() => new Date());
+  // null until mount so the header clock doesn't hydrate with a different
+  // timestamp than the server rendered (hydration mismatch).
+  const [now, setNow] = useState<Date | null>(null);
   const idGen = useId();
   const counterRef = useRef(0);
   const historyRef = useRef<HTMLDivElement>(null);
@@ -130,6 +132,7 @@ export function Terminal() {
 
   // Tick clock for header + /now
   useEffect(() => {
+    setNow(new Date());
     const id = globalThis.setInterval(() => setNow(new Date()), 1000);
     return () => globalThis.clearInterval(id);
   }, []);
@@ -270,8 +273,10 @@ export function Terminal() {
     focusInput();
   }, [focusInput]);
 
-  const time = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
-  const uptime = formatUptime(now);
+  const time = now
+    ? `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`
+    : "--:--:--";
+  const uptime = now ? formatUptime(now) : "0s";
 
   return (
     <div className={styles.root} onClick={focusInput} role="presentation">

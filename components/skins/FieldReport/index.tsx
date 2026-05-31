@@ -281,11 +281,14 @@ function Closing() {
 }
 
 function DataRibbon() {
-  const [now, setNow] = useState(() => new Date());
+  // null until mount so the live clock doesn't hydrate with a different value
+  // than the server rendered (hydration mismatch).
+  const [now, setNow] = useState<Date | null>(null);
   const [pressure, setPressure] = useState(1013);
   const [latency, setLatency] = useState(42);
 
   useEffect(() => {
+    setNow(new Date());
     const tick = globalThis.setInterval(() => {
       setNow(new Date());
       setPressure((prev) => Math.round((prev + (Math.random() - 0.5) * 0.6) * 10) / 10);
@@ -296,8 +299,10 @@ function DataRibbon() {
     return () => globalThis.clearInterval(tick);
   }, []);
 
-  const time = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}:${String(now.getSeconds()).padStart(2, "0")}`;
-  const date = now.toISOString().slice(0, 10);
+  const time = now
+    ? `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}:${String(now.getSeconds()).padStart(2, "0")}`
+    : "--:--:--";
+  const date = now ? now.toISOString().slice(0, 10) : "----------";
 
   return (
     <footer className={styles.ribbon} aria-label="Live data ribbon">
