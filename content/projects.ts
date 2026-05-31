@@ -7,23 +7,6 @@ import type { ProjectGroup } from "@/lib/types";
 
 export const projects: ProjectGroup[] = [
   {
-    heading: "Bhasusa",
-    projects: [
-      {
-        name: "BAV",
-        tagline: "Buy A Vehicle, Book A Vehicle",
-        description:
-          "EV marketplace and booking flow across user and dealer apps, with charging-station maps, payments, dealer stock/test-ride management, and GraphQL-backed data access.",
-        engineeringSummary:
-          "Two Flutter apps for users and dealers, built with Riverpod, Ferry GraphQL, Firebase, Razorpay payments, charging-station maps, stock management, and test-ride management.",
-        productSummary:
-          "EV marketplace for user bookings and dealer operations, with charging-station discovery and payment-backed booking flows.",
-        stack: "Flutter · Riverpod · Ferry GraphQL · Firebase · Razorpay",
-        status: "Live · Play Store + App Store",
-      },
-    ],
-  },
-  {
     heading: "Enso Webworks",
     projects: [
       {
@@ -74,6 +57,18 @@ export const projects: ProjectGroup[] = [
   {
     heading: "Exceptions",
     projects: [
+      {
+        name: "BAV (Bhasusa)",
+        tagline: "Buy A Vehicle, Book A Vehicle",
+        description:
+          "EV marketplace and booking flow for Bhasusa across user and dealer apps, with charging-station maps, payments, dealer stock/test-ride management, and GraphQL-backed data access.",
+        engineeringSummary:
+          "Two Flutter apps for users and dealers, built with Riverpod, Ferry GraphQL, Firebase, Razorpay payments, charging-station maps, stock management, and test-ride management.",
+        productSummary:
+          "EV marketplace for user bookings and dealer operations, with charging-station discovery and payment-backed booking flows.",
+        stack: "Flutter · Riverpod · Ferry GraphQL · Firebase · Razorpay",
+        status: "Live · Play Store + App Store",
+      },
       {
         name: "ServYou 24",
         tagline: "Home services platform",
