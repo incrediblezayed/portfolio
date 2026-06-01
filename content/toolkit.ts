@@ -79,6 +79,7 @@ export const toolkit: Toolkit = {
       category: "Notable open source",
       items: [
         "file_saver — cross-platform file saving for Flutter, multi-year maintenance",
+        "phone_pe_pg — PhonePe Payment Gateway integration for Flutter (pub.dev)",
       ],
     },
   ],

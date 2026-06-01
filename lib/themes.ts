@@ -24,19 +24,19 @@ export const THEME_GROUPS: ThemeGroup[] = [
     id: "cinematic",
     label: "Cinematic",
     blurb: "Pin-scroll narratives. One moment per section.",
-    themes: ["reel", "horizontalreel", "keynote", "origami"],
+    themes: ["reel", "horizontalreel", "keynote"],
   },
   {
     id: "interactive",
     label: "Interactive & motion",
     blurb: "Cursor- and scroll-driven. Designed to be played with.",
-    themes: ["interactlab", "magnetictype", "starmap", "glitchreel"],
+    themes: ["interactlab", "magnetictype", "glitchreel"],
   },
   {
     id: "spatial",
     label: "3D & shaders",
     blurb: "Real WebGL. Heavy lifting.",
-    themes: ["scene", "aurora", "wormhole"],
+    themes: ["scene", "aurora"],
   },
   {
     id: "experimental",
@@ -152,13 +152,6 @@ export const THEMES: Record<ThemeId, ThemeRegistryEntry> = {
     swatch: { background: "#fafaf9", foreground: "#0f172a", accent: "#ec4899" },
     shortcut: "r",
   },
-  starmap: {
-    id: "starmap",
-    name: "Star Map",
-    description: "Pan a dark canvas. Hover case-nodes to read; lines connect related work.",
-    swatch: { background: "#04050a", foreground: "#e8e8f4", accent: "#62d1ff" },
-    shortcut: "t",
-  },
   issueboard: {
     id: "issueboard",
     name: "Issue Board",
@@ -186,13 +179,6 @@ export const THEMES: Record<ThemeId, ThemeRegistryEntry> = {
     description: "Magnetic cursor, springy reveals, every element responds to touch.",
     swatch: { background: "#fafaf6", foreground: "#0f0f12", accent: "#ff5d3b" },
     shortcut: "o",
-  },
-  origami: {
-    id: "origami",
-    name: "Origami Folio",
-    description: "3D paper unfolds as you scroll. Each fold reveals a case. Cinematic and quiet.",
-    swatch: { background: "#f4ede0", foreground: "#1e1a14", accent: "#c1462a" },
-    shortcut: "a",
   },
   magnetictype: {
     id: "magnetictype",
@@ -242,13 +228,6 @@ export const THEMES: Record<ThemeId, ThemeRegistryEntry> = {
     description: "WebGL aurora curtains and drifting particle dust. Content fades through the lights.",
     swatch: { background: "#04060f", foreground: "#eef5ff", accent: "#7df9ff" },
     shortcut: "k",
-  },
-  wormhole: {
-    id: "wormhole",
-    name: "Wormhole",
-    description: "Camera flies through a neon ring tunnel. Each case is a portal you cross.",
-    swatch: { background: "#05050d", foreground: "#fafbff", accent: "#ff5dff" },
-    shortcut: "l",
   },
   holowire: {
     id: "holowire",

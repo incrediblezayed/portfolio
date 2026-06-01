@@ -128,11 +128,6 @@ export const projects: ProjectGroup[] = [
         stack: "Flutter · Firebase",
         status: "No longer live · taken down",
       },
-    ],
-  },
-  {
-    heading: "Earlier work",
-    projects: [
       {
         name: "Hungry",
         tagline: "Food delivery system",
@@ -144,6 +139,54 @@ export const projects: ProjectGroup[] = [
           "On-site client delivery project where product feedback, implementation, and deployment happened in a tight loop.",
         stack: "Flutter · Firebase · TypeScript Cloud Functions",
         status: "No longer live · taken down",
+      },
+      {
+        name: "Fashion",
+        tagline: "Fashion commerce — customer + admin apps",
+        description:
+          "Fashion shopping product with separate customer and admin Flutter apps — catalog, auth, push notifications, and map-based delivery, backed by Firebase.",
+        engineeringSummary:
+          "Two Flutter + GetX apps (customer + admin) on Firebase auth/storage/messaging with Google Maps integration.",
+        productSummary:
+          "Two-app fashion commerce setup keeping shopper and operator workflows in sync.",
+        stack: "Flutter · GetX · Firebase · Google Maps",
+        status: "Went live · taken down at client's request",
+      },
+      {
+        name: "Stock Wiki",
+        tagline: "Reference app with payments",
+        description:
+          "Stock Wiki client app — content with auth, analytics, crash reporting, push notifications, and Razorpay payments, built on Flutter + Firebase.",
+        engineeringSummary:
+          "Flutter + GetX app on Firebase (auth, analytics, crashlytics, messaging) with Razorpay payment integration.",
+        productSummary:
+          "Content-plus-payments client app with analytics and crash reporting wired in from the start.",
+        stack: "Flutter · GetX · Firebase · Razorpay",
+        status: "No longer live",
+      },
+      {
+        name: "NextFruit",
+        tagline: "Fruit ordering app",
+        description:
+          "NextFruit ordering app built with Flutter + Provider on Firebase, with push notifications for order updates.",
+        engineeringSummary:
+          "Flutter + Provider app on Firebase core/messaging.",
+        productSummary:
+          "Early fruit-ordering product focused on a simple ordering and notification loop.",
+        stack: "Flutter · Provider · Firebase",
+        status: "Built · never shipped",
+      },
+      {
+        name: "MaticFarm",
+        tagline: ".NET API gateway + security (contribution)",
+        description:
+          "MaticFarm was a Polygon (Matic) crypto platform I didn't build — my contribution was a security / API-gateway layer: a .NET package imported into the .NET web app that internally relayed API calls so request/response traffic stayed hidden from the browser.",
+        engineeringSummary:
+          "Built a .NET (C#) API-gateway package, imported into the .NET web app, that internally proxied API calls to keep request/response payloads off the client — plus basic security hardening.",
+        productSummary:
+          "A focused security / API-gateway contribution on a crypto platform — keeping sensitive request/response traffic out of the browser.",
+        stack: ".NET · C# · API gateway",
+        status: "No longer live",
       },
     ],
   },

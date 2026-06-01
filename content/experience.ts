@@ -62,7 +62,7 @@ export const experience: Role[] = [
     period: "2019 – present",
     location: "Mumbai, India",
     description:
-      "My independent practice, run alongside my full-time roles — started as direct freelance in 2019 and formally established as a company, Exceptions, in 2022. Delivered Flutter + Firebase products end to end for multiple clients (Fin Moto Corp, ServYou 24, MyGo, GharTak, Gochi Meat) and led the product/tech calls on my own product bets. Where I learned to translate vague client asks into concrete development plans.",
+      "My independent practice, run alongside my full-time roles — started as direct freelance in 2019 and formally established as a company, Exceptions, in 2022. Delivered Flutter + Firebase products end to end for multiple clients (Fin Moto Corp, ServYou 24, MyGo, GharTak, Gochi Meat) and led the product/tech calls on my own product bets — earliest was Hungry (built on-site for Frynds & Co). Where I learned to translate vague client asks into concrete development plans.",
     engineeringSummary:
       "Founded Exceptions and shipped multiple Flutter + Firebase apps end to end — marketplace, taxi, home-service, EV, and food-delivery workflows — plus a Flutter + NestJS dating/consultant marketplace on Supabase, Firebase, and GetStream.",
     productSummary:
@@ -78,7 +78,7 @@ export const experience: Role[] = [
         product: "Bhasusa — BAV",
         period: "2021 – 2025",
         description:
-          "EV marketplace and booking flow across user and dealer Flutter apps: charging-station maps, Razorpay payments, dealer stock/test-ride management, and GraphQL-backed data access.",
+          "Technical lead on an EV marketplace and booking flow, building and owning the user and dealer Flutter apps — charging-station maps, Razorpay payments, dealer stock and test-ride management, over a Ferry GraphQL backend.",
       },
     ],
   },
@@ -124,23 +124,11 @@ export const experience: Role[] = [
     period: "Jan 2020 – Mar 2021",
     location: "Mumbai, India",
     description:
-      "Service-based Flutter app work with a 3-developer team, run as a parallel consulting engagement alongside the early Frynds & Co build. Architected frontend/backend boundaries with the backend team. Led 2 junior developers through requirements interpretation and project planning — first taste of being responsible for someone else's output.",
+      "Service-based Flutter app work with a 3-developer team, run as a parallel consulting engagement alongside my early freelance work. Architected frontend/backend boundaries with the backend team. Led 2 junior developers through requirements interpretation and project planning — first taste of being responsible for someone else's output.",
     engineeringSummary:
       "Built Flutter app surfaces and coordinated frontend/backend boundaries with the backend team.",
     productSummary:
       "Led two junior developers through requirements interpretation and planning, taking responsibility for output beyond my own code.",
-  },
-  {
-    company: "Frynds & Co",
-    title: "Lead Software Developer",
-    period: "Dec 2019 – Sep 2020",
-    location: "Mumbai, India",
-    description:
-      "Built Hungry, a food delivery system, from scratch — Flutter app, Firebase backend services, and TypeScript/Node.js Cloud Functions. On-site at the client's office, with every change reviewed in person. End-to-end ownership of architecture, build, and deployment.",
-    engineeringSummary:
-      "Built Hungry from scratch with Flutter, Firebase, and TypeScript Cloud Functions, covering architecture, build, and deployment.",
-    productSummary:
-      "Owned delivery on-site with direct client review for every change, turning feedback into product behavior immediately.",
   },
 ];
 
